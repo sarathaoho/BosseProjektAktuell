@@ -41,7 +41,7 @@ namespace GUI.Home
 
             string json = JsonSerializer.Serialize(Users.UserList);
             
-            FileStream fs = File.OpenWrite(@"C:\GitHub\BossesBilverkstad\UsersTest.json");
+            FileStream fs = File.OpenWrite(@"C:\GitHub\BosseProjektAktuell\UsersTest.json");
             StreamWriter sw = new StreamWriter(fs);
 
             sw.WriteLine(json);

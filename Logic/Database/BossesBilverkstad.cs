@@ -10,6 +10,7 @@ namespace Logic.Database
 {
     public class BossesBilverkstad
     {
+        // TODO PETER: Håller på att göra om denna till statisk
         public List<Vehicle> Vehicles { get; set; }
         public Dictionary<string, Vehicle> RegNrDictionary { get; set; }
         public List<Mechanic> Mechanics { get; set; }
@@ -18,12 +19,12 @@ namespace Logic.Database
 
         public VehiclePart Components { get; set; }
 
-        public BossesBilverkstad()
-        {
-            Mechanics = new List<Mechanic>();
-            RegNrDictionary = new Dictionary<string, Vehicle>();
-            Vehicles = new List<Vehicle>();
-            Errands = new List<Errand>();
-        }
+        //public BossesBilverkstad()
+        //{
+        //    Mechanics = new List<Mechanic>();
+        //    RegNrDictionary = new Dictionary<string, Vehicle>();
+        //    Vehicles = new List<Vehicle>();
+        //    Errands = new List<Errand>();
+        //}
     }
 }
