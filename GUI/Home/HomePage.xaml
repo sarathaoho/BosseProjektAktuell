@@ -32,14 +32,14 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="Lägg till användare">
+            <TabItem x:Name="tabAnvändare" Header="Lägg till användare">
                 <Grid>
                     <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="108,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
                     <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top"/>
                     <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
                     <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="108,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
-                    <Button Content="Lägg till" HorizontalAlignment="Left" Margin="116,197,0,0" VerticalAlignment="Top" Click="Button_Click" Height="39" Width="86"/>
+                    <Button x:Name="bAdd" Content="Lägg till" HorizontalAlignment="Left" Margin="116,197,0,0" VerticalAlignment="Top" Click="bAdd_Click" Height="39" Width="86"/>
 
                     <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
                                                   x:Name="cbMechanics"  
@@ -53,10 +53,10 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="Ärenden">
+            <TabItem x:Name="tabÄrenden"  Header="Ärenden">
 
             </TabItem>
-            <TabItem Header="Mekaniker">
+            <TabItem x:Name="tabMekaniker" Header="Mekaniker">
 
             </TabItem>
 

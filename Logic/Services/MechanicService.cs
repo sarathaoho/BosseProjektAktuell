@@ -7,13 +7,13 @@ using System.Text;
 namespace Logic.Services
 {
     // Klass för att sköta all mekanikerlogik
-    public static class MechanicService
+    public class MechanicService
     {
         /// <summary>
         /// Lägger till kompetens om listan med kompetenser inte är full (5st) och om listan inte redan innehåller kompetensen.
         /// </summary>
         /// <param name="competence">Kompetensen som ska läggas till</param>
-        public static void AddCompetence(this Mechanic mechanic, VehiclePart competence)
+        public void AddCompetence(Mechanic mechanic, VehiclePart competence)
         {
             if (mechanic.Competences.Count < 6 && !mechanic.Competences.Contains(competence))
                 mechanic.Competences.Add(competence);
@@ -23,7 +23,7 @@ namespace Logic.Services
         /// Tar bort kompetens om den valda kompetensen finns i listan.
         /// </summary>
         /// <param name="competenceToRemove">Kompetens som ska tas bort</param>
-        public static void RemoveCompetence(this Mechanic mechanic, VehiclePart competenceToRemove)
+        public void RemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
         {
             if (mechanic.Competences.Contains(competenceToRemove))
             {
@@ -35,13 +35,13 @@ namespace Logic.Services
         /// Lägger till ärende i listan med nuvarande ärenden, om listan inte är full (det finns 2 ärenden i listan redna)
         /// </summary>
         /// <param name="errand"></param>
-        public static void AddErrand(this Mechanic mechanic, Errand errand)
+        public static void AddErrand(Mechanic mechanic, Errand errand)
         {
             if (mechanic.CurrentErrands.Count < 3)
                 mechanic.CurrentErrands.Add(errand);
         }
 
-        public static void RemoveErrand(this Mechanic mechanic, Errand errand)
+        public static void RemoveErrand(Mechanic mechanic, Errand errand)
         {
             mechanic.CurrentErrands.Remove(errand);
         }

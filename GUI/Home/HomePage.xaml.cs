@@ -3,6 +3,7 @@ using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
 using Logic.Helpers;
 using Logic.Models;
+using Logic.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,13 +30,15 @@ namespace GUI.Home
     /// </summary>
     public partial class HomePage : Page
     {
+        readonly MechanicService _mechanicService = new MechanicService();
+        readonly UserService _userService = new UserService();
+
+
         public HomePage()
         {
             InitializeComponent();
 
-            string filePath = @"DAL\Files\Users.json";
-            JsonHelper.ReadFile<User>(filePath);
-
+            #region Kod för Ärendesidan
             Mechanic mechanic = new Mechanic()
             {
                 FirstName = "Peter",
@@ -49,10 +52,10 @@ namespace GUI.Home
                 FirstName = "Julia",
                 LastName = "Berglund",
                 ID = "2",
-                
+
             };
             Listor.Mechanics.Add(mechanic);
-            
+
             mechanic = new Mechanic()
             {
                 FirstName = "Calle",
@@ -61,13 +64,20 @@ namespace GUI.Home
             };
             Listor.Mechanics.Add(mechanic);
 
-            
+
             // Comboboxen är kopplad till Listor.Mechanics
             cbMechanics.ItemsSource = Listor.Mechanics;
-            
+            #endregion
+
+           
+
+            #region Kod för Mekanikersidan
+
+            #endregion
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        #region Metoder för användarrutan
+        private void bAdd_Click(object sender, RoutedEventArgs e)
         {
             // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
             var mechanic = cbMechanics.SelectedItem as Mechanic;
@@ -83,7 +93,7 @@ namespace GUI.Home
             {
                 Username = userName,
                 Password = password,
-                MechanicID = ID,
+                ID = ID,
                 IsAdmin = false
             };
             
@@ -101,7 +111,12 @@ namespace GUI.Home
 
             MessageBox.Show("Användare tillagd.");
         }
+        #endregion
 
-       
+        #region Metoder för Mekanikerrutan
+
+        #endregion
+
     }
+
 }
