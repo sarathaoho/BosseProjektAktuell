@@ -8,18 +8,19 @@ namespace Logic.Services
 {
     public class LoginService
     {
-        private UserDataAccess _db;
+        private UserDataAccess<User> _dbUser;
+
 
         public LoginService()
         {
 
-            _db = new UserDataAccess();
+            _dbUser = new UserDataAccess<User>();
         }
 
         public bool Login(string username, string password)
         {
 
-            List<User> users = _db.GetUsers();
+            List<User> users = _dbUser.GetList();
 
             return users.Exists(user => user.Username.Equals(username) && user.Password.Equals(password));
         }

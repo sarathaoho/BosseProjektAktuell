@@ -219,7 +219,6 @@ namespace Logic.Helpers
                 car.HasTowbar = ReadBool("Har bilen en dragkrok? j/n: ");
 
                 var lengthDriven = ReadDecimal("Mata in hur många mil fordonet har gått: ");
-                car.SetOdometer(lengthDriven);
 
                 PrintInfo(car);
                 var isAnswering = true;
@@ -262,7 +261,6 @@ namespace Logic.Helpers
                 motorcycle.MaxSpeed = ReadInteger("Mata in maxhastighet i km/h: ");
 
                 var lengthDriven = ReadDecimal("Mata in hur många mil fordonet har gått: ");
-                motorcycle.SetOdometer(lengthDriven);
 
                 PrintInfo(motorcycle);
                 var isAnswering = true;
@@ -304,7 +302,6 @@ namespace Logic.Helpers
                 truck.MaxLoadInKG = ReadInteger("Mata in maxlast i kg: ");
 
                 var lengthDriven = ReadDecimal("Mata in hur många mil fordonet har gått: ");
-                truck.SetOdometer(lengthDriven);
 
                 PrintInfo(truck);
                 var isAnswering = true;
@@ -346,7 +343,6 @@ namespace Logic.Helpers
                 bus.MaxAmountOfPassengers = ReadInteger("Mata in max antal passagerare: ");
 
                 var lengthDriven = ReadDecimal("Mata in hur många mil fordonet har gått: ");
-                bus.SetOdometer(lengthDriven);
 
                 PrintInfo(bus);
                 var isAnswering = true;
@@ -391,8 +387,7 @@ namespace Logic.Helpers
             Console.WriteLine("\t----------");
             Console.WriteLine($"\nNamn: {vehicle.ModelName}" +
                 $"\nRegistreringsnummer: {vehicle.LicensePlate}" +
-                $"\nRegisterades: {vehicle.RegistrationDate}" +
-                $"\nMilmätare: {vehicle.GetOdometer()} mil");
+                $"\nRegisterades: {vehicle.RegistrationDate}");
 
             if (vehicle is Car)
             {
