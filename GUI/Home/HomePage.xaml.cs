@@ -33,6 +33,9 @@ namespace GUI.Home
         {
             InitializeComponent();
 
+            string filePath = @"DAL\Files\Users.json";
+            JsonHelper.ReadFile<User>(filePath);
+
             Mechanic mechanic = new Mechanic()
             {
                 FirstName = "Peter",
@@ -90,7 +93,7 @@ namespace GUI.Home
             // TODO: Använd JsonHelper.WriteFile istället
             string json = JsonSerializer.Serialize(Listor.Users);
 
-            FileStream fs = File.OpenWrite(@"DAL\Files\UsersTestJson.json");
+            FileStream fs = File.OpenWrite(@"DAL\Files\User.json");
             StreamWriter sw = new StreamWriter(fs);
 
             sw.WriteLine(json);

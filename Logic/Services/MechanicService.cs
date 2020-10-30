@@ -50,7 +50,6 @@ namespace Logic.Services
         {
             errand.ErrandStatus = statusToReturn;
             return errand;
-
         }
 
 
