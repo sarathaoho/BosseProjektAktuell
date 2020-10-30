@@ -8,19 +8,20 @@ using System.Text;
 
 namespace Logic.Database.Entities
 {
-    public class Mechanic
+    public class Mechanic : AEntity
     {
         private bool _isAvailable;
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; } // Kör alla datumgrejer som string för att förenkla utskrift
         public string DateOfEmployment { get; set; }
         public string LastDate { get; set; }
-        public string ID { get; set; }
+        public string MechanicID { get; set; }
+        //public string UserID { get; set; }
 
-        // Se mappen Models för alla enums
-        public List<VehiclePart> Competences { get; set; }
+
+        public List<VehiclePart> Competences { get; set; } // Se mappen Models för alla enums
         public List<Errand> CurrentErrands { get; set; } // Nuvarande ärenden
 
         // Om CurrentErrands har två ärenden i sig (båda är true) så sätts IsAvailable till false, annars till true
@@ -50,52 +51,6 @@ namespace Logic.Database.Entities
         // Exempelvis public bool TryAddCompetence(VehiclePart competence)
         // OM vi kan lägga till SÅ returnera TRUE
         // ANNARS returnera FALSE
-
-
-        /// <summary>
-        /// Lägger till kompetens om listan med kompetenser inte är full (5st) och om listan inte redan innehåller kompetensen.
-        /// </summary>
-        /// <param name="competence">Kompetensen som ska läggas till</param>
-        public void AddCompetence(VehiclePart competence)
-        {
-            if (Competences.Count < 6 && !Competences.Contains(competence))
-                Competences.Add(competence);
-        }
-
-        /// <summary>
-        /// Tar bort kompetens om den valda kompetensen finns i listan.
-        /// </summary>
-        /// <param name="competenceToRemove">Kompetens som ska tas bort</param>
-        public void RemoveCompetence(VehiclePart competenceToRemove)
-        {
-            if (Competences.Contains(competenceToRemove))
-            {
-                Competences.Remove(competenceToRemove);
-            }
-        }
-
-        /// <summary>
-        /// Lägger till ärende i listan med nuvarande ärenden, om listan inte är full (det finns 2 ärenden i listan redna)
-        /// </summary>
-        /// <param name="errand"></param>
-        public void AddErrand(Errand errand)
-        {
-            if (CurrentErrands.Count < 3)
-                CurrentErrands.Add(errand);
-        }
-
-        public void RemoveErrand(Errand errand)
-        {
-            CurrentErrands.Remove(errand);
-        }
-
-        public Errand ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
-        {
-            errand.ErrandStatus = statusToReturn;
-            return errand;
-
-        }
-
 
 
         public Mechanic()

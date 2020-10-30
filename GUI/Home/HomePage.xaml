@@ -4,23 +4,69 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GUI.Home"
+      xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="500"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Bosses bilverkstad - Hem">
 
-    <Grid Margin="10,0,10,10">
+    <!--<Grid Margin="10,0,10,10" Width="500" Height="398">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="108,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
-        <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
-        <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="108,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
-        <Button Content="Lägg till" HorizontalAlignment="Left" Margin="146,128,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        </Grid.RowDefinitions>-->
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding ID}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+                <TextBlock Text=" "/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Lägg till användare">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="122*"/>
+                        <ColumnDefinition Width="24*"/>
+                        <ColumnDefinition Width="59*"/>
+                        <ColumnDefinition Width="589*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="108,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Grid.ColumnSpan="3"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+                    <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="108,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Grid.ColumnSpan="3"/>
+                    <Button Content="Lägg till" HorizontalAlignment="Left" Margin="116,197,0,0" VerticalAlignment="Top" Click="Button_Click" Height="39" Width="86" Grid.ColumnSpan="3"/>
+
+                    <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
+                                                  x:Name="cbMechanics"  
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="16,155,0,0" 
+                                                  VerticalAlignment="Top" 
+                                                  Width="186" 
+                                                  Height="24" Grid.ColumnSpan="3"
+                                                  />
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ärenden">
+
+            </TabItem>
+            <TabItem Header="Mekaniker">
+
+            </TabItem>
+
+
+        </TabControl>
 
         <Grid.Background>
             <ImageBrush ImageSource="BBilverkstad.jpg"></ImageBrush>

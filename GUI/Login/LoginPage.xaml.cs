@@ -32,23 +32,25 @@ namespace GUI.Login
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string username = this.tbUsernam.Text;
-            string password = this.pbPassword.Password;
+            //string username = this.tbUsername.Text;
+            //string password = this.pbPassword.Password;
+
+            // Nu kan vi logga in genom att bara trycka på logga in
+            string username = "Bosse";
+            string password = "Meckarn123";
 
             bool successful = _loginService.Login(username, password);
 
             if (successful)
             {
-
                 HomePage homePage = new HomePage();
-
                 this.NavigationService.Navigate(homePage);
             }
             else
             {
 
                 MessageBox.Show(_errorMsg);
-                this.tbUsernam.Clear();
+                this.tbUsername.Clear();
                 this.pbPassword.Clear();
             }
         }

@@ -6,11 +6,11 @@ using System.Transactions;
 namespace Logic.Models
 {
 
-    public enum UserPrivilege
-    {
-        Basic = 1,
-        Admin = 2
-    }
+    //public enum UserPrivilege
+    //{
+    //    Basic = 1,
+    //    Admin = 2
+    //}
 
     public enum VehiclePart
     {
@@ -34,6 +34,13 @@ namespace Logic.Models
         Herrgårdsvagn = 2,
         Cabriolet = 3,
         Halvkombi = 4
+    }
+
+    public enum Fuel
+    {
+        Bensin = 1,
+        Diesel = 2,
+        Elektrisk = 3
     }
 
 }

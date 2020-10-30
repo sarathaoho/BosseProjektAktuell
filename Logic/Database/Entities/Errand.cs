@@ -7,22 +7,30 @@ using System.Text;
 
 namespace Logic.Database.Entities
 {
-    //public class Errand
-    //{
+    public class Errand
+    {
+        public string Description { get; set; }
 
-    //    public string Description { get; set; }
+        public Vehicle Vehicle { get; set; }
 
-    //    public Vehicle Vehicle { get; set; }
+        public VehiclePart Problem { get; set; }
 
-    //    public VehiclePart Problem { get; set; }
+        public ErrandStatus ErrandStatus { get; set; }
 
-    //    public ErrandStatus ErrandStatus { get; set; }
+        public int ID { get; set; }
 
-    //    public int ID { get; set; }
+        public Errand(string description, Vehicle vehicle, VehiclePart problem)
+        {
+            Description = description;
+            Vehicle = vehicle;
+            Problem = problem;
 
-    //    public Errand()
-    //    {
-    //        ErrandStatus = ErrandStatus.Röd;
-    //    }
-    //}
+            ErrandStatus = ErrandStatus.Röd;
+        }
+
+        public Errand()
+        {
+
+        }
+    }
 }

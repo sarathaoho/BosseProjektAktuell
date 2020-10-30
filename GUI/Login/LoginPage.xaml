@@ -27,7 +27,7 @@
             <Label VerticalAlignment="Center" Foreground="White">Användarnamn:</Label>
         </Border>
         
-        <TextBox x:Name="tbUsernam" Grid.Row="1" Grid.Column="1"></TextBox>
+        <TextBox x:Name="tbUsername" Grid.Row="1" Grid.Column="1"></TextBox>
         
         <Border Grid.Column="0" Grid.Row="2" Height="35" Padding="5" Background="#4E87D4">
             <Label VerticalAlignment="Center" Foreground="White">Lösenord:</Label>

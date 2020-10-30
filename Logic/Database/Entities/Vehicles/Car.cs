@@ -12,7 +12,6 @@ namespace Logic.Database.Entities.Vehicles
         public Car()
         {
             Wheels = 4;
-            FuelType = "Bensin";
         }
 
     }

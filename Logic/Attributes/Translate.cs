@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Logic.Attributes
 {
+    // ANVÄNDS EJ ÄN
     class Translate : Attribute
     {
         public string Name { get; set; }

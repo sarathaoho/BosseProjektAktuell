@@ -1,7 +1,12 @@
-﻿using Logic.Database.Entities;
+﻿using Logic.Database;
+using Logic.Database.Entities;
+using Logic.Database.Entities.Vehicles;
+using Logic.Helpers;
+using Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -13,6 +18,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
+
 
 namespace GUI.Home
 {
@@ -21,27 +29,68 @@ namespace GUI.Home
     /// </summary>
     public partial class HomePage : Page
     {
-
-        //TODO: Testa blbla
         public HomePage()
         {
             InitializeComponent();
+
+            Mechanic mechanic = new Mechanic()
+            {
+                FirstName = "Peter",
+                LastName = "Wallenäs",
+                MechanicID = "1"
+            };
+            Listor.Mechanics.Add(mechanic);
+
+            mechanic = new Mechanic()
+            {
+                FirstName = "Julia",
+                LastName = "Berglund",
+                MechanicID = "2",
+                
+            };
+            Listor.Mechanics.Add(mechanic);
+            
+            mechanic = new Mechanic()
+            {
+                FirstName = "Calle",
+                LastName = "Maelan",
+                MechanicID = "3"
+            };
+            Listor.Mechanics.Add(mechanic);
+
+            
+            // Comboboxen är kopplad till Listor.Mechanics
+            cbMechanics.ItemsSource = Listor.Mechanics;
             
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
+            var mechanic = cbMechanics.SelectedItem as Mechanic;
+
+            // TEST: För skapande av användare
             string userName = tbUserName.Text;
             string password = tbPassword.Text;
+            string ID = mechanic.MechanicID; // Hämtar ID-propertyn från mekanikern
 
-            User user = new BasicUser() { Username = userName, Password = password };
 
-            Users.UserList.Add(user);
-
-            string json = JsonSerializer.Serialize(Users.UserList);
+            // Skapar upp en ny användare
+            User user = new User()
+            {
+                Username = userName,
+                Password = password,
+                MechanicID = ID,
+                IsAdmin = false
+            };
             
-            FileStream fs = File.OpenWrite(@"C:\GitHub\BosseProjektAktuell\UsersTest.json");
+            // Lägger till användaren i Users
+            Listor.Users.Add(user);
+            
+            // TODO: Använd JsonHelper.WriteFile istället
+            string json = JsonSerializer.Serialize(Listor.Users);
+
+            FileStream fs = File.OpenWrite(@"DAL\Files\UsersTestJson.json");
             StreamWriter sw = new StreamWriter(fs);
 
             sw.WriteLine(json);
@@ -49,5 +98,7 @@ namespace GUI.Home
 
             MessageBox.Show("Användare tillagd.");
         }
+
+       
     }
 }

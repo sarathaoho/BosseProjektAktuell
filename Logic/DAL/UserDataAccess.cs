@@ -1,4 +1,5 @@
-﻿using Logic.Database.Entities;
+﻿using Logic.Database;
+using Logic.Database.Entities;
 using Logic.Helpers;
 using System;
 using System.Collections.Generic;
@@ -10,23 +11,23 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Logic.DAL
 {
-    public class UserDataAccess
+    public class UserDataAccess<T> where T : AEntity
     {
-        private const string path = @"DAL\User.json";
+        // Behöver skapa mappen om den inte finns när programmet startas
+        // TODO: Fixa också path till att inte bara hämta User
+        private const string path = @"DAL\Files\User.json"; 
 
 
         /// <summary>
         /// https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to
         /// </summary>
         /// <returns></returns>
-        public List<User> GetUsers()
+        public List<T> GetList()
         {
             string jsonString = File.ReadAllText(path);
-            //List<User> users = JsonSerializer.Deserialize<List<User>>(jsonString);
-
-            List<User> users2 = JsonHelper.ReadFile<User>(path);
-
-            return users2;
+            List<T> list = JsonHelper.ReadFile<T>(path);
+            return list;
         }
+
     }
 }
