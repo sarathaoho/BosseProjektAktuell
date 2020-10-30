@@ -33,11 +33,14 @@ namespace GUI.Home
         {
             InitializeComponent();
 
+            string filePath = @"DAL\Files\Users.json";
+            JsonHelper.ReadFile<User>(filePath);
+
             Mechanic mechanic = new Mechanic()
             {
                 FirstName = "Peter",
                 LastName = "Wallenäs",
-                MechanicID = "1"
+                ID = "1"
             };
             Listor.Mechanics.Add(mechanic);
 
@@ -45,7 +48,7 @@ namespace GUI.Home
             {
                 FirstName = "Julia",
                 LastName = "Berglund",
-                MechanicID = "2",
+                ID = "2",
                 
             };
             Listor.Mechanics.Add(mechanic);
@@ -54,7 +57,7 @@ namespace GUI.Home
             {
                 FirstName = "Calle",
                 LastName = "Maelan",
-                MechanicID = "3"
+                ID = "3"
             };
             Listor.Mechanics.Add(mechanic);
 
@@ -72,7 +75,7 @@ namespace GUI.Home
             // TEST: För skapande av användare
             string userName = tbUserName.Text;
             string password = tbPassword.Text;
-            string ID = mechanic.MechanicID; // Hämtar ID-propertyn från mekanikern
+            string ID = mechanic.ID; // Hämtar ID-propertyn från mekanikern
 
 
             // Skapar upp en ny användare
@@ -90,7 +93,7 @@ namespace GUI.Home
             // TODO: Använd JsonHelper.WriteFile istället
             string json = JsonSerializer.Serialize(Listor.Users);
 
-            FileStream fs = File.OpenWrite(@"DAL\Files\UsersTestJson.json");
+            FileStream fs = File.OpenWrite(@"DAL\Files\User.json");
             StreamWriter sw = new StreamWriter(fs);
 
             sw.WriteLine(json);
