@@ -50,7 +50,7 @@
                         <extToolkit:WatermarkComboBox Watermark="Namn" x:Name="cbBox" FontStyle="Italic">
                             <extToolkit:WatermarkComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBox">
-                                    <Setter Property="Background" Value="#FFC7C783"/>
+                                    <Setter Property="BorderBrush" Value="Yellow"/>
                                     <Setter Property="BorderBrush" Value="Yellow"/>
                                 </Style>
                             </extToolkit:WatermarkComboBox.ItemContainerStyle>

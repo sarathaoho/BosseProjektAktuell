@@ -17,8 +17,8 @@ namespace Logic.Database.Entities
         public string DateOfBirth { get; set; } // Kör alla datumgrejer som string för att förenkla utskrift
         public string DateOfEmployment { get; set; }
         public string LastDate { get; set; }
-        public string MechanicID { get; set; }
-        //public string UserID { get; set; }
+        //public string MechanicID { get; set; }
+        public string UserID { get; set; }
 
 
         public List<VehiclePart> Competences { get; set; } // Se mappen Models för alla enums
