@@ -39,16 +39,25 @@ namespace GUI.Login
             string username = "Bosse";
             string password = "Meckarn123";
 
-            bool successful = _loginService.Login(username, password);
+            var user = _loginService.Login(username, password);
+            
 
-            if (successful)
+            // Om användaren finns och om den är admin så öppnas huvudrutan
+            if (user != null && user.IsAdmin == true)
             {
                 HomePage homePage = new HomePage();
                 this.NavigationService.Navigate(homePage);
             }
+
+            // Om användaren finns men den inte är admin så öppnas en annan ruta
+            else if (user != null && user.IsAdmin == false)
+            {
+                // Här hamnar koden för basic-användare
+            }
+
+            // Om användaren inte finns så skrivs felmeddelande ut
             else
             {
-
                 MessageBox.Show(_errorMsg);
                 this.tbUsername.Clear();
                 this.pbPassword.Clear();

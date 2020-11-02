@@ -83,15 +83,8 @@ namespace ConsoleUtskrift
 
             var competence = VehiclePart.Bromsar;
 
-            mechanic1.AddCompetence(competence);
-
-
-            PrintUnfinishedErrands();
-            var isRunning = true;
-            while (isRunning)
-            {
-               
-            }
+            MechanicService mechanicService = new MechanicService();
+            
 
         }
 

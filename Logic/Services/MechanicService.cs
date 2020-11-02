@@ -19,37 +19,41 @@ namespace Logic.Services
                 mechanic.Competences.Add(competence);
         }
 
+
         /// <summary>
         /// Tar bort kompetens om den valda kompetensen finns i listan.
         /// </summary>
         /// <param name="competenceToRemove">Kompetens som ska tas bort</param>
-        public void RemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
+        public bool TryRemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
         {
             if (mechanic.Competences.Contains(competenceToRemove))
             {
                 mechanic.Competences.Remove(competenceToRemove);
+                
             }
+            return mechanic.Competences.Contains(competenceToRemove) ? true : false;
         }
 
         /// <summary>
         /// Lägger till ärende i listan med nuvarande ärenden, om listan inte är full (det finns 2 ärenden i listan redna)
         /// </summary>
         /// <param name="errand"></param>
-        public static void AddErrand(Mechanic mechanic, Errand errand)
+        public void AddErrand(Mechanic mechanic, Errand errand)
         {
             if (mechanic.CurrentErrands.Count < 3)
                 mechanic.CurrentErrands.Add(errand);
         }
 
-        public static void RemoveErrand(Mechanic mechanic, Errand errand)
+        // Tar bort ärende från mekanikerns lista med ärenden
+        public void RemoveErrand(Mechanic mechanic, Errand errand)
         {
             mechanic.CurrentErrands.Remove(errand);
         }
+        
         // Vet inte om denna funkar som den ska än
-        public static Errand ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
+        public void ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
         {
             errand.ErrandStatus = statusToReturn;
-            return errand;
         }
 
 
