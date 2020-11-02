@@ -1,0 +1,70 @@
+﻿<Page x:Class="GUI.MechPage.MechanicPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GUI.MechPage" xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="500"
+      Title="MechanicPage">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <TabControl>
+            <TabItem x:Name="tabMekaniker" Header="Mekaniker">
+                <Grid>
+                    <Label Content="Skapa ny mekaniker" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox Watermark="Förnamn" x:Name="tbMechanicFirstName" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Efternamn" x:Name="tbMechanicLastName" HorizontalAlignment="Left" Margin="150,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Födelsedatum (YYYY-MM-DD)" x:Name="tbDateOfBirth" HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Anställningsdatum (YYYY-MM-DD)" x:Name="tbDateOfEmployment" HorizontalAlignment="Left" Margin="150,70,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="132" FontSize="8"/>
+
+
+                    <ListBox x:Name="lbMechanicCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" Margin="10,111,0,211" Height="100" Width="100"/>
+                    <ListBox x:Name="lbCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" FontSize="8" Margin="182,111,0,211" Width="100" Height="100"/>
+
+                    <Button x:Name="btnLeftArrow" Content="&lt;" HorizontalAlignment="Left" Margin="120,111,0,0" VerticalAlignment="Top" FontSize="8" Height="23" Width="51" Click="btnLeftArrow_Click"/>
+                    <Button x:Name="btnRightArrow" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="8" Click="btnRightArrow_Click" Margin="123,188,0,0" Width="45" Height="23"/>
+
+
+                    <Button x:Name="bAddMechanic" Content="Lägg till" HorizontalAlignment="Left" Margin="236,266,0,0" VerticalAlignment="Top" Click="bAddMechanic_Click"/>
+                    <!--<Grid Margin="10,97,512,419">-->
+
+
+                    <!--</Grid>-->
+
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Ändra mekaniker">
+                <Grid>
+                    <extToolkit:WatermarkComboBox x:Name="cbMechanics" Watermark="Mekaniker" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Välj mekaniker som ska ändras" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Height="26" Width="181"/>
+                    <Label Content="Ändra kompetenser" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="btnRemove" Content="Ta bort" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" Click="btnRemove_Click"/>
+
+
+
+
+                </Grid>
+
+            </TabItem>
+
+        </TabControl>
+
+
+
+    </Grid>
+
+</Page>

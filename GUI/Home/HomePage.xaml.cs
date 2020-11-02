@@ -1,4 +1,5 @@
-﻿using Logic.Database;
+﻿using GUI.MechPage;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
 using Logic.Helpers;
@@ -7,6 +8,7 @@ using Logic.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
@@ -30,15 +32,20 @@ namespace GUI.Home
     /// </summary>
     public partial class HomePage : Page
     {
-        readonly MechanicService _mechanicService = new MechanicService();
+        
         readonly UserService _userService = new UserService();
+       
+        
+        private const string _usersPath = @"DAL\Files\Users.json";
+
+        
 
 
         public HomePage()
         {
             InitializeComponent();
 
-            #region Kod för Ärendesidan
+            #region Kod för Användarsidan
             Mechanic mechanic = new Mechanic()
             {
                 FirstName = "Peter",
@@ -60,24 +67,22 @@ namespace GUI.Home
             {
                 FirstName = "Calle",
                 LastName = "Maelan",
-                ID = "3"
+                ID = "3",
+                UserID = "test"
             };
             Listor.Mechanics.Add(mechanic);
 
-
-            // Comboboxen är kopplad till Listor.Mechanics
-            cbMechanics.ItemsSource = Listor.Mechanics;
-            #endregion
-
            
 
-            #region Kod för Mekanikersidan
-
+            // Comboboxen är kopplad till Listor.Mechanics
+            cbMechanics.ItemsSource = Listor.Mechanics.Where(mechanic => mechanic.UserID == null).ToList();
             #endregion
+
+            
         }
 
         #region Metoder för användarrutan
-        private void bAdd_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
             var mechanic = cbMechanics.SelectedItem as Mechanic;
@@ -85,39 +90,34 @@ namespace GUI.Home
             // TEST: För skapande av användare
             string userName = tbUserName.Text;
             string password = tbPassword.Text;
-            string ID = mechanic.ID; // Hämtar ID-propertyn från mekanikern
-
 
             // Skapar upp en ny användare
             User user = new User()
             {
                 Username = userName,
                 Password = password,
-                ID = ID,
                 IsAdmin = false
             };
-            
+
+            // Kopplar samman användaren med mekanikern
+            mechanic.UserID = user.ID;
+
             // Lägger till användaren i Users
             Listor.Users.Add(user);
 
-            // TODO: Använd JsonHelper.WriteFile istället
-            
-            string json = JsonSerializer.Serialize(Listor.Users);
-            
-            FileStream fs = File.OpenWrite(@"DAL\Files\User.json");
-            StreamWriter sw = new StreamWriter(fs);
-
-            sw.WriteLine(json);
-            sw.Close();
-
+            // Skriver ut till fil
+            JsonHelper.WriteFile<User>(Listor.Users, _usersPath);
             MessageBox.Show("Användare tillagd.");
         }
-        #endregion
-
-        #region Metoder för Mekanikerrutan
 
         #endregion
 
+ 
+
+        private void btnMechanicPage_Click(object sender, RoutedEventArgs e)
+        {
+            var mechanicPage = new MechanicPage();
+            this.NavigationService.Navigate(mechanicPage);
+        }
     }
-
 }
