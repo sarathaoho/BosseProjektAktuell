@@ -50,7 +50,7 @@ namespace GUI.Login
             {
 
                 MessageBox.Show(_errorMsg);
-                this.tbUsername.Clear();
+                this.tbUsernam.Clear();
                 this.pbPassword.Clear();
             }
         }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="BBilverkstad.jpg" />
+    <None Remove="Login\BBilverkstad.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,9 @@
 
   <ItemGroup>
     <Resource Include="Home\BBilverkstad.jpg" />
+    <Resource Include="Login\BBilverkstad.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

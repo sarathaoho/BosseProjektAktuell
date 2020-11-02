@@ -6,6 +6,6 @@ namespace Logic.Database.Entities
 {
     public abstract class AEntity
     {
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().ToString();
     }
 }

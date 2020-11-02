@@ -60,14 +60,14 @@ namespace GUI.Home
 
             
             // Comboboxen är kopplad till Listor.Mechanics
-            cbMechanics.ItemsSource = Listor.Mechanics;
+            cbBox.ItemsSource = Listor.Mechanics;
             
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
+            var mechanic = cbBox.SelectedItem as Mechanic;
 
             // TEST: För skapande av användare
             string userName = tbUserName.Text;
@@ -97,6 +97,8 @@ namespace GUI.Home
             sw.Close();
 
             MessageBox.Show("Användare tillagd.");
+
+            
         }
 
        
