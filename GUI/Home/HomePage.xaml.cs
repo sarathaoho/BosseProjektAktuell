@@ -99,10 +99,11 @@ namespace GUI.Home
             
             // Lägger till användaren i Users
             Listor.Users.Add(user);
-            
-            // TODO: Använd JsonHelper.WriteFile istället
-            string json = JsonSerializer.Serialize(Listor.Users);
 
+            // TODO: Använd JsonHelper.WriteFile istället
+            
+            string json = JsonSerializer.Serialize(Listor.Users);
+            
             FileStream fs = File.OpenWrite(@"DAL\Files\User.json");
             StreamWriter sw = new StreamWriter(fs);
 
