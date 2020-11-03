@@ -34,8 +34,7 @@ namespace GUI.Home
     {
         
         readonly UserService _userService = new UserService();
-       
-        
+
         private const string _usersPath = @"DAL\Files\Users.json";
 
         
@@ -52,7 +51,7 @@ namespace GUI.Home
                 LastName = "Wallenäs",
                 ID = "1"
             };
-            Listor.Mechanics.Add(mechanic);
+            Database.AllMechanics.Add(mechanic);
 
             mechanic = new Mechanic()
             {
@@ -61,7 +60,7 @@ namespace GUI.Home
                 ID = "2",
 
             };
-            Listor.Mechanics.Add(mechanic);
+            Database.AllMechanics.Add(mechanic);
 
             mechanic = new Mechanic()
             {
@@ -70,15 +69,14 @@ namespace GUI.Home
                 ID = "3",
                 UserID = "test"
             };
-            Listor.Mechanics.Add(mechanic);
+            Database.AllMechanics.Add(mechanic);
 
            
 
             // Comboboxen är kopplad till Listor.Mechanics
-            cbMechanics.ItemsSource = Listor.Mechanics.Where(mechanic => mechanic.UserID == null).ToList();
+            cbMechanics.ItemsSource = Database.AllMechanics.Where(mechanic => mechanic.UserID == null).ToList();
             #endregion
 
-            
         }
 
         #region Metoder för användarrutan
@@ -88,13 +86,13 @@ namespace GUI.Home
             var mechanic = cbMechanics.SelectedItem as Mechanic;
 
             // TEST: För skapande av användare
-            string userName = tbUserName.Text;
+            string username = tbUserName.Text;
             string password = tbPassword.Text;
 
             // Skapar upp en ny användare
             User user = new User()
             {
-                Username = userName,
+                Username = username,
                 Password = password,
                 IsAdmin = false
             };
@@ -103,10 +101,10 @@ namespace GUI.Home
             mechanic.UserID = user.ID;
 
             // Lägger till användaren i Users
-            Listor.Users.Add(user);
+            Database.Users.Add(user);
 
             // Skriver ut till fil
-            JsonHelper.WriteFile<User>(Listor.Users, _usersPath);
+            JsonHelper.WriteFile<User>(Database.Users, _usersPath);
             MessageBox.Show("Användare tillagd.");
         }
 

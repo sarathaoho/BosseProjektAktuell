@@ -30,14 +30,14 @@
                     <extToolkit:WatermarkTextBox Watermark="Anställningsdatum (YYYY-MM-DD)" x:Name="tbDateOfEmployment" HorizontalAlignment="Left" Margin="150,70,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="132" FontSize="8"/>
 
 
-                    <ListBox x:Name="lbMechanicCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" Margin="10,111,0,211" Height="100" Width="100"/>
-                    <ListBox x:Name="lbCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" FontSize="8" Margin="182,111,0,211" Width="100" Height="100"/>
+                    <ListBox x:Name="lbMechanicCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" Height="100" Width="100"/>
+                    <ListBox x:Name="lbCompetences" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="182,111,0,0" Height="100" Width="100"/>
 
                     <Button x:Name="btnLeftArrow" Content="&lt;" HorizontalAlignment="Left" Margin="120,111,0,0" VerticalAlignment="Top" FontSize="8" Height="23" Width="51" Click="btnLeftArrow_Click"/>
                     <Button x:Name="btnRightArrow" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="8" Click="btnRightArrow_Click" Margin="123,188,0,0" Width="45" Height="23"/>
 
-
-                    <Button x:Name="bAddMechanic" Content="Lägg till" HorizontalAlignment="Left" Margin="236,266,0,0" VerticalAlignment="Top" Click="bAddMechanic_Click"/>
+                    <Button x:Name="btnAddMechanic" Content="Lägg till" HorizontalAlignment="Left" Margin="236,228,0,0" VerticalAlignment="Top" Click="btnAddMechanic_Click"/>
+                    <Label Content="Mekanikerns kompetenser" HorizontalAlignment="Left" Margin="5,94,0,0" VerticalAlignment="Top" FontSize="8" Height="28" Width="110"/>
                     <!--<Grid Margin="10,97,512,419">-->
 
 
@@ -49,12 +49,17 @@
 
             <TabItem Header="Ändra mekaniker">
                 <Grid>
-                    <extToolkit:WatermarkComboBox x:Name="cbMechanics" Watermark="Mekaniker" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="120"/>
+                    <extToolkit:WatermarkComboBox x:Name="cbMechanics" Watermark="Mekaniker" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbMechanics_SelectionChanged"/>
                     <Label Content="Välj mekaniker som ska ändras" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Height="26" Width="181"/>
                     <Label Content="Ändra kompetenser" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="btnRemove" Content="Ta bort" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" Click="btnRemove_Click"/>
 
+                    <ListBox x:Name="lbMechanicCompetences2" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" Height="100" Width="100"/>
+                    <ListBox x:Name="lbCompetences2" MaxHeight="100" MinHeight="100" MaxWidth="100" MinWidth="100" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="171,111,0,0" Height="100" Width="100"/>
 
+                    <Button x:Name="btnLeftArrow2" Content="&lt;" HorizontalAlignment="Left" Margin="115,111,0,0" VerticalAlignment="Top" FontSize="8" Height="23" Width="51" Click="btnLeftArrow2_Click"/>
+                    <Button x:Name="btnRightArrow2" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="8" Click="btnRightArrow2_Click" Margin="115,188,0,0" Width="45" Height="23"/>
+                    <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="27,249,0,0" VerticalAlignment="Top" Click="btnSave_Click"/>
 
 
                 </Grid>

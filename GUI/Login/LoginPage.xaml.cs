@@ -40,27 +40,28 @@ namespace GUI.Login
             string password = "Meckarn123";
 
             var user = _loginService.Login(username, password);
-            
 
-            // Om användaren finns och om den är admin så öppnas huvudrutan
-            if (user != null && user.IsAdmin == true)
-            {
-                HomePage homePage = new HomePage();
-                this.NavigationService.Navigate(homePage);
-            }
-
-            // Om användaren finns men den inte är admin så öppnas en annan ruta
-            else if (user != null && user.IsAdmin == false)
-            {
-                // Här hamnar koden för basic-användare
-            }
 
             // Om användaren inte finns så skrivs felmeddelande ut
-            else
+            if (user == null)
             {
                 MessageBox.Show(_errorMsg);
                 this.tbUsername.Clear();
                 this.pbPassword.Clear();
+            }
+
+            // Om användaren finns men den inte är admin så öppnas en annan ruta
+            else if (user.IsAdmin == false)
+            {
+                // Här hamnar koden för basic-användare
+            }
+            
+            // Om användaren finns och om den är admin så öppnas huvudrutan
+            else
+            {
+                HomePage homePage = new HomePage();
+                this.NavigationService.Navigate(homePage);
+               
             }
         }
     }

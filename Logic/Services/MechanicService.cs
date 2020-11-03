@@ -24,14 +24,12 @@ namespace Logic.Services
         /// Tar bort kompetens om den valda kompetensen finns i listan.
         /// </summary>
         /// <param name="competenceToRemove">Kompetens som ska tas bort</param>
-        public bool TryRemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
+        public void RemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
         {
             if (mechanic.Competences.Contains(competenceToRemove))
             {
                 mechanic.Competences.Remove(competenceToRemove);
-                
             }
-            return mechanic.Competences.Contains(competenceToRemove) ? true : false;
         }
 
         /// <summary>

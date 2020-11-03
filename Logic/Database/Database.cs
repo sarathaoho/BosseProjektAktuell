@@ -12,11 +12,12 @@ namespace Logic.Database
 
 
     // Statisk klass som tar hand om alla listor som ska skrivas till fil
-    public static class Listor
+    public static class Database
     {
         private static List<User> _users;
         private static List<Vehicle> _vehicles;
-        private static List<Mechanic> _mechanics;
+        private static List<Mechanic> _allMechanics;
+        private static List<Mechanic> _currentMechanics;
         private static List<Errand> _errands;
         private static List<VehiclePart> _components;
 
@@ -41,20 +42,32 @@ namespace Logic.Database
                     _vehicles = new List<Vehicle>();
                 }
                 return _vehicles;
-            } 
-            set { _vehicles = value; } 
+            }
+            set { _vehicles = value; }
         }
-        public static List<Mechanic> Mechanics
+        public static List<Mechanic> AllMechanics
         {
             get
             {
-                if (_mechanics == null)
+                if (_allMechanics == null)
                 {
-                    _mechanics = new List<Mechanic>();
+                    _allMechanics = new List<Mechanic>();
                 }
-                return _mechanics;
+                return _allMechanics;
             }
-            set { _mechanics = value; }
+            set { _allMechanics = value; }
+        }
+        public static List<Mechanic> CurrentMechanics
+        {
+            get
+            {
+                if (_currentMechanics == null)
+                {
+                    _currentMechanics = new List<Mechanic>();
+                }
+                return _currentMechanics;
+            }
+            set { _currentMechanics = value; }
         }
         public static List<Errand> Errands
         {
@@ -68,21 +81,28 @@ namespace Logic.Database
             }
             set { _errands = value; }
         }
-        public static List<VehiclePart> Components
+        public static List<VehiclePart> Competences
         {
             get
             {
                 if (_components == null)
                 {
-                    _components = new List<VehiclePart>();
+                    _components = new List<VehiclePart>()
+                    {
+                        VehiclePart.Kaross,
+                        VehiclePart.Bromsar,
+                        VehiclePart.Motor,
+                        VehiclePart.Hjul,
+                        VehiclePart.Vindruta
+
+                     };
                 }
                 return _components;
             }
-            set { _components = value; }
         }
 
 
-        
+
         // Skiter i denna?
         //public Dictionary<string, Vehicle> RegNrDictionary { get; set; }
         //public BossesBilverkstad()

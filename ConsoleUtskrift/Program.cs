@@ -38,7 +38,7 @@ namespace ConsoleUtskrift
                 DateOfEmployment = "2005-05-03",
                 MechanicID = "1"
             };
-            Listor.Mechanics.Add(mechanic1);
+            Database.AllMechanics.Add(mechanic1);
 
             mechanic1 = new Mechanic()
             {
@@ -49,7 +49,7 @@ namespace ConsoleUtskrift
                 MechanicID = "2"
             };
 
-            Listor.Mechanics.Add(mechanic1);
+            Database.AllMechanics.Add(mechanic1);
             #endregion
 
             #region Skapar upp två ärenden och läggen in de i Listor.Errands
@@ -64,7 +64,7 @@ namespace ConsoleUtskrift
                     LicensePlate = "QWE345"
                 }
             };
-            Listor.Errands.Add(errand1);
+            Database.Errands.Add(errand1);
 
             errand1 = new Errand(
                 "Kund klagar på att motorn låter",
@@ -78,7 +78,7 @@ namespace ConsoleUtskrift
                 },
                 VehiclePart.Motor);
 
-            Listor.Errands.Add(errand1);
+            Database.Errands.Add(errand1);
             #endregion
 
             var competence = VehiclePart.Bromsar;
@@ -137,7 +137,7 @@ namespace ConsoleUtskrift
                             var vehicleChoice = VehicleChooser();
                             var vehicle = ConsoleHelper.CreateVehicle(vehicleChoice);
 
-                            Listor.Vehicles.Add(vehicle);
+                            Database.Vehicles.Add(vehicle);
 
                             var errand = new Errand() { Description = errandDescription, Problem = problem, Vehicle = vehicle };
                             //bool success = user.TryAddErrand(errand);
@@ -162,7 +162,7 @@ namespace ConsoleUtskrift
                             Console.WriteLine("----ÄNDRA ÄRENDE----");
                             Console.WriteLine("Vilket ärende vill du ändra på?");
 
-                            if (Listor.Errands.Count == 0)
+                            if (Database.Errands.Count == 0)
                             {
                                 Console.WriteLine("Det finns inga liggande eller pågående ärenden.");
                             }
@@ -175,7 +175,7 @@ namespace ConsoleUtskrift
                                 var licensePlateToMatch = Console.ReadLine().ToUpper().Replace(" ", "");
 
                                 Errand errandToChange = null;
-                                foreach (var err in Listor.Errands)
+                                foreach (var err in Database.Errands)
                                 {
                                     if (err.Vehicle.LicensePlate == licensePlateToMatch)
                                     {
@@ -238,7 +238,7 @@ namespace ConsoleUtskrift
                         var passWord = Console.ReadLine();
 
                         User user2 = new BasicUser();
-                        foreach (var mechanic in Listor.Mechanics)
+                        foreach (var mechanic in Database.AllMechanics)
                         {
                             Console.WriteLine($"Namn: {mechanic.FirstName} {mechanic.LastName}");
                             Console.WriteLine($"ID: {mechanic.MechanicID}");
@@ -267,7 +267,7 @@ namespace ConsoleUtskrift
 
         private static void PrintUnfinishedErrands()
         {
-            foreach (var err in Listor.Errands)
+            foreach (var err in Database.Errands)
             {
                 if (err.ErrandStatus != ErrandStatus.Grön)
                 {
