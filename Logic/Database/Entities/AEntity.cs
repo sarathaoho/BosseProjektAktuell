@@ -5,7 +5,7 @@ using System.Text;
 namespace Logic.Database.Entities
 {
     public abstract class AEntity
-    {
-        public string ID { get; set; } = Guid.NewGuid().ToString();
+    {       
+       public string ID { get; set; } = Guid.NewGuid().ToString();
     }
 }
