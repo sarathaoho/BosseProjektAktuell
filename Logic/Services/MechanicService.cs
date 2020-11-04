@@ -3,6 +3,7 @@ using Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Logic.Services
 {
@@ -39,13 +40,13 @@ namespace Logic.Services
         public void AddErrand(Mechanic mechanic, Errand errand)
         {
             if (mechanic.CurrentErrands.Count < 3)
-                mechanic.CurrentErrands.Add(errand);
+                mechanic.CurrentErrands.Add(errand.ID);
         }
 
         // Tar bort ärende från mekanikerns lista med ärenden
         public void RemoveErrand(Mechanic mechanic, Errand errand)
         {
-            mechanic.CurrentErrands.Remove(errand);
+            mechanic.CurrentErrands.Remove(errand.ID);
         }
         
         // Vet inte om denna funkar som den ska än

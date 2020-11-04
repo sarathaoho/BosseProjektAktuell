@@ -51,8 +51,8 @@ namespace GUI.Home
                 LastName = "Wallenäs",
                 ID = "1"
             };
-            Database.AllMechanics.Add(mechanic);
-
+            Database.CurrentMechanics.Add(mechanic);
+            
             mechanic = new Mechanic()
             {
                 FirstName = "Julia",
@@ -60,7 +60,8 @@ namespace GUI.Home
                 ID = "2",
 
             };
-            Database.AllMechanics.Add(mechanic);
+            Database.CurrentMechanics.Add(mechanic);
+            
 
             mechanic = new Mechanic()
             {
@@ -69,12 +70,11 @@ namespace GUI.Home
                 ID = "3",
                 UserID = "test"
             };
-            Database.AllMechanics.Add(mechanic);
-
+            Database.CurrentMechanics.Add(mechanic);
+            
            
-
-            // Comboboxen är kopplad till Listor.Mechanics
-            cbMechanics.ItemsSource = Database.AllMechanics.Where(mechanic => mechanic.UserID == null).ToList();
+            // Comboboxen är kopplad till Database.Currentmechanics
+            cbMechanics.ItemsSource = Database.CurrentMechanics.Where(mechanic => mechanic.UserID == null).ToList();
             #endregion
 
         }
@@ -84,7 +84,12 @@ namespace GUI.Home
         {
             // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
             var mechanic = cbMechanics.SelectedItem as Mechanic;
-
+            if (mechanic == null)
+            {
+                MessageBox.Show("Du måste välja en mekaniker att koppla användaren till.", "Felmeddelande");
+            }
+            else
+            {
             // TEST: För skapande av användare
             string username = tbUserName.Text;
             string password = tbPassword.Text;
@@ -96,7 +101,6 @@ namespace GUI.Home
                 Password = password,
                 IsAdmin = false
             };
-
             // Kopplar samman användaren med mekanikern
             mechanic.UserID = user.ID;
 
@@ -106,6 +110,7 @@ namespace GUI.Home
             // Skriver ut till fil
             JsonHelper.WriteFile<User>(Database.Users, _usersPath);
             MessageBox.Show("Användare tillagd.");
+            }
         }
 
         #endregion

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Logic.Database.Entities
 {
-    public class Errand
+    public class Errand : AEntity
     {
         public string Description { get; set; }
 
@@ -16,8 +16,6 @@ namespace Logic.Database.Entities
         public VehiclePart Problem { get; set; }
 
         public ErrandStatus ErrandStatus { get; set; }
-
-        public int ID { get; set; }
 
         public Errand(string description, Vehicle vehicle, VehiclePart problem)
         {

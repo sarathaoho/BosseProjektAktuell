@@ -9,15 +9,13 @@ using System.Text;
 
 namespace Logic.Database
 {
-
-
     // Statisk klass som tar hand om alla listor som ska skrivas till fil
     public static class Database
     {
         private static List<User> _users;
         private static List<Vehicle> _vehicles;
-        private static List<Mechanic> _allMechanics;
-        private static List<Mechanic> _currentMechanics;
+        private static List<Mechanic> _oldMechanics; // Lista för de som inte jobbar kvar på verkstaden
+        private static List<Mechanic> _currentMechanics; // Lista för de som jobbar på verkstaden nu
         private static List<Errand> _errands;
         private static List<VehiclePart> _components;
 
@@ -45,17 +43,17 @@ namespace Logic.Database
             }
             set { _vehicles = value; }
         }
-        public static List<Mechanic> AllMechanics
+        public static List<Mechanic> OldMechanics
         {
             get
             {
-                if (_allMechanics == null)
+                if (_oldMechanics == null)
                 {
-                    _allMechanics = new List<Mechanic>();
+                    _oldMechanics = new List<Mechanic>();
                 }
-                return _allMechanics;
+                return _oldMechanics;
             }
-            set { _allMechanics = value; }
+            set { _oldMechanics = value; }
         }
         public static List<Mechanic> CurrentMechanics
         {
@@ -100,8 +98,6 @@ namespace Logic.Database
                 return _components;
             }
         }
-
-
 
         // Skiter i denna?
         //public Dictionary<string, Vehicle> RegNrDictionary { get; set; }

@@ -26,8 +26,6 @@ namespace ConsoleUtskrift
             Console.Write("Lösenord: ");
             string password = Console.ReadLine();
 
-            bool successful = loginService.Login(username, password);
-
 
             #region Skapar upp mekaniker och lägger in i Listor.Mechanics
             var mechanic1 = new Mechanic()
@@ -38,7 +36,7 @@ namespace ConsoleUtskrift
                 DateOfEmployment = "2005-05-03",
                 MechanicID = "1"
             };
-            Database.AllMechanics.Add(mechanic1);
+            Database.OldMechanics.Add(mechanic1);
 
             mechanic1 = new Mechanic()
             {
@@ -49,7 +47,7 @@ namespace ConsoleUtskrift
                 MechanicID = "2"
             };
 
-            Database.AllMechanics.Add(mechanic1);
+            Database.OldMechanics.Add(mechanic1);
             #endregion
 
             #region Skapar upp två ärenden och läggen in de i Listor.Errands
@@ -238,7 +236,7 @@ namespace ConsoleUtskrift
                         var passWord = Console.ReadLine();
 
                         User user2 = new BasicUser();
-                        foreach (var mechanic in Database.AllMechanics)
+                        foreach (var mechanic in Database.OldMechanics)
                         {
                             Console.WriteLine($"Namn: {mechanic.FirstName} {mechanic.LastName}");
                             Console.WriteLine($"ID: {mechanic.MechanicID}");
@@ -322,6 +320,5 @@ namespace ConsoleUtskrift
 
             return vehicle;
         }
-
     }
 }
