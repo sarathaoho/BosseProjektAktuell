@@ -1,4 +1,5 @@
 ﻿using GUI.Home;
+using Logic.Database.Entities;
 using Logic.Services;
 using System;
 using System.Collections.Generic;
@@ -38,9 +39,10 @@ namespace GUI.Login
             // Nu kan vi logga in genom att bara trycka på logga in
             string username = "Bosse";
             string password = "Meckarn123";
-
+            
             var user = _loginService.Login(username, password);
-
+            //Lade till denna för att kunna logga in, verkade behövas
+            user.IsAdmin = true;
 
             // Om användaren inte finns så skrivs felmeddelande ut
             if (user == null)

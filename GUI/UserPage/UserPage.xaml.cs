@@ -77,7 +77,7 @@ namespace GUI.UsersPage
             }
         }
 
-        private void Lista_Användare_Click(object sender, RoutedEventArgs e)
+        private void ListUsers_Click(object sender, RoutedEventArgs e)
         {
             //Listknappen
             JsonHelper.ReadFile<List>(_usersPath);
@@ -87,5 +87,9 @@ namespace GUI.UsersPage
             //ska man ha detta ens eller är det bara för mekaniker man ska kunna lista ut dem?
         }
 
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            //Lägg till kod för att ta bort användare
+        }
     }
 }

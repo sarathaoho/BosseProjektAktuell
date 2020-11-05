@@ -53,13 +53,14 @@
                                                   Width="186" 
                                                   Height="24" SelectionChanged="cbMechanics_SelectionChanged" Grid.ColumnSpan="2"
                                                   />
-                    <Button x:Name="Lista_Användare" Content="Skriv ut användare" HorizontalAlignment="Left" Margin="65,293,0,0" VerticalAlignment="Top" Height="41" Width="114" Click="Lista_Användare_Click" Grid.Column="1"/>
+                    <Button x:Name="ListUsers" Content="Skriv ut användare" HorizontalAlignment="Left" Margin="65,293,0,0" VerticalAlignment="Top" Height="41" Width="114" Click="ListUsers_Click" Grid.Column="1"/>
                     <Label Content="Lägg till användare" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="231,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Ta bort Användare"/></TextBlock>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="146,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Användarnamn"/><LineBreak/><Run Language="sv-se"/></TextBlock>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="162,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
                     <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="238,74,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Height="18"/>
                     <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="238,98,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Height="18"/>
+                    <Button x:Name="btnRemove" Content="Ta bort&#xD;&#xA;" Grid.Column="1" HorizontalAlignment="Left" Margin="248,175,0,0" VerticalAlignment="Top" Width="81" Height="37"/>
 
 
                 </Grid>
