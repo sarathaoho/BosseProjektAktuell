@@ -17,7 +17,6 @@ namespace Logic.Helpers
             string jsonString = File.ReadAllText(filePath);
             List<T> list = JsonSerializer.Deserialize<List<T>>(jsonString);
             return list;
-
         }
 
         // Skriv ut valfri lista
@@ -31,6 +30,5 @@ namespace Logic.Helpers
             sw.WriteLine(json);
             sw.Close();
         }
-
     }
 }

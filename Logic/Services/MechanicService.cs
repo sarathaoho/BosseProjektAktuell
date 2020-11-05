@@ -3,6 +3,7 @@ using Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Logic.Services
 {
@@ -24,14 +25,12 @@ namespace Logic.Services
         /// Tar bort kompetens om den valda kompetensen finns i listan.
         /// </summary>
         /// <param name="competenceToRemove">Kompetens som ska tas bort</param>
-        public bool TryRemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
+        public void RemoveCompetence(Mechanic mechanic, VehiclePart competenceToRemove)
         {
             if (mechanic.Competences.Contains(competenceToRemove))
             {
                 mechanic.Competences.Remove(competenceToRemove);
-                
             }
-            return mechanic.Competences.Contains(competenceToRemove) ? true : false;
         }
 
         /// <summary>
@@ -41,13 +40,13 @@ namespace Logic.Services
         public void AddErrand(Mechanic mechanic, Errand errand)
         {
             if (mechanic.CurrentErrands.Count < 3)
-                mechanic.CurrentErrands.Add(errand);
+                mechanic.CurrentErrands.Add(errand.ID);
         }
 
         // Tar bort ärende från mekanikerns lista med ärenden
         public void RemoveErrand(Mechanic mechanic, Errand errand)
         {
-            mechanic.CurrentErrands.Remove(errand);
+            mechanic.CurrentErrands.Remove(errand.ID);
         }
         
         // Vet inte om denna funkar som den ska än

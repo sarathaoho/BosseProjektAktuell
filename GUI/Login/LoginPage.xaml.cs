@@ -42,26 +42,26 @@ namespace GUI.Login
             var user = _loginService.Login(username, password);
 
 
-            // Om användaren finns och om den är admin så öppnas huvudrutan
-             //&& user.IsAdmin == true Tog bort sålänge ifrån if-satsen nedan, fick strul med att logga in.
-            if (user != null)
-            {
-                HomePage homePage = new HomePage();
-                this.NavigationService.Navigate(homePage);
-            }
-
-            // Om användaren finns men den inte är admin så öppnas en annan ruta
-            else if (user != null && user.IsAdmin == false)
-            {
-                // Här hamnar koden för basic-användare
-            }
-
             // Om användaren inte finns så skrivs felmeddelande ut
-            else
+            if (user == null)
             {
                 MessageBox.Show(_errorMsg);
                 this.tbUsername.Clear();
                 this.pbPassword.Clear();
+            }
+
+            // Om användaren finns men den inte är admin så öppnas en annan ruta
+            else if (user.IsAdmin == false)
+            {
+                // Här hamnar koden för basic-användare
+            }
+            
+            // Om användaren finns och om den är admin så öppnas huvudrutan
+            else
+            {
+                HomePage homePage = new HomePage();
+                this.NavigationService.Navigate(homePage);
+               
             }
         }
     }
