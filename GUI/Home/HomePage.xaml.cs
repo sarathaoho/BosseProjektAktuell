@@ -72,8 +72,7 @@ namespace GUI.Home
                 UserID = "test"
             };
             Database.CurrentMechanics.Add(mechanic);
-            
-           
+
             // Comboboxen är kopplad till Database.Currentmechanics
             cbMechanics.ItemsSource = Database.CurrentMechanics.Where(mechanic => mechanic.UserID == null).ToList();
             #endregion

@@ -42,7 +42,7 @@ namespace GUI.Login
             
             var user = _loginService.Login(username, password);
             //Lade till denna för att kunna logga in, verkade behövas
-            user.IsAdmin = true;
+            //user.IsAdmin = true;
 
             // Om användaren inte finns så skrivs felmeddelande ut
             if (user == null)
@@ -56,6 +56,7 @@ namespace GUI.Login
             else if (user.IsAdmin == false)
             {
                 // Här hamnar koden för basic-användare
+                // BasicUserHomePage asdasda = new BasicUserHomePage();
             }
             
             // Om användaren finns och om den är admin så öppnas huvudrutan

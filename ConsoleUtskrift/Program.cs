@@ -33,8 +33,7 @@ namespace ConsoleUtskrift
                 FirstName = "Bob",
                 LastName = "Builder",
                 DateOfBirth = "1961-01-01",
-                DateOfEmployment = "2005-05-03",
-                MechanicID = "1"
+                DateOfEmployment = "2005-05-03"
             };
             Database.OldMechanics.Add(mechanic1);
 
@@ -43,8 +42,7 @@ namespace ConsoleUtskrift
                 FirstName = "Peter",
                 LastName = "Wallenäs",
                 DateOfBirth = "1991-11-28",
-                DateOfEmployment = "2018-05-03",
-                MechanicID = "2"
+                DateOfEmployment = "2018-05-03"
             };
 
             Database.OldMechanics.Add(mechanic1);
@@ -235,11 +233,10 @@ namespace ConsoleUtskrift
                         Console.WriteLine("Mata in lösenord: ");
                         var passWord = Console.ReadLine();
 
-                        User user2 = new BasicUser();
+                        User user2 = new User();
                         foreach (var mechanic in Database.OldMechanics)
                         {
                             Console.WriteLine($"Namn: {mechanic.FirstName} {mechanic.LastName}");
-                            Console.WriteLine($"ID: {mechanic.MechanicID}");
                         }
                         Console.WriteLine("Mata in ID på den mekaniker som användaren är kopplad till: ");
                         var userID = Convert.ToInt32(Console.ReadLine());

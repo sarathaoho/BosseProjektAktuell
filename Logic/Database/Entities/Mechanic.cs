@@ -41,9 +41,21 @@ namespace Logic.Database.Entities
 
             }
 
-            set { value = _isAvailable; }
+            set { _isAvailable = value; }
         }
 
+        public void SetIsAvailable()
+        {
+            if (CurrentErrands.Count <2)
+            {
+                _isAvailable = true;
+            }
+            else
+            {
+                _isAvailable = false;
+            }
+
+        }
         
         public Mechanic()
         {

@@ -27,7 +27,7 @@ namespace GUI.MechPage
         readonly MechanicService _mechanicService = new MechanicService();
         private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
         private const string _oldMechanicsPath = @"DAL\Files\OldMechanics.json";
-        
+
 
         private List<VehiclePart> _mechanicCompetences = new List<VehiclePart>();
         private List<VehiclePart> _competences = new List<VehiclePart>()
@@ -49,7 +49,7 @@ namespace GUI.MechPage
             cbMechanics.ItemsSource = Database.CurrentMechanics;
         }
 
-        
+
         private void btnAddMechanic_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbMechanicFirstName.Text)
@@ -80,7 +80,7 @@ namespace GUI.MechPage
             }
         }
 
-       
+
         private void btnLeftArrow_Click(object sender, RoutedEventArgs e)
         {
             VehiclePart competence = (VehiclePart)lbCompetences.SelectedItem;
@@ -108,7 +108,7 @@ namespace GUI.MechPage
             var mechanic = cbMechanics.SelectedItem as Mechanic;
             if (mechanic == null)
                 MessageBox.Show("Fel: Du måste välja en mekaniker");
-            
+
             else
             {
                 MessageBoxResult result = MessageBox.Show($"Är du säker på att du vill ta bort {mechanic.FirstName} {mechanic.LastName}?",
@@ -126,6 +126,7 @@ namespace GUI.MechPage
 
                         cbMechanics.Items.Refresh();
                         MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
+                        UpdateEditPage();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -145,6 +146,7 @@ namespace GUI.MechPage
                 tbLastNameToChange.Watermark = mechanic.LastName;
                 tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
                 tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
+
                 var user = Database.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
                 tbUserID.Text = user != null ? user.Username : "Ingen användare";
             }
@@ -156,7 +158,12 @@ namespace GUI.MechPage
         private void btnLeftArrow2_Click(object sender, RoutedEventArgs e)
         {
             var mechanic = cbMechanics.SelectedItem as Mechanic;
-            try
+
+            if (lbCompetences2.SelectedItem == null)
+            {
+                MessageBox.Show("Du måste välja en kompetens ur listan");
+            }
+            else
             {
                 VehiclePart competence = (VehiclePart)lbCompetences2.SelectedItem;
                 _mechanicService.AddCompetence(mechanic, competence);
@@ -164,12 +171,9 @@ namespace GUI.MechPage
                 lbMechanicCompetences2.Items.Refresh();
                 lbCompetences2.ItemsSource = Database.Competences.Where(x => !mechanic.Competences.Contains(x));
             }
-            catch (System.NullReferenceException)
-            {
-                MessageBox.Show("Du måste välja en kompetens i listan");
-            }
 
-            
+
+
         }
 
         // Ta bort kompetenser från mekaniker som redan existerar
@@ -185,7 +189,7 @@ namespace GUI.MechPage
             lbCompetences2.ItemsSource = Database.Competences.Where(x => !mechanic.Competences.Contains(x));
         }
 
-      
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             EditMechanic();
@@ -262,6 +266,6 @@ namespace GUI.MechPage
             return original != input && !string.IsNullOrWhiteSpace(input);
         }
 
-        
+
     }
 }

@@ -51,29 +51,36 @@ namespace GUI.UsersPage
             //Lägg till användare knappen
             {
                 // ComboBoxen är nu vald som User, lägg till val för Mekaniker/Admin
-                var NewUser = cbUsers.SelectedItem as User;
-                
-                // TEST: För skapande av användare
-                string userName = tbUserName.Text;
-                string password = tbPassword.Text;
-
-                // Skapar upp en ny användare
-                User user = new User()
+                var mechanic = cbUsers.SelectedItem as Mechanic;
+                if (mechanic == null)
                 {
-                    Username = userName,
-                    Password = password,
-                    IsAdmin = false
-                };
+                    MessageBox.Show("FEL!");
+                }
 
-                // Ger användaren ett GUID
-                user.UserID = user.ID;
+                else
+                {
+                    // TEST: För skapande av användare
+                    string userName = tbUserName.Text;
+                    string password = tbPassword.Text;
 
-                // Lägger till användaren i Users
-                Database.Users.Add(user);
+                    // Skapar upp en ny användare
+                    User user = new User()
+                    {
+                        Username = userName,
+                        Password = password,
+                        IsAdmin = false
+                    };
 
-                // Skriver ut till fil
-                JsonHelper.WriteFile<User>(Database.Users, _usersPath);
-                MessageBox.Show("Användare tillagd.");
+                    // Ger användaren ett GUID
+                    user.MechanicID = mechanic.ID;
+
+                    // Lägger till användaren i Users
+                    Database.Users.Add(user);
+
+                    // Skriver ut till fil
+                    JsonHelper.WriteFile<User>(Database.Users, _usersPath);
+                    MessageBox.Show("Användare tillagd.");
+                }
             }
         }
 
