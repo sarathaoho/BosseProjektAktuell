@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="Bosses Bilverkstad" Height="1000" Width="1100" Source="/Login/LoginPage.xaml">
+        Title="Bosses Bilverkstad" Height="600" Width="1100" Source="/Login/LoginPage.xaml" ResizeMode="NoResize">
 
 
 

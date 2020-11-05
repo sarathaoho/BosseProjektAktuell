@@ -1,4 +1,6 @@
-﻿using Logic.Database;
+﻿using GUI.MechPage;
+using GUI.UsersPage;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
 using Logic.Helpers;
@@ -7,6 +9,7 @@ using Logic.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
@@ -30,23 +33,27 @@ namespace GUI.Home
     /// </summary>
     public partial class HomePage : Page
     {
-        readonly MechanicService _mechanicService = new MechanicService();
+        
         readonly UserService _userService = new UserService();
+
+        private const string _usersPath = @"DAL\Files\Users.json";
+
+        
 
 
         public HomePage()
         {
             InitializeComponent();
 
-            #region Kod för Ärendesidan
+            #region Kod för Användarsidan
             Mechanic mechanic = new Mechanic()
             {
                 FirstName = "Peter",
                 LastName = "Wallenäs",
                 ID = "1"
             };
-            Listor.Mechanics.Add(mechanic);
-
+            Database.CurrentMechanics.Add(mechanic);
+            
             mechanic = new Mechanic()
             {
                 FirstName = "Julia",
@@ -54,76 +61,72 @@ namespace GUI.Home
                 ID = "2",
 
             };
-            Listor.Mechanics.Add(mechanic);
+            Database.CurrentMechanics.Add(mechanic);
+            
 
             mechanic = new Mechanic()
             {
                 FirstName = "Calle",
                 LastName = "Maelan",
-                ID = "3"
+                ID = "3",
+                UserID = "test"
             };
-            Listor.Mechanics.Add(mechanic);
+            Database.CurrentMechanics.Add(mechanic);
 
-
-            // Comboboxen är kopplad till Listor.Mechanics
-
-            cbBox.ItemsSource = Listor.Mechanics;
-            
-
-            cbBox.ItemsSource = Listor.Mechanics;
-            #endregion
-
-           
-
-            #region Kod för Mekanikersidan
-
+            // Comboboxen är kopplad till Database.Currentmechanics
+            cbMechanics.ItemsSource = Database.CurrentMechanics.Where(mechanic => mechanic.UserID == null).ToList();
             #endregion
 
         }
 
         #region Metoder för användarrutan
-        private void bAdd_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             // Tar emot den valda mekanikern från comboboxen och gör om det objektet till en mekaniker
-            var mechanic = cbBox.SelectedItem as Mechanic;
-
+            var mechanic = cbMechanics.SelectedItem as Mechanic;
+            if (mechanic == null)
+            {
+                MessageBox.Show("Du måste välja en mekaniker att koppla användaren till.", "Felmeddelande");
+            }
+            else
+            {
             // TEST: För skapande av användare
-            string userName = tbUserName.Text;
+            string username = tbUserName.Text;
             string password = tbPassword.Text;
-            string ID = mechanic.ID; // Hämtar ID-propertyn från mekanikern
-
 
             // Skapar upp en ny användare
             User user = new User()
             {
-                Username = userName,
+                Username = username,
                 Password = password,
-                ID = ID,
                 IsAdmin = false
             };
-            
+            // Kopplar samman användaren med mekanikern
+            mechanic.UserID = user.ID;
+
             // Lägger till användaren i Users
-            Listor.Users.Add(user);
-            
-            // TODO: Använd JsonHelper.WriteFile istället
-            string json = JsonSerializer.Serialize(Listor.Users);
+            Database.Users.Add(user);
 
-            FileStream fs = File.OpenWrite(@"DAL\Files\User.json");
-            StreamWriter sw = new StreamWriter(fs);
-
-            sw.WriteLine(json);
-            sw.Close();
-
+            // Skriver ut till fil
+            JsonHelper.WriteFile<User>(Database.Users, _usersPath);
             MessageBox.Show("Användare tillagd.");
-
-            
+            }
         }
-        #endregion
-
-        #region Metoder för Mekanikerrutan
 
         #endregion
 
+ 
+
+        private void btnMechanicPage_Click(object sender, RoutedEventArgs e)
+        {
+            var mechanicPage = new MechanicPage();
+            this.NavigationService.Navigate(mechanicPage);
+        }
+
+        private void btnUserPage_Click(object sender, RoutedEventArgs e)
+        {
+            UserPage userPage = new UserPage();
+            this.NavigationService.Navigate(userPage);
+        }
     }
-
 }

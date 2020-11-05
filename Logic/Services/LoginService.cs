@@ -2,6 +2,7 @@
 using Logic.Database.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Logic.Services
@@ -17,12 +18,22 @@ namespace Logic.Services
             _dbUser = new UserDataAccess<User>();
         }
 
-        public bool Login(string username, string password)
+        // Returnerar en användare (innan returnerade den bool)
+
+        /// <summary>
+        /// Returnerar en användare om den finns i listan med användare
+        /// </summary>
+        /// <param name="username">Användarnamn att söka på</param>
+        /// <param name="password">Lösenord att söka på</param>
+        /// <returns></returns>
+        public User Login(string username, string password)
         {
 
             List<User> users = _dbUser.GetList();
 
-            return users.Exists(user => user.Username.Equals(username) && user.Password.Equals(password));
+            return users.FirstOrDefault(user => user.Username.Equals(username) && user.Password.Equals(password));
         }
+
+        
     }
 }

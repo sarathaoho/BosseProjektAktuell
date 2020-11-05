@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Logic.Services
 {
-    //public interface IErrandService
-    //{
-    //    public void AddErrand();
-    //    public void RemoveErrand();
-    //}
+    public interface IErrandService
+    {
+        public void AddErrand();
+        public void RemoveErrand();
+    }
 
     // Klass för att sköta all logik med ärenden
     public static class ErrandService

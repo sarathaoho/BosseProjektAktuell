@@ -15,8 +15,9 @@ namespace Logic.DAL
     {
         // Behöver skapa mappen om den inte finns när programmet startas
         // TODO: Fixa också path till att inte bara hämta User
+        // TODO: Fixa så att path funkar för alla
         private const string path = @"DAL\Files\User.json"; 
-
+       
 
         /// <summary>
         /// https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to

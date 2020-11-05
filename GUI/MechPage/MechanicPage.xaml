@@ -1,0 +1,101 @@
+﻿<Page x:Class="GUI.MechPage.MechanicPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GUI.MechPage" xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="MechanicPage">
+
+
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <TabControl>
+            <TabItem x:Name="tabMekaniker" Header="Mekaniker">
+                <Grid>
+                    <Label Content="Skapa ny mekaniker" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox Watermark="Förnamn" x:Name="tbMechanicFirstName" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Efternamn" x:Name="tbMechanicLastName" HorizontalAlignment="Left" Margin="150,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Födelsedatum (YYYY-MM-DD)" x:Name="tbDateOfBirth" HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" FontSize="8"/>
+                    <extToolkit:WatermarkTextBox Watermark="Anställningsdatum (YYYY-MM-DD)" x:Name="tbDateOfEmployment" HorizontalAlignment="Left" Margin="150,70,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="132" FontSize="8"/>
+
+
+                    <ListBox x:Name="lbMechanicCompetences" MaxHeight="118" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" Height="118" Width="100"/>
+                    <ListBox x:Name="lbCompetences" MaxHeight="118" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="182,111,0,0" Height="118" Width="100"/>
+
+                    <Button x:Name="btnLeftArrow" Content="&lt;" HorizontalAlignment="Left" Margin="120,111,0,0" VerticalAlignment="Top" FontSize="8" Height="23" Width="51" Click="btnLeftArrow_Click"/>
+                    <Button x:Name="btnRightArrow" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="8" Click="btnRightArrow_Click" Margin="123,206,0,0" Width="45" Height="23"/>
+
+                    <Button x:Name="btnAddMechanic" Content="Lägg till" HorizontalAlignment="Left" Margin="236,228,0,0" VerticalAlignment="Top" Click="btnAddMechanic_Click"/>
+                    <Label Content="Mekanikerns kompetenser" HorizontalAlignment="Left" Margin="5,94,0,0" VerticalAlignment="Top" FontSize="8" Height="28" Width="110"/>
+                    <!--<Grid Margin="10,97,512,419">-->
+
+
+                    <!--</Grid>-->
+
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Ändra mekaniker">
+                <Grid>
+                    <extToolkit:WatermarkComboBox x:Name="cbMechanics" Watermark="Mekaniker" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbMechanics_SelectionChanged"/>
+                    <Label Content="Välj mekaniker som ska ändras" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Height="26" Width="181"/>
+                    <Label Content="Ändra kompetenser: " HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="btnRemove" Content="Ta bort mekaniker" HorizontalAlignment="Left" Margin="336,250,0,0" VerticalAlignment="Top" Click="btnRemove_Click" Height="22" Width="99"/>
+
+                    <ListBox x:Name="lbMechanicCompetences2" MaxHeight="118" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" Height="118" Width="100"/>
+                    <ListBox x:Name="lbCompetences2" MaxHeight="118" MinHeight="100" MaxWidth="100" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,111,0,0" Height="118" Width="100"/>
+
+                    <Button x:Name="btnLeftArrow2" Content="&lt;" HorizontalAlignment="Left" Margin="115,111,0,0" VerticalAlignment="Top" FontSize="8" Height="23" Width="51" Click="btnLeftArrow2_Click"/>
+                    <Button x:Name="btnRightArrow2" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="8" Click="btnRightArrow2_Click" Margin="115,206,0,0" Width="51" Height="23"/>
+                    <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="481,250,0,0" VerticalAlignment="Top" Click="btnSave_Click" Height="22" Width="58"/>
+
+                    <Label Content="Ändra egenskaper:" HorizontalAlignment="Left" Margin="331,70,0,0" VerticalAlignment="Top"/>
+
+                    <Label Content="Förnamn: " HorizontalAlignment="Left" Margin="331,97,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox x:Name="tbFirstNameToChange" HorizontalAlignment="Left" Margin="447,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="25"/>
+
+                    <Label Content="Efternamn: " HorizontalAlignment="Left" Margin="331,128,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox x:Name="tbLastNameToChange" HorizontalAlignment="Left" Margin="447,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="24"/>
+
+                    <Label Content="Anställningsdatum: " HorizontalAlignment="Left" Margin="331,156,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox x:Name="tbDateOfEmploymentToChange" HorizontalAlignment="Left" Margin="447,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="24"/>
+
+                    <Label Content="Födelsedatum: " HorizontalAlignment="Left" Margin="331,188,0,0" VerticalAlignment="Top"/>
+                    <extToolkit:WatermarkTextBox x:Name="tbDateOfBirthToChange" HorizontalAlignment="Left" Margin="447,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="24"/>
+                    <Label Content="Användare: " HorizontalAlignment="Left" Margin="331,216,0,0" VerticalAlignment="Top"/>
+
+                    <TextBlock x:Name="tbUserID" HorizontalAlignment="Left" Margin="447,221,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="184"/>
+                    <Label Content="Mek. kompetenser" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" FontSize="10"/>
+                    <Label Content="Tillgängliga" HorizontalAlignment="Left" Margin="172,88,0,0" VerticalAlignment="Top" FontSize="10" Width="100"/>
+                   
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Lista mekaniker">
+
+
+            </TabItem>
+
+        </TabControl>
+
+
+
+    </Grid>
+
+
+</Page>

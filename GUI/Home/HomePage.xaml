@@ -4,144 +4,62 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GUI.Home"
-       xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
       xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1100"
-      Title="HomePage">
+      d:DesignHeight="400" d:DesignWidth="500"
+      Title="Bosses bilverkstad - Hem">
 
     <Page.Resources>
         <DataTemplate DataType="{x:Type entities:Mechanic}">
             <StackPanel Orientation="Horizontal">
+                <TextBlock Text=" "/>
                 <TextBlock Text="{Binding FirstName}"/>
                 <TextBlock Text=" "/>
                 <TextBlock Text="{Binding LastName}"/>
+                <TextBlock Text=" "/>
             </StackPanel>
-
         </DataTemplate>
     </Page.Resources>
-    <Grid>
-
-        <Grid>
-
-            <Grid>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="150"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-
-                </Grid.ColumnDefinitions>
-                <Border CornerRadius="20" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                    <Border.Background>
-                        <LinearGradientBrush>
-                            <GradientStop Color="#FFE2C3C3" Offset="0.0"/>
-                            <GradientStop Color="#FFCA4D4D" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-
-                    <!--ComboBox-->
-                    <StackPanel Height="50" Width="200" >
-                        <!--<TextBlock FontSize="18"  Background="LightPink" FontStyle="Italic">Namn </TextBlock>-->
-
-                        <extToolkit:WatermarkComboBox Watermark="Namn" x:Name="cbBox" FontStyle="Italic">
-                            <extToolkit:WatermarkComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="BorderBrush" Value="Yellow"/>
-                                    <Setter Property="BorderBrush" Value="Yellow"/>
-                                </Style>
-                            </extToolkit:WatermarkComboBox.ItemContainerStyle>
-                        </extToolkit:WatermarkComboBox>
 
 
+    <Grid Margin="0,0,0, 0" Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TabControl>
+            <TabItem x:Name="tabAnvändare" Header="Lägg till användare">
+                <Grid Height="375" Margin="0,0,7,0">
+                    <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="118,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top" Height="16" Width="81"/>
+                    <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="81"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+                    <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="116,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18"/>
+                    <Button x:Name="btnAdd" Content="Lägg till" HorizontalAlignment="Left" Margin="116,197,0,0" VerticalAlignment="Top" Click="btnAdd_Click" Height="39" Width="86"/>
+
+                    <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
+                                                  x:Name="cbMechanics"  
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="16,129,0,0" 
+                                                  VerticalAlignment="Top" 
+                                                  Width="186" 
+                                                  Height="24"
+                                                  />
+                    <Button x:Name="btnMechanicPage" Content="Mekanikersidan" HorizontalAlignment="Left" Margin="390,71,0,0" VerticalAlignment="Top" Click="btnMechanicPage_Click"/>
+                    <Button x:Name="btnUserPage" Content="Användarsidan" HorizontalAlignment="Left" Margin="398,106,0,0" VerticalAlignment="Top" Click="btnUserPage_Click"/>
 
 
+                </Grid>
 
+            </TabItem>
+            <TabItem x:Name="tabÄrenden"  Header="Ärenden">
+            </TabItem>
+        </TabControl>
 
-                    </StackPanel>
-
-
-                    <!--ComboBox Iteam Source-->
-
-
-
-
-
-
-
-                </Border>
-
-                <StackPanel Grid.Row="1" >
-                    <StackPanel Margin="75,10,0,0" Orientation="Horizontal" >
-                        <extToolkit:WatermarkTextBox  FontFamily="Helvetica"
-                             FontWeight="Light"
-                             Watermark="Användarnamn"
-                             x:Name="tbUserName"
-                             FontSize="30"
-                             Foreground="Black"
-                             Background="Pink" 
-                             BorderThickness="0"
-                             Width="200"
-                             HorizontalContentAlignment="Left"
-                             Opacity="1"
-                             Height="40" FontStyle="Italic" 
-                             />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Margin="75,30,0,0">
-                        <extToolkit:WatermarkTextBox  FontFamily="Helvetica"
-                             FontWeight="Light"
-                             Watermark="Lösenord"
-                             x:Name="tbPassword"
-                             FontSize="30"
-                             Foreground="Black"
-                             Background="Pink" 
-                             BorderThickness="0"
-                             Width="200"
-                             HorizontalContentAlignment="Left"
-                             Opacity="1"
-                             Height="40" FontStyle="Italic" 
-                             />
-
-                    </StackPanel>
-
-
-                    <StackPanel 
-                           Orientation="Horizontal" Margin="-8,50,0,0">
-                        <Button  Width="100" Height="30"
-                         Content="Lägg till" 
-                             FontSize="20"
-                             Margin="125,0,0,0" 
-                             Foreground="Black"
-                             Background="Pink" Click="Button_Click" 
-                                
-                            />
-
-                    </StackPanel>
-                </StackPanel>
-                <Label Content="Meny" Margin="315,55,30,440"
-                        FontFamily="Eras ITC"                                            
-                             FontSize="72"
-                             Foreground="Black"
-                             Background="Transparent"          
-                             Opacity="1" Grid.Column="1" Grid.RowSpan="2"/>
-
-                <Label Content="Lägg till mekaniker" Margin="-540,55,30,440"
-                        FontFamily="Eras ITC"                                            
-                             FontSize="70"
-                             Foreground="Black"
-                             Background="Transparent"          
-                             Opacity="1" Grid.Column="1" Grid.RowSpan="2"/>
-            </Grid>
-        </Grid>
-        <Button   FontSize="20" Content="Ärenden" HorizontalAlignment="Left" Margin="850,160,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink"/>
-        <Button FontSize="20" Content="Tillgängliga" HorizontalAlignment="Left" Margin="850,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink"/>
-        <Button FontSize="20" Content="Button" HorizontalAlignment="Left" Margin="850,280,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Width="205" Height="35" Background="LightPink"/>
-        <Button FontSize="20"   Content="Button" HorizontalAlignment="Left" Margin="850,340,0,0" VerticalAlignment="Top" Width="205" Height="35"  Background="LightPink"/>
-        <ComboBox HorizontalAlignment="Left" Margin="1220,530,0,0" VerticalAlignment="Top" Width="120" Background="Transparent"/>
 
     </Grid>
 </Page>
