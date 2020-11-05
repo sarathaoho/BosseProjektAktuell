@@ -69,10 +69,10 @@ namespace GUI.UsersPage
                 user.UserID = user.ID;
 
                 // Lägger till användaren i Users
-                Listor.Users.Add(user);
+                Database.Users.Add(user);
 
                 // Skriver ut till fil
-                JsonHelper.WriteFile<User>(Listor.Users, _usersPath);
+                JsonHelper.WriteFile<User>(Database.Users, _usersPath);
                 MessageBox.Show("Användare tillagd.");
             }
         }
