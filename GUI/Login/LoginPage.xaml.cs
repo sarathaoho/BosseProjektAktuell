@@ -40,10 +40,11 @@ namespace GUI.Login
             string password = "Meckarn123";
 
             var user = _loginService.Login(username, password);
-            
+
 
             // Om användaren finns och om den är admin så öppnas huvudrutan
-            if (user != null && user.IsAdmin == true)
+             //&& user.IsAdmin == true Tog bort sålänge ifrån if-satsen nedan, fick strul med att logga in.
+            if (user != null)
             {
                 HomePage homePage = new HomePage();
                 this.NavigationService.Navigate(homePage);

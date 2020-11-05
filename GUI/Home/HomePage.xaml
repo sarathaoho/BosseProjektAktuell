@@ -50,6 +50,7 @@
                                                   Height="24"
                                                   />
                     <Button x:Name="btnMechanicPage" Content="Mekanikersidan" HorizontalAlignment="Left" Margin="390,71,0,0" VerticalAlignment="Top" Click="btnMechanicPage_Click"/>
+                    <Button x:Name="btnUserPage" Content="Användarsidan" HorizontalAlignment="Left" Margin="398,106,0,0" VerticalAlignment="Top" Click="btnUserPage_Click"/>
 
 
                 </Grid>

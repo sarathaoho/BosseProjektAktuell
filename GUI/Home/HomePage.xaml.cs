@@ -1,4 +1,5 @@
 ﻿using GUI.MechPage;
+using GUI.UsersPage;
 using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
@@ -118,6 +119,12 @@ namespace GUI.Home
         {
             var mechanicPage = new MechanicPage();
             this.NavigationService.Navigate(mechanicPage);
+        }
+
+        private void btnUserPage_Click(object sender, RoutedEventArgs e)
+        {
+            UserPage userPage = new UserPage();
+            this.NavigationService.Navigate(userPage);
         }
     }
 }

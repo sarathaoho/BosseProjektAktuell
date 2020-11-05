@@ -1,0 +1,75 @@
+﻿<Page x:Class="GUI.UsersPage.UserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GUI.UsersPage"
+      xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="500"
+      Title="Bosses bilverkstad - Hem">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type entities:User}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+                <TextBlock Text=" "/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+
+    <Grid Margin="0,0,0, 0" Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TabControl>
+            <TabItem x:Name="tabAnvändare" Header="Användare">
+                <Grid Height="375" Margin="0,0,7,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="129*"/>
+                        <ColumnDefinition Width="358*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="118,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top" Height="16" Width="81"/>
+                    <Label Content="Lägg till användare" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="81"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+                    <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="116,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
+                    <Button x:Name="btnAdd" Content="Lägg till" HorizontalAlignment="Left" Margin="64,173,0,0" VerticalAlignment="Top" Click="btnAdd_Click" Height="39" Width="86" Grid.ColumnSpan="2"/>
+
+                    <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
+                                                  x:Name="cbUsers"  
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="16,129,0,0" 
+                                                  VerticalAlignment="Top" 
+                                                  Width="186" 
+                                                  Height="24" SelectionChanged="cbMechanics_SelectionChanged" Grid.ColumnSpan="2"
+                                                  />
+                    <Button x:Name="Lista_Användare" Content="Skriv ut användare" HorizontalAlignment="Left" Margin="65,293,0,0" VerticalAlignment="Top" Height="41" Width="114" Click="Lista_Användare_Click" Grid.Column="1"/>
+                    <Label Content="Lägg till användare" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="231,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Ta bort Användare"/></TextBlock>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="146,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Användarnamn"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="162,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="238,74,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Height="18"/>
+                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="238,98,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Height="18"/>
+
+
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</Page>
+
+
+ 

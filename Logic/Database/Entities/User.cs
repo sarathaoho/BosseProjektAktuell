@@ -13,5 +13,6 @@ namespace Logic.Database.Entities
         public string Password { get; set; }
         //public string MechanicID { get; set; } // Gör en service av att ta emot ID, och sen koppla till mekanikerns id
         public bool IsAdmin { get; set; }
+        public string UserID { get; set; }
     }
 }
