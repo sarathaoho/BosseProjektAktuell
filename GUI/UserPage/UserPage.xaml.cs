@@ -72,13 +72,13 @@ namespace GUI.UsersPage
                     };
 
                     // Ger användaren ett GUID
-                    user.MechanicID = mechanic.ID;
+                    //user.MechanicID = mechanic.ID;
 
                     // Lägger till användaren i Users
-                    Database.Users.Add(user);
+                    db.Users.Add(user);
 
                     // Skriver ut till fil
-                    JsonHelper.WriteFile<User>(Database.Users, _usersPath);
+                    JsonHelper.WriteFile<User>(db.Users, _usersPath);
                     MessageBox.Show("Användare tillagd.");
                 }
             }

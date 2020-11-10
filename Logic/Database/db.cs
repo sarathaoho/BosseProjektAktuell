@@ -10,7 +10,7 @@ using System.Text;
 namespace Logic.Database
 {
     // Statisk klass som tar hand om alla listor som ska skrivas till fil
-    public static class Database
+    public static class db
     {
         private static List<User> _users;
         private static List<Vehicle> _vehicles;

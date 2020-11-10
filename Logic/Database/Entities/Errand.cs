@@ -11,24 +11,15 @@ namespace Logic.Database.Entities
     {
         public string Description { get; set; }
 
-        public Vehicle Vehicle { get; set; }
+        public string VehicleID { get; set; }
 
         public VehiclePart Problem { get; set; }
 
         public ErrandStatus ErrandStatus { get; set; }
 
-        public Errand(string description, Vehicle vehicle, VehiclePart problem)
-        {
-            Description = description;
-            Vehicle = vehicle;
-            Problem = problem;
-
-            ErrandStatus = ErrandStatus.Röd;
-        }
-
         public Errand()
         {
-
+            ErrandStatus = ErrandStatus.Röd;
         }
     }
 }
