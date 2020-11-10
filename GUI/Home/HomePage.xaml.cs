@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,12 +34,12 @@ namespace GUI.Home
     /// </summary>
     public partial class HomePage : Page
     {
-        
+
         readonly UserService _userService = new UserService();
 
         private const string _usersPath = @"DAL\Files\Users.json";
 
-        
+
 
 
         public HomePage()
@@ -53,7 +54,7 @@ namespace GUI.Home
                 ID = "1"
             };
             Database.CurrentMechanics.Add(mechanic);
-            
+
             mechanic = new Mechanic()
             {
                 FirstName = "Julia",
@@ -62,7 +63,7 @@ namespace GUI.Home
 
             };
             Database.CurrentMechanics.Add(mechanic);
-            
+
 
             mechanic = new Mechanic()
             {
@@ -90,32 +91,44 @@ namespace GUI.Home
             }
             else
             {
-            // TEST: För skapande av användare
-            string username = tbUserName.Text;
-            string password = tbPassword.Text;
+                // TEST: För skapande av användare
 
-            // Skapar upp en ny användare
-            User user = new User()
-            {
-                Username = username,
-                Password = password,
-                IsAdmin = false
-            };
-            // Kopplar samman användaren med mekanikern
-            mechanic.UserID = user.ID;
+    
 
-            // Lägger till användaren i Users
-            Database.Users.Add(user);
+                string username = tbUserName.Text;
 
-            // Skriver ut till fil
-            JsonHelper.WriteFile<User>(Database.Users, _usersPath);
-            MessageBox.Show("Användare tillagd.");
+                bool IsCorrect = _userService.Regexx(username);
+
+                if (!IsCorrect)
+                {
+                    MessageBox.Show("Fel email försök igen!");
+                    return;
+                }
+
+                string password = tbPassword.Text;
+
+                // Skapar upp en ny användare
+                User user = new User()
+                {
+                    Username = username,
+                    Password = password,
+                    IsAdmin = false
+                };
+                // Kopplar samman användaren med mekanikern
+                mechanic.UserID = user.ID;
+
+                // Lägger till användaren i Users
+                Database.Users.Add(user);
+
+                // Skriver ut till fil
+                JsonHelper.WriteFile<User>(Database.Users, _usersPath);
+                MessageBox.Show("Användare tillagd.");
             }
         }
 
         #endregion
 
- 
+
 
         private void btnMechanicPage_Click(object sender, RoutedEventArgs e)
         {

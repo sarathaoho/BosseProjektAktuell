@@ -7,6 +7,9 @@ namespace Logic.Database.Entities.Vehicles
 {
     public abstract class Vehicle : AEntity
     {
+       
+
+
         public string ModelName { get; set; }
         public string LicensePlate { get; set; }
         public string RegistrationDate { get; set; }
