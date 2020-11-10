@@ -42,7 +42,7 @@ namespace GUI.Login
             
             var user = _loginService.Login(username, password);
             //Lade till denna för att kunna logga in, verkade behövas
-            user.IsAdmin = true;
+            //user.IsAdmin = true;
 
             // Om användaren inte finns så skrivs felmeddelande ut
             if (user == null)
