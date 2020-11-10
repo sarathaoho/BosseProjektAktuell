@@ -9,10 +9,17 @@ namespace Logic.Database.Entities.Vehicles
     {
         public bool HasTowbar { get; set; }
         public CarType CarType { get; set; }
-        public Car()
+
+        public Car(string modelName, string registrationDate, Fuel fuelType, bool hasTowbar, CarType carType) : base(modelName, registrationDate, fuelType)
         {
+            HasTowbar = hasTowbar;
+            CarType = carType;
             Wheels = 4;
         }
 
+        public Car()
+        {
+            
+        }
     }
 }

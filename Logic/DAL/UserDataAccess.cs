@@ -29,6 +29,5 @@ namespace Logic.DAL
             List<T> list = JsonHelper.ReadFile<T>(path);
             return list;
         }
-
     }
 }

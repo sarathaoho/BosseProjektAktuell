@@ -11,11 +11,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace GUI.MechPage
 {
@@ -27,7 +29,7 @@ namespace GUI.MechPage
         readonly MechanicService _mechanicService = new MechanicService();
         private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
         private const string _oldMechanicsPath = @"DAL\Files\OldMechanics.json";
-        
+
 
         private List<VehiclePart> _mechanicCompetences = new List<VehiclePart>();
         private List<VehiclePart> _competences = new List<VehiclePart>()
@@ -41,15 +43,29 @@ namespace GUI.MechPage
 
         public MechanicPage()
         {
+            var mech = new Mechanic()
+            {
+                FirstName = "Bob",
+                LastName = "Johnson",
+                Competences = new List<VehiclePart>() { VehiclePart.Bromsar, VehiclePart.Hjul },
+                LastDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                DateOfEmployment = "1999-05-24",
+                DateOfBirth = "1952-08-02"
+            };
+
+            db.OldMechanics.Add(mech);
+
             InitializeComponent();
 
             UpdateAddMechanicPage();
             lbMechanicCompetences.ItemsSource = _mechanicCompetences;
             lbCompetences.ItemsSource = _competences;
-            cbMechanics.ItemsSource = Database.CurrentMechanics;
+            cbMechanics.ItemsSource = db.CurrentMechanics;
+            cbOldMechanics.ItemsSource = db.OldMechanics;
         }
 
-        
+        #region Skapa mekaniker
+
         private void btnAddMechanic_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbMechanicFirstName.Text)
@@ -57,7 +73,7 @@ namespace GUI.MechPage
                 || string.IsNullOrWhiteSpace(tbDateOfBirth.Text)
                 || string.IsNullOrWhiteSpace(tbDateOfEmployment.Text))
             {
-                MessageBox.Show("Felaktig inmatning");
+                System.Windows.MessageBox.Show("Felaktig inmatning");
             }
 
             else
@@ -72,60 +88,144 @@ namespace GUI.MechPage
 
                 _mechanicCompetences.ForEach(competence => _mechanicService.AddCompetence(mechanic, competence));
 
-                Database.CurrentMechanics.Add(mechanic);
-                JsonHelper.WriteFile(Database.CurrentMechanics, _currentMechanicsPath);
+                db.CurrentMechanics.Add(mechanic);
+                JsonHelper.WriteFile(db.CurrentMechanics, _currentMechanicsPath);
 
-                MessageBox.Show("Mekaniker skapad");
+                System.Windows.MessageBox.Show("Mekaniker skapad");
                 UpdateAddMechanicPage();
             }
         }
 
-       
         private void btnLeftArrow_Click(object sender, RoutedEventArgs e)
         {
-            VehiclePart competence = (VehiclePart)lbCompetences.SelectedItem;
+            if (lbCompetences.SelectedItem != null)
+            {
+                VehiclePart competence = (VehiclePart)lbCompetences.SelectedItem;
 
-            _mechanicCompetences.Add(competence);
-            _competences.Remove(competence);
 
-            lbMechanicCompetences.Items.Refresh();
-            lbCompetences.Items.Refresh();
+                _mechanicCompetences.Add(competence);
+                _competences.Remove(competence);
+
+                lbMechanicCompetences.Items.Refresh();
+                lbCompetences.Items.Refresh();
+            }
+
         }
 
         private void btnRightArrow_Click(object sender, RoutedEventArgs e)
         {
-            VehiclePart competence = (VehiclePart)lbMechanicCompetences.SelectedItem;
+            if (lbMechanicCompetences.SelectedItem != null)
+            {
+                VehiclePart competence = (VehiclePart)lbMechanicCompetences.SelectedItem;
 
-            _mechanicCompetences.Remove(competence);
-            _competences.Add(competence);
+                _mechanicCompetences.Remove(competence);
+                _competences.Add(competence);
 
-            lbMechanicCompetences.Items.Refresh();
-            lbCompetences.Items.Refresh();
+                lbMechanicCompetences.Items.Refresh();
+                lbCompetences.Items.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region Ändra/lista mekaniker
+
+        private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbMechanics.SelectedItem is Mechanic mechanic)
+            {
+                lbMechanicCompetences2.ItemsSource = mechanic.Competences;
+                //lbCompetences.ItemsSource = Database.Competences;
+
+                lbCompetences2.ItemsSource = db.Competences.Where(competence => !mechanic.Competences.Contains(competence));
+
+                tbFirstNameToChange.Watermark = mechanic.FirstName;
+                tbLastNameToChange.Watermark = mechanic.LastName;
+
+                tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
+                tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
+
+                var user = db.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
+                tbUserID.Text = user != null ? user.Username : "Ingen användare";
+            }
+        }
+
+        private void cbOldMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbOldMechanics.SelectedItem is Mechanic oldMechanic)
+            {
+                ViewOldMechanic(oldMechanic);
+            }
+        }
+
+        private void ViewOldMechanic(Mechanic oldMechanic)
+        {
+            lbOldMechanicCompetences.ItemsSource = oldMechanic.Competences;
+            tbOldMechanicFirstname.Text = oldMechanic.FirstName;
+            tbOldMechanicLastname.Text = oldMechanic.LastName;
+            tbOldMechanicDateOfEmployment.Text = oldMechanic.DateOfEmployment;
+            tbOldMechanicLastDate.Text = oldMechanic.LastDate;
+            tbOldMechanicDateOfBirth.Text = oldMechanic.DateOfBirth;
+        }
+
+        // Lägg till kompetenser hos mekaniker som redan existerar
+        //TODO: Fixa try/catch om någon bara klickar på knappen utan att ha valt ett objekt
+        private void btnLeftArrow2_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (lbCompetences2.SelectedItem != null)
+            {
+                var mechanic = cbMechanics.SelectedItem as Mechanic;
+
+                VehiclePart competence = (VehiclePart)lbCompetences2.SelectedItem;
+                _mechanicService.AddCompetence(mechanic, competence);
+
+                lbMechanicCompetences2.Items.Refresh();
+                lbCompetences2.ItemsSource = db.Competences.Where(x => !mechanic.Competences.Contains(x));
+            }
+        }
+
+        private void btnRightArrow2_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (lbCompetences2.SelectedItem != null)
+            {
+                var mechanic = cbMechanics.SelectedItem as Mechanic;
+                
+                VehiclePart competence = (VehiclePart)lbMechanicCompetences2.SelectedItem;
+
+                _mechanicService.RemoveCompetence(mechanic, competence);
+
+                lbMechanicCompetences2.Items.Refresh();
+
+                lbCompetences2.ItemsSource = db.Competences.Where(x => !mechanic.Competences.Contains(x));
+            }
+
         }
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            if (mechanic == null)
-                MessageBox.Show("Fel: Du måste välja en mekaniker");
-            
+            if (!(cbMechanics.SelectedItem is Mechanic mechanic))
+                System.Windows.MessageBox.Show("Fel: Du måste välja en mekaniker");
+
             else
             {
-                MessageBoxResult result = MessageBox.Show($"Är du säker på att du vill ta bort {mechanic.FirstName} {mechanic.LastName}?",
+                MessageBoxResult result = System.Windows.MessageBox.Show($"Är du säker på att du vill ta bort {mechanic.FirstName} {mechanic.LastName}?",
                     "Ta bort mekaniker", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
                         mechanic.LastDate = DateTime.Now.ToString("yyyy-MM-dd");
-                        Database.CurrentMechanics.Remove(mechanic);
-                        Database.OldMechanics.Add(mechanic);
+                        db.CurrentMechanics.Remove(mechanic);
+                        db.OldMechanics.Add(mechanic);
 
                         // HOWTO: Behöver jag göra såhär?
-                        JsonHelper.WriteFile(Database.OldMechanics, _oldMechanicsPath);
-                        JsonHelper.WriteFile(Database.CurrentMechanics, _currentMechanicsPath);
+                        JsonHelper.WriteFile(db.OldMechanics, _oldMechanicsPath);
+                        JsonHelper.WriteFile(db.CurrentMechanics, _currentMechanicsPath);
 
                         cbMechanics.Items.Refresh();
-                        MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
+                        System.Windows.MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
+                        UpdateEditPage();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -133,66 +233,14 @@ namespace GUI.MechPage
             }
         }
 
-        // När man ändrar mekaniker i Combo boxen
-        private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            if (mechanic != null)
-            {
-                lbMechanicCompetences2.ItemsSource = mechanic.Competences;
-                lbCompetences2.ItemsSource = Database.Competences.Where(competence => !mechanic.Competences.Contains(competence));
-                tbFirstNameToChange.Watermark = mechanic.FirstName;
-                tbLastNameToChange.Watermark = mechanic.LastName;
-                tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
-                tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
-                var user = Database.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
-                tbUserID.Text = user != null ? user.Username : "Ingen användare";
-            }
-        }
-
-
-        // Lägg till kompetenser hos mekaniker som redan existerar
-        //TODO: Fixa try/catch om någon bara klickar på knappen utan att ha valt ett objekt
-        private void btnLeftArrow2_Click(object sender, RoutedEventArgs e)
-        {
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            try
-            {
-                VehiclePart competence = (VehiclePart)lbCompetences2.SelectedItem;
-                _mechanicService.AddCompetence(mechanic, competence);
-
-                lbMechanicCompetences2.Items.Refresh();
-                lbCompetences2.ItemsSource = Database.Competences.Where(x => !mechanic.Competences.Contains(x));
-            }
-            catch (System.NullReferenceException)
-            {
-                MessageBox.Show("Du måste välja en kompetens i listan");
-            }
-
-            
-        }
-
-        // Ta bort kompetenser från mekaniker som redan existerar
-        private void btnRightArrow2_Click(object sender, RoutedEventArgs e)
-        {
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            VehiclePart competence = (VehiclePart)lbMechanicCompetences2.SelectedItem;
-
-            _mechanicService.RemoveCompetence(mechanic, competence);
-
-            lbMechanicCompetences2.Items.Refresh();
-
-            lbCompetences2.ItemsSource = Database.Competences.Where(x => !mechanic.Competences.Contains(x));
-        }
-
-      
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             EditMechanic();
             UpdateEditPage();
 
-            MessageBox.Show($"Ändringar sparade");
+            System.Windows.MessageBox.Show($"Ändringar sparade");
         }
+        #endregion
 
         private void UpdateEditPage()
         {
@@ -200,6 +248,8 @@ namespace GUI.MechPage
             cbMechanics.Items.Refresh();
 
             lbMechanicCompetences2.ItemsSource = null;
+            lbCompetences2.ItemsSource = null;
+
 
             tbFirstNameToChange.Watermark = string.Empty;
             tbFirstNameToChange.Text = string.Empty;
@@ -214,19 +264,19 @@ namespace GUI.MechPage
         private void UpdateAddMechanicPage()
         {
             cbMechanics.Items.Refresh();
+
             tbMechanicFirstName.Text = string.Empty;
             tbMechanicLastName.Text = string.Empty;
             tbDateOfBirth.Text = string.Empty;
             tbDateOfEmployment.Text = string.Empty;
 
             _competences.Clear();
-            _competences.AddRange(Database.Competences);
+            _competences.AddRange(db.Competences);
             _mechanicCompetences.Clear();
 
             lbCompetences.Items.Refresh();
             lbMechanicCompetences.Items.Refresh();
         }
-
         private void EditMechanic()
         {
             var mechanic = cbMechanics.SelectedItem as Mechanic;
@@ -256,12 +306,10 @@ namespace GUI.MechPage
                 mechanic.DateOfEmployment = tbDateOfEmploymentToChange.Text;
             }
         }
-
         private bool IsChanged(string original, string input)
         {
             return original != input && !string.IsNullOrWhiteSpace(input);
         }
 
-        
     }
 }

@@ -41,7 +41,7 @@ namespace Logic.Database.Entities
 
             }
 
-            set { value = _isAvailable; }
+            set { _isAvailable = value; }
         }
 
         
