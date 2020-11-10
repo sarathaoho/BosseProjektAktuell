@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Logic.Database;
 
 namespace Logic.Services
 {
@@ -34,26 +35,32 @@ namespace Logic.Services
         }
 
         /// <summary>
-        /// Lägger till ärende i listan med nuvarande ärenden, om listan inte är full (det finns 2 ärenden i listan redna)
+        /// Lägger till ärende i listan med nuvarande ärenden, om listan inte är full (det finns 2 ärenden i listan redan)
         /// </summary>
         /// <param name="errand"></param>
-        public void AddErrand(Mechanic mechanic, Errand errand)
+        public void AddErrand(string mechanicID, string errandID)
         {
-            if (mechanic.CurrentErrands.Count < 3)
-                mechanic.CurrentErrands.Add(errand.ID);
+            var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.ID == mechanicID);
+            var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
+
+            if (mechanic.CurrentErrands.Count < 2)
+            {
+                mechanic.CurrentErrands.Add(errandID);
+                errand.ErrandStatus = ErrandStatus.Gul;
+            }
         }
 
         // Tar bort ärende från mekanikerns lista med ärenden
-        public void RemoveErrand(Mechanic mechanic, Errand errand)
-        {
-            mechanic.CurrentErrands.Remove(errand.ID);
-        }
+        //public void RemoveErrand(string mechanicID, Errand errand)
+        //{
+        //    mechanic.CurrentErrands.Remove(errand.ID);
+        //}
         
         // Vet inte om denna funkar som den ska än
-        public void ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
-        {
-            errand.ErrandStatus = statusToReturn;
-        }
+        //public void ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
+        //{
+        //    errand.ErrandStatus = statusToReturn;
+        //}
 
 
     }

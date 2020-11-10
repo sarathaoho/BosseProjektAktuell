@@ -7,6 +7,91 @@
       xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
       mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1100"
+      Title="Bosses bilverkstad - Hem">
+
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+            </StackPanel>
+
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+
+        <Grid>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="162"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="20" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#FFE2C3C3" Offset="0.0"/>
+                            <GradientStop Color="#FFCA4D4D" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+
+                </Border>
+
+                <StackPanel Grid.Row="1" >
+                    <StackPanel Margin="75,10,0,0" Orientation="Horizontal" />
+
+                    <StackPanel Orientation="Horizontal" Margin="75,30,0,0"/>
+
+
+                    <StackPanel 
+                           Orientation="Horizontal" Margin="-8,50,0,0"/>
+                </StackPanel>
+                <Label Content="Meny" Margin="315,55,30,4"
+                        FontFamily="Eras ITC"                                            
+                             FontSize="72"
+                             Foreground="Black"
+                             Background="Transparent"          
+                             Opacity="1" Grid.Column="1"/>
+
+                <Label Content="Välkommen Bosse!" Margin="10,55,30,4"
+                        FontFamily="Eras ITC"                                            
+                             FontSize="70"
+                             Foreground="Black"
+                             Background="Transparent"          
+                             Opacity="1" Grid.ColumnSpan="2"/>
+                <Label Content="Här någonstans kanske vi lägger lite info som är bra att veta (liggande ärenden, födelsedagar etc)" HorizontalAlignment="Left" Margin="10,133,0,0" Grid.Row="1" VerticalAlignment="Top" Width="540" Height="26"/>
+
+
+            </Grid>
+        </Grid>
+        <Button x:Name="btnErrandPage"   FontSize="20" Content="Ärenden" HorizontalAlignment="Left" Margin="850,160,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink" Click="btnErrandPage_Click"/>
+        <Button x:Name="btnMechanicPage" FontSize="20" Content="Mekaniker" HorizontalAlignment="Left" Margin="850,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink" Click="btnMechanicPage_Click"/>
+        <Button x:Name="btnUserPage" FontSize="20" Content="Användare" HorizontalAlignment="Left" Margin="850,280,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Width="205" Height="35" Background="LightPink" Click="btnUserPage_Click" />
+
+
+    </Grid>
+</Page>
+
+
+
+<!--<Page x:Class="GUI.Home.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GUI.Home"
+      xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
+      mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="500"
       Title="Bosses bilverkstad - Hem">
 
@@ -62,4 +147,11 @@
 
 
     </Grid>
-</Page>
+</Page>-->
+    
+    
+
+    
+    
+    
+    

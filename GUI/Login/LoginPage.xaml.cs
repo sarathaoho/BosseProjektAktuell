@@ -38,8 +38,8 @@ namespace GUI.Login
 
             // Nu kan vi logga in genom att bara trycka på logga in
             string username = "Bosse";
-            string password = "Meckarn123";
-
+            string password = "Meckarn123";                 
+            
             var user = _loginService.Login(username, password);
             //Lade till denna för att kunna logga in, verkade behövas
             //user.IsAdmin = true;
@@ -58,22 +58,14 @@ namespace GUI.Login
                 // Här hamnar koden för basic-användare
                 // BasicUserHomePage asdasda = new BasicUserHomePage();
             }
-
+            
             // Om användaren finns och om den är admin så öppnas huvudrutan
             else
             {
                 HomePage homePage = new HomePage();
                 this.NavigationService.Navigate(homePage);
-
+               
             }
-
-
-
-
-
-
-
-
         }
     }
 }

@@ -39,7 +39,7 @@ namespace ConsoleUtskrift
                 DateOfBirth = "1961-01-01",
                 DateOfEmployment = "2005-05-03"
             };
-            Database.OldMechanics.Add(mechanic1);
+            db.OldMechanics.Add(mechanic1);
 
             mechanic1 = new Mechanic()
             {
@@ -49,7 +49,7 @@ namespace ConsoleUtskrift
                 DateOfEmployment = "2018-05-03"
             };
 
-            Database.OldMechanics.Add(mechanic1);
+            db.OldMechanics.Add(mechanic1);
             #endregion
 
             #region Skapar upp två ärenden och läggen in de i Listor.Errands
@@ -64,7 +64,7 @@ namespace ConsoleUtskrift
                     LicensePlate = "QWE345"
                 }
             };
-            Database.Errands.Add(errand1);
+            db.Errands.Add(errand1);
 
             errand1 = new Errand(
                 "Kund klagar på att motorn låter",
@@ -78,7 +78,7 @@ namespace ConsoleUtskrift
                 },
                 VehiclePart.Motor);
 
-            Database.Errands.Add(errand1);
+            db.Errands.Add(errand1);
             #endregion
 
             var competence = VehiclePart.Bromsar;
@@ -139,7 +139,7 @@ namespace ConsoleUtskrift
                             var vehicleChoice = VehicleChooser();
                             var vehicle = ConsoleHelper.CreateVehicle(vehicleChoice);
 
-                            Database.Vehicles.Add(vehicle);
+                            db.Vehicles.Add(vehicle);
 
                             var errand = new Errand() { Description = errandDescription, Problem = problem, Vehicle = vehicle };
                             //bool success = user.TryAddErrand(errand);
@@ -164,7 +164,7 @@ namespace ConsoleUtskrift
                             Console.WriteLine("----ÄNDRA ÄRENDE----");
                             Console.WriteLine("Vilket ärende vill du ändra på?");
 
-                            if (Database.Errands.Count == 0)
+                            if (db.Errands.Count == 0)
                             {
                                 Console.WriteLine("Det finns inga liggande eller pågående ärenden.");
                             }
@@ -177,7 +177,7 @@ namespace ConsoleUtskrift
                                 var licensePlateToMatch = Console.ReadLine().ToUpper().Replace(" ", "");
 
                                 Errand errandToChange = null;
-                                foreach (var err in Database.Errands)
+                                foreach (var err in db.Errands)
                                 {
                                     if (err.Vehicle.LicensePlate == licensePlateToMatch)
                                     {
@@ -240,7 +240,7 @@ namespace ConsoleUtskrift
                         var passWord = Console.ReadLine();
 
                         User user2 = new User();
-                        foreach (var mechanic in Database.OldMechanics)
+                        foreach (var mechanic in db.OldMechanics)
                         {
                             Console.WriteLine($"Namn: {mechanic.FirstName} {mechanic.LastName}");
                         }
@@ -268,7 +268,7 @@ namespace ConsoleUtskrift
 
         private static void PrintUnfinishedErrands()
         {
-            foreach (var err in Database.Errands)
+            foreach (var err in db.Errands)
             {
                 if (err.ErrandStatus != ErrandStatus.Grön)
                 {
