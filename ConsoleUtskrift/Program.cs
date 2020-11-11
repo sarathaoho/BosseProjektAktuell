@@ -12,12 +12,16 @@ using GUI.Home;
 using Logic.Models;
 using Logic.Helpers;
 using Logic.Extensions;
+using System.Security.Cryptography.X509Certificates;
+using System.ComponentModel.DataAnnotations;
+using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace ConsoleUtskrift
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Test av inloggningsservice
             LoginService loginService = new LoginService();
@@ -80,6 +84,8 @@ namespace ConsoleUtskrift
             var competence = VehiclePart.Bromsar;
 
             MechanicService mechanicService = new MechanicService();
+
+
             
 
         }
@@ -316,6 +322,26 @@ namespace ConsoleUtskrift
             }
 
             return vehicle;
+
+
+        }
+
+        //bool Email = true;
+        //while (Email)
+        //{
+        //    MessageBox.Show("Ange en email:");
+        //    string Username = Console.ReadLine();
+        //    if (Regex.IsMatch(Username, @"^([\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$"))
+        //    {
+        //        MessageBox.Show("du har angett en giltig email");
+        //        Email = false;
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Felaktig imat, försk igen!");
+        //    }
+        
+            
         }
     }
 }

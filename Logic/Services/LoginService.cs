@@ -32,8 +32,27 @@ namespace Logic.Services
             List<User> users = _dbUser.GetList();
 
             return users.FirstOrDefault(user => user.Username.Equals(username) && user.Password.Equals(password));
+
+
+
+
+
+
+
+           
+            }
         }
 
+       
+
+
+
+
+
+
+
+
+
         
-    }
+    
 }
