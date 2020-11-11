@@ -41,7 +41,7 @@ namespace GUI.UsersPage
         {
             InitializeComponent();
 
-            cbMechanics.ItemsSource = Database.CurrentMechanics;
+            cbMechanics.ItemsSource = db.CurrentMechanics;
         }
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,7 +56,7 @@ namespace GUI.UsersPage
                 //tbLastNameToChange.Watermark = mechanic.LastName;
                 //tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
                 //tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
-                var mechanics = Database.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
+                var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
                 tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
             }
 
@@ -68,7 +68,7 @@ namespace GUI.UsersPage
             //Lägg till användare knappen
             {
                 // ComboBoxen är nu vald som User, lägg till val för Mekaniker/Admin
-                var NewUser = cbMechanics.SelectedItem as Mechanic;
+                var mechanic = cbMechanics.SelectedItem as Mechanic;
                 
                 // TEST: För skapande av användare
                 string userName = tbUserName.Text;
@@ -83,13 +83,13 @@ namespace GUI.UsersPage
                 };
 
                 // Ger användaren ett GUID
-                user.MechanicID = user.ID;
+                user.MechanicID = mechanic.ID;
 
                 // Lägger till användaren i Users
-                Database.Users.Add(user);
+                db.Users.Add(user);
 
                 // Skriver ut till fil
-                JsonHelper.WriteFile<User>(Database.Users, _usersPath);
+                JsonHelper.WriteFile<User>(db.Users, _usersPath);
                 MessageBox.Show("Användare tillagd.");
             }
         }
@@ -169,7 +169,7 @@ namespace GUI.UsersPage
                 tbUserNameSwap.Watermark = users.Username;
                 tbPasswordSwap.Watermark = users.Password;
                 
-                var user = Database.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
+                var user = db.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
                 tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
             }
         }

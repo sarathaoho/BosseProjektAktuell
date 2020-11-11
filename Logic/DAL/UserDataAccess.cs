@@ -16,7 +16,10 @@ namespace Logic.DAL
         // Behöver skapa mappen om den inte finns när programmet startas
         // TODO: Fixa också path till att inte bara hämta User
         // TODO: Fixa så att path funkar för alla
-        private const string path = @"DAL\Files\User.json"; 
+        //private const string path = @"DAL\Files\User.json";
+        private readonly string path = $@"DAL\Files\{typeof(T).Name}.json";
+
+
        
 
         /// <summary>
@@ -25,9 +28,18 @@ namespace Logic.DAL
         /// <returns></returns>
         public List<T> GetList()
         {
-            string jsonString = File.ReadAllText(path);
+            //TODO: Fånga upp om mapp/fil inte finns
+            //string jsonString = File.ReadAllText(path);
+           
             List<T> list = JsonHelper.ReadFile<T>(path);
             return list;
         }
+
+        public void WriteList(List<T> list)
+        {
+            JsonHelper.WriteFile<T>(list, path);
+        }
+
+        
     }
 }

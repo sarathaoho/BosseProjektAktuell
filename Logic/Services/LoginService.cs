@@ -33,26 +33,7 @@ namespace Logic.Services
 
             return users.FirstOrDefault(user => user.Username.Equals(username) && user.Password.Equals(password));
 
-
-
-
-
-
-
-           
-            }
         }
 
-       
-
-
-
-
-
-
-
-
-
-        
-    
+    }     
 }

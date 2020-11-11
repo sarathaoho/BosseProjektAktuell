@@ -1,4 +1,5 @@
-﻿using Logic.Database;
+﻿using Logic.DAL;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
 using Logic.Extensions;
@@ -19,15 +20,18 @@ namespace Logic.Services
     // Klass för att sköta all logik med ärenden
     public class ErrandService
     {
-        private const string _errandsPath = @"DAL\Files\Errands.json";
+        private readonly UserDataAccess<Errand> _dbErrand;
 
-
+        public ErrandService()
+        {
+            _dbErrand = new UserDataAccess<Errand>();
+        }
       public string CreateAndWriteErrand(string description, VehiclePart problem, string vehicleID)
         {
             var errand = new Errand() { Description = description, Problem = problem, VehicleID = vehicleID };
             db.Errands.Add(errand);
-            JsonHelper.WriteFile(db.Errands, _errandsPath);
-            
+            //JsonHelper.WriteFile(db.Errands, _errandsPath);
+            _dbErrand.WriteList(db.Errands);
             return errand.ID;
         }
     }

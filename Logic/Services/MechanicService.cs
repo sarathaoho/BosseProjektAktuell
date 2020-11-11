@@ -51,12 +51,16 @@ namespace Logic.Services
         }
 
         // Tar bort ärende från mekanikerns lista med ärenden
-        //public void RemoveErrand(string mechanicID, Errand errand)
-        //{
-        //    mechanic.CurrentErrands.Remove(errand.ID);
-        //}
-        
-        // Vet inte om denna funkar som den ska än
+        public void RemoveErrand(string mechanicID, string errandID)
+        {
+            var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.ID == mechanicID);
+            var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
+            
+            mechanic.CurrentErrands.Remove(errand.ID);
+            errand.ErrandStatus = ErrandStatus.Grön;
+        }
+
+        //Vet inte om denna funkar som den ska än
         //public void ChangeErrandStatus(Errand errand, ErrandStatus statusToReturn)
         //{
         //    errand.ErrandStatus = statusToReturn;

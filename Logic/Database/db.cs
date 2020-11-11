@@ -18,6 +18,16 @@ namespace Logic.Database
         private static List<Mechanic> _currentMechanics; // Lista för de som jobbar på verkstaden nu
         private static List<Errand> _errands;
         private static List<VehiclePart> _components;
+        private static List<Car> _cars;
+        private static List<Motorcycle> _motorcycles;
+        private static List<Bus> _buses;
+        private static List<Truck> _trucks;
+
+        //public class MinaVechiacleListor
+        //{
+        //    public List<Car> Cars { get; set; }
+        //    public List<Motorcycle> Bikes { get; set; }
+        //}
 
         public static List<User> Users
         {
@@ -43,6 +53,71 @@ namespace Logic.Database
             }
             set { _vehicles = value; }
         }
+
+        public static List<Car> Cars
+        {
+            get
+            {
+                if (_cars == null)
+                {
+                    _cars = new List<Car>();
+                }
+                return _cars;
+            }
+            set
+            {
+                _cars = value;
+            }
+        }
+        public static List<Motorcycle> Motorcycles
+        {
+            get
+            {
+                if (_motorcycles == null)
+                {
+                    _motorcycles = new List<Motorcycle>();
+                }
+                return _motorcycles;
+
+            }
+            set
+            {
+                _motorcycles = value;
+            }
+        }
+        public static List<Bus> Buses
+        {
+            get
+            {
+                if (_buses == null)
+                {
+                    _buses = new List<Bus>();
+                }
+                return _buses;
+
+            }
+            set
+            {
+                _buses = value;
+            }
+        }
+        public static List<Truck> Trucks
+        {
+            get
+            {
+                if (_trucks == null)
+                {
+                    _trucks = new List<Truck>();
+                }
+                return _trucks;
+
+            }
+            set
+            {
+                _trucks = value;
+            }
+        }
+
         public static List<Mechanic> OldMechanics
         {
             get

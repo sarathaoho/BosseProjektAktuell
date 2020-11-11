@@ -17,6 +17,8 @@ namespace Logic.Database.Entities
 
         public ErrandStatus ErrandStatus { get; set; }
 
+        public string MechanicID { get; set; }
+
         public Errand()
         {
             ErrandStatus = ErrandStatus.Röd;
