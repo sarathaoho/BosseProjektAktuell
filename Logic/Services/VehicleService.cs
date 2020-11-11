@@ -1,6 +1,5 @@
 ﻿using Logic.Database;
 using Logic.Database.Entities.Vehicles;
-using Logic.Exceptions;
 using Logic.Helpers;
 using Logic.Models;
 using System;
