@@ -1,6 +1,7 @@
 ﻿using GUI.Errands;
 using GUI.MechPage;
 using GUI.UsersPage;
+using Logic.DAL;
 using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
@@ -35,37 +36,45 @@ namespace GUI.Home
     public partial class HomePage : Page
     {
 
+        private readonly UserDataAccess<Mechanic> _dbMechanics;
+
         public HomePage()
         {
             InitializeComponent();
 
-            // Dummies
-            Mechanic mechanic = new Mechanic()
-            {
-                FirstName = "Peter",
-                LastName = "Wallenäs",
-                ID = "1"
-            };
-            db.CurrentMechanics.Add(mechanic);
-            
-            mechanic = new Mechanic()
-            {
-                FirstName = "Julia",
-                LastName = "Berglund",
-                ID = "2",
+            // Test utan dummies
 
-            };
-            db.CurrentMechanics.Add(mechanic);
+            //_dbMechanics = new UserDataAccess<Mechanic>();
+
+            //// Dummies
+            //Mechanic mechanic = new Mechanic()
+            //{
+            //    FirstName = "Peter",
+            //    LastName = "Wallenäs",
+            //    ID = "1"
+            //};
+            //db.CurrentMechanics.Add(mechanic);
+            
+            //mechanic = new Mechanic()
+            //{
+            //    FirstName = "Julia",
+            //    LastName = "Berglund",
+            //    ID = "2",
+
+            //};
+            //db.CurrentMechanics.Add(mechanic);
             
 
-            mechanic = new Mechanic()
-            {
-                FirstName = "Calle",
-                LastName = "Maelan",
-                ID = "3",
-                UserID = "test"
-            };
-            db.CurrentMechanics.Add(mechanic);
+            //mechanic = new Mechanic()
+            //{
+            //    FirstName = "Calle",
+            //    LastName = "Maelan",
+            //    ID = "3",
+            //    UserID = "test"
+            //};
+            //db.CurrentMechanics.Add(mechanic);
+            //_dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
+
         }
 
         private void btnMechanicPage_Click(object sender, RoutedEventArgs e)

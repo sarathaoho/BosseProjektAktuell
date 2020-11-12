@@ -1,4 +1,5 @@
-﻿using Logic.Database;
+﻿using Logic.DAL;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Helpers;
 using Logic.Models;
@@ -26,44 +27,39 @@ namespace GUI.MechPage
     /// </summary>
     public partial class MechanicPage : Page
     {
-        readonly MechanicService _mechanicService = new MechanicService();
-        private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
-        private const string _oldMechanicsPath = @"DAL\Files\OldMechanics.json";
+        private readonly MechanicService _mechanicService;
+        private readonly UserService _userService;
 
+        private readonly List<VehiclePart> _mechanicCompetences;
+        private readonly List<VehiclePart> _competences;
+        private readonly UserDataAccess<Mechanic> _dbMechanics;
 
-        private List<VehiclePart> _mechanicCompetences = new List<VehiclePart>();
-        private List<VehiclePart> _competences = new List<VehiclePart>()
-        {
-            VehiclePart.Kaross,
-            VehiclePart.Bromsar,
-            VehiclePart.Motor,
-            VehiclePart.Hjul,
-            VehiclePart.Vindruta
-        };
 
         public MechanicPage()
         {
-            var mech = new Mechanic()
-            {
-                FirstName = "Bob",
-                LastName = "Johnson",
-                Competences = new List<VehiclePart>() { VehiclePart.Bromsar, VehiclePart.Hjul },
-                LastDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                DateOfEmployment = "1999-05-24",
-                DateOfBirth = "1952-08-02"
-            };
-
-            db.OldMechanics.Add(mech);
-
             InitializeComponent();
+
+            _mechanicService = new MechanicService();
+            _userService = new UserService();
+            _mechanicCompetences = new List<VehiclePart>();
+            _dbMechanics = new UserDataAccess<Mechanic>();
+            _competences = new List<VehiclePart>();
+
+            db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
+            db.OldMechanics = _dbMechanics.LoadOldMechanics();
 
             UpdateAddMechanicPage();
             lbMechanicCompetences.ItemsSource = _mechanicCompetences;
             lbCompetences.ItemsSource = _competences;
+        }
+        private void RefreshLists()
+        {
+            db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
+            db.OldMechanics = _dbMechanics.LoadOldMechanics();
+
             cbMechanics.ItemsSource = db.CurrentMechanics;
             cbOldMechanics.ItemsSource = db.OldMechanics;
         }
-
         #region Skapa mekaniker
 
         private void btnAddMechanic_Click(object sender, RoutedEventArgs e)
@@ -78,23 +74,60 @@ namespace GUI.MechPage
 
             else
             {
-                var mechanic = new Mechanic()
-                {
-                    FirstName = tbMechanicFirstName.Text,
-                    LastName = tbMechanicLastName.Text,
-                    DateOfBirth = tbDateOfBirth.Text,
-                    DateOfEmployment = tbDateOfEmployment.Text,
-                };
+                //var dateOfBirth = dpMechanicDateOfBirth.SelectedDate;
+                string firstName = tbMechanicFirstName.Text;
+                string lastName = tbMechanicLastName.Text;
+                string dateOfBirth = tbDateOfBirth.Text;
+                string dateOfEmployment = tbDateOfEmployment.Text;
 
-                _mechanicCompetences.ForEach(competence => _mechanicService.AddCompetence(mechanic, competence));
+                //if (!DateFormatIsCorrect(dateOfBirth) && !DateFormatIsCorrect(dateOfBirth))
+                //{
+                //    System.Windows.MessageBox.Show("Fel format på datumen. Formatet ska vara \"YYYY-MM-DD\"", "Felaktigt datumformat");
+                //}
 
-                db.CurrentMechanics.Add(mechanic);
-                JsonHelper.WriteFile(db.CurrentMechanics, _currentMechanicsPath);
+                _mechanicService.CreateAndSaveMechanic(firstName, lastName, dateOfBirth, dateOfEmployment, _mechanicCompetences);
 
+                
                 System.Windows.MessageBox.Show("Mekaniker skapad");
                 UpdateAddMechanicPage();
+                RefreshLists();
             }
         }
+
+        //private bool DateFormatIsCorrect(string date)
+        //{
+
+        //    if (date.Length != 10)
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        for (int i = 0; i < date.Length;)
+        //        {
+        //            while (i < 4 || (i > 4 && i < 7) || (i > 7 && i < date.Length))
+        //            {
+        //                if (!char.IsDigit(date[i]))
+        //                {
+        //                    return false;
+        //                }
+        //                i++;
+
+        //            }
+
+        //            while (i == 4 || i == 7)
+        //            {
+        //                if (date[i] != '-')
+        //                {
+        //                    return false;
+        //                }
+        //                i++;
+        //            }
+
+        //        }
+        //    }
+        //    return true;
+        //}
 
         private void btnLeftArrow_Click(object sender, RoutedEventArgs e)
         {
@@ -134,22 +167,14 @@ namespace GUI.MechPage
         {
             if (cbMechanics.SelectedItem is Mechanic mechanic)
             {
-                lbMechanicCompetences2.ItemsSource = mechanic.Competences;
-                //lbCompetences.ItemsSource = Database.Competences;
+                lbMechanicCompetences2.ItemsSource = mechanic.Competences; // TODO: Kanske göra detta till en metod med? GetCompetences(Mechanic mechanic)
+                lbCompetences2.ItemsSource = _mechanicService.GetRemainingCompetences(mechanic);
+                GetMechanicInfo(mechanic);
 
-                lbCompetences2.ItemsSource = db.Competences.Where(competence => !mechanic.Competences.Contains(competence));
-
-                tbFirstNameToChange.Watermark = mechanic.FirstName;
-                tbLastNameToChange.Watermark = mechanic.LastName;
-
-                tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
-                tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
-
-                var user = db.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
+                var user = _userService.GetAssignedUserFromMechanic(mechanic);
                 tbUserID.Text = user != null ? user.Username : "Ingen användare";
             }
         }
-
         private void cbOldMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbOldMechanics.SelectedItem is Mechanic oldMechanic)
@@ -157,7 +182,14 @@ namespace GUI.MechPage
                 ViewOldMechanic(oldMechanic);
             }
         }
+        private void GetMechanicInfo(Mechanic mechanic)
+        {
+            tbFirstNameToChange.Watermark = mechanic.FirstName;
+            tbLastNameToChange.Watermark = mechanic.LastName;
 
+            tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
+            tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
+        }
         private void ViewOldMechanic(Mechanic oldMechanic)
         {
             lbOldMechanicCompetences.ItemsSource = oldMechanic.Competences;
@@ -169,7 +201,6 @@ namespace GUI.MechPage
         }
 
         // Lägg till kompetenser hos mekaniker som redan existerar
-        //TODO: Fixa try/catch om någon bara klickar på knappen utan att ha valt ett objekt
         private void btnLeftArrow2_Click(object sender, RoutedEventArgs e)
         {
 
@@ -181,24 +212,25 @@ namespace GUI.MechPage
                 _mechanicService.AddCompetence(mechanic, competence);
 
                 lbMechanicCompetences2.Items.Refresh();
-                lbCompetences2.ItemsSource = db.Competences.Where(x => !mechanic.Competences.Contains(x));
+                lbCompetences2.ItemsSource = _mechanicService.GetRemainingCompetences(mechanic);
+                _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
             }
         }
-
         private void btnRightArrow2_Click(object sender, RoutedEventArgs e)
         {
 
             if (lbCompetences2.SelectedItem != null)
             {
                 var mechanic = cbMechanics.SelectedItem as Mechanic;
-                
+
                 VehiclePart competence = (VehiclePart)lbMechanicCompetences2.SelectedItem;
 
                 _mechanicService.RemoveCompetence(mechanic, competence);
 
                 lbMechanicCompetences2.Items.Refresh();
 
-                lbCompetences2.ItemsSource = db.Competences.Where(x => !mechanic.Competences.Contains(x));
+                lbCompetences2.ItemsSource = _mechanicService.GetRemainingCompetences(mechanic);
+                _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
             }
 
         }
@@ -215,24 +247,19 @@ namespace GUI.MechPage
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        mechanic.LastDate = DateTime.Now.ToString("yyyy-MM-dd");
-                        db.CurrentMechanics.Remove(mechanic);
-                        db.OldMechanics.Add(mechanic);
-
-                        // HOWTO: Behöver jag göra såhär?
-                        JsonHelper.WriteFile(db.OldMechanics, _oldMechanicsPath);
-                        JsonHelper.WriteFile(db.CurrentMechanics, _currentMechanicsPath);
+                        _mechanicService.RemoveMechanic(mechanic);
 
                         cbMechanics.Items.Refresh();
                         System.Windows.MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
                         UpdateEditPage();
+                        RefreshLists();
                         break;
+
                     case MessageBoxResult.No:
                         break;
                 }
             }
         }
-
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             EditMechanic();
@@ -263,6 +290,8 @@ namespace GUI.MechPage
         }
         private void UpdateAddMechanicPage()
         {
+            RefreshLists();
+
             cbMechanics.Items.Refresh();
 
             tbMechanicFirstName.Text = string.Empty;
@@ -305,11 +334,19 @@ namespace GUI.MechPage
             {
                 mechanic.DateOfEmployment = tbDateOfEmploymentToChange.Text;
             }
+
+            _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
+
+
         }
         private bool IsChanged(string original, string input)
         {
             return original != input && !string.IsNullOrWhiteSpace(input);
         }
 
+        private void dpMechanicDateOfBirth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Logic.Database.Entities;
+﻿using Logic.DAL;
+using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
 using Logic.Models;
 using Logic.Services;
@@ -173,6 +174,8 @@ namespace Logic.Database
                 return _components;
             }
         }
+
+        
 
         // Skiter i denna?
         //public Dictionary<string, Vehicle> RegNrDictionary { get; set; }

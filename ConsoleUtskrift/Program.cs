@@ -24,6 +24,10 @@ namespace ConsoleUtskrift
     {
         public static void Main(string[] args)
         {
+            string datum = "1991-11-28";
+
+            var dtDatum = DateTime.Parse(datum);
+
             List<Vehicle> fordon = new List<Vehicle>();
 
             var car = new Car()
@@ -38,7 +42,7 @@ namespace ConsoleUtskrift
                 Wheels = 4
             };
             fordon.Add(car);
-            
+
             var motorcycle = new Motorcycle()
             {
                 ModelName = "Motorcykel1",
@@ -308,8 +312,8 @@ namespace ConsoleUtskrift
         //    {
         //        Console.WriteLine("Felaktig imat, försk igen!");
         //    }
-        
-            
+
+
         //}
     }
 }

@@ -94,7 +94,6 @@
         <Label Content="Beskrivning:" HorizontalAlignment="Left" Margin="264,77,0,0" VerticalAlignment="Top" FontSize="10" Width="68" Height="23" Grid.Column="1"/>
         <TextBox x:Name="tbErrandDescription" HorizontalAlignment="Left" Margin="345,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173" Height="104" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" IsReadOnly="True"/>
 
-        <!--<Label x:Name="lblErrandTilldelaMekaniker" Content="Tilldela mekaniker:" HorizontalAlignment="Left" Margin="267,260,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1" Visibility="Hidden"/>-->
         <extToolkit:WatermarkComboBox x:Name="cbErrandAvailableMechanics" Watermark="Lediga mekaniker" HorizontalAlignment="Left" Margin="389,216,0,0" VerticalAlignment="Top" Width="129" Height="22" Grid.Column="1" Visibility="Hidden"/>
 
         <Label Content="Fordon:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
