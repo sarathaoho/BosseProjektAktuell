@@ -32,88 +32,61 @@ namespace GUI.Errands
         private readonly List<Fuel> _fuelType = new List<Fuel>() { Fuel.Bensin, Fuel.Diesel, Fuel.Elektrisk };
         private readonly List<VehiclePart> _vehicleParts = new List<VehiclePart>() { VehiclePart.Kaross, VehiclePart.Bromsar, VehiclePart.Motor, VehiclePart.Hjul, VehiclePart.Vindruta };
 
-        // TODO: Fixa detta
-        private readonly MechanicService _mechanicService = new MechanicService();
-        private readonly VehicleService _vehicleService = new VehicleService();
-        private readonly ErrandService _errandService = new ErrandService();
+        private readonly MechanicService _mechanicService;
+        private readonly VehicleService _vehicleService;
+        private readonly ErrandService _errandService;
 
-        // Problem med serialisering av abstrakt klass (vehicles är en abstrakt klass...) 
-        //private readonly List<Car> _cars = JsonHelper.ReadFile<Car>(@"DAL\Files\Cars.json");
+        private readonly UserDataAccess<Errand> _dbErrands;
+        private readonly UserDataAccess<Car> _dbCars;
+        private readonly UserDataAccess<Motorcycle> _dbMotorCycles;
+        private readonly UserDataAccess<Bus> _dbBuses;
+        private readonly UserDataAccess<Truck> _dbTrucks;
+        private readonly UserDataAccess<Mechanic> _dbCurrentMechanics;
+        private readonly UserDataAccess<Mechanic> _dbOldMechanics;
 
-        // Den här funkar, men den stör i funktionalitet när ovanstående problem kvarstår
-        private readonly List<Errand> _errands;
-        
-        private UserDataAccess<Car> _dbCars;
-        private UserDataAccess<Motorcycle> _dbMotorCycles;
-        private UserDataAccess<Bus> _dbBuses;
-        private UserDataAccess<Truck> _dbTrucks;
-
-        private UserDataAccess<Errand> _dbErrands;
+        //private readonly UserDataAccess<Errand> _dbErrands;
 
         public ErrandsPage()
         {
             InitializeComponent();
+
             _dbErrands = new UserDataAccess<Errand>();
             _dbCars = new UserDataAccess<Car>();
+            _dbMotorCycles = new UserDataAccess<Motorcycle>();
+            _dbBuses = new UserDataAccess<Bus>();
+            _dbTrucks = new UserDataAccess<Truck>();
+            _dbCurrentMechanics = new UserDataAccess<Mechanic>();
+            _dbOldMechanics = new UserDataAccess<Mechanic>();
 
-            _errands = _dbErrands.GetList();
-            //_dbCars = new UserDataAccess<Car>();
-            //_dbMotorCycles= new UserDataAccess<Motorcycle>();
-            //_dbBuses = new UserDataAccess<Bus>();
-            //_dbTrucks = new UserDataAccess<Truck>();
-            //_dbErrands = new UserDataAccess<Errand>();
-
-
-            // DUMMY
-            #region Dummyvärden
-            //var dummyMechanic = new Mechanic() { FirstName = "Lars", LastName = "Andersson", IsAvailable = true };
-            //dummyMechanic.Competences.Add(VehiclePart.Bromsar);
-            //db.CurrentMechanics.Add(dummyMechanic);
-
-            //var dummyVehicle = new Car()
-            //{
-            //    ModelName = "Volvo",
-            //    LicensePlate = "ABC123",
-            //    CarType = CarType.Herrgårdsvagn,
-            //    HasTowbar = true,
-            //    FuelType = Fuel.Bensin,
-            //    Odometer = 1233.4,
-            //    RegistrationDate = DateTime.Now.ToString("yyyy/MM/dd")
-            //};
-            //db.Cars.Add(dummyVehicle);
-
-            //var dummyErrand = new Errand()
-            //{
-            //    Description = "Testärende: Fel på bromsar",
-            //    Problem = VehiclePart.Bromsar,
-            //    VehicleID = dummyVehicle.ID
-            //};
-            //db.Errands.Add(dummyErrand);
-            #endregion
+            _mechanicService = new MechanicService();
+            _vehicleService = new VehicleService();
+            _vehicleService = new VehicleService();
+            _errandService = new ErrandService();
 
             cbFuelType.ItemsSource = _fuelType;
             cbProblem.ItemsSource = _vehicleParts;
             cbCarType.ItemsSource = _carTypes;
-            // Här bör vi byta till _errands när all json fungerar som den ska.
-            cbLiggande.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Röd);
-            cbPågående.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Gul);
-            cbKlara.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Grön);
-
-            //cbLiggande.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Röd);
-            //cbPågående.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Gul);
-            //cbKlara.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Grön);
 
             UpdateErrandPage();
         }
 
+        private void RefreshLists()
+        {
+            db.Errands = _dbErrands.LoadList();
+            db.CurrentMechanics = _dbCurrentMechanics.LoadCurrentMechanics();
 
+            db.Cars = _dbCars.LoadList();
+            db.Motorcycles = _dbMotorCycles.LoadList();
+            db.Buses = _dbBuses.LoadList();
+            db.Trucks = _dbTrucks.LoadList();
+        }
         private string CreateErrand(string vehicleID)
         {
             if (!string.IsNullOrWhiteSpace(tbDescription.Text))
             {
                 var description = tbDescription.Text;
                 var problem = (VehiclePart)cbProblem.SelectedItem;
-                return _errandService.CreateAndWriteErrand(description, problem, vehicleID);
+                return _errandService.CreateAndSaveErrand(description, problem, vehicleID);
             }
             return default;
         }
@@ -169,15 +142,13 @@ namespace GUI.Errands
             return default;
         }
 
-        
-
         // Uppdaterar listan med lediga mekaniker beroende på vad för problem det är på fordonet
         private void cbProblem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbProblem.SelectedItem != null)
             {
                 var problem = (VehiclePart)cbProblem.SelectedItem;
-                cbAvailableMechanics.ItemsSource = db.CurrentMechanics.Where(mech => mech.IsAvailable == true && mech.Competences.Contains(problem));
+                cbAvailableMechanics.ItemsSource = _mechanicService.GetAvailableMechanic(problem);
             }
         }
         private void cbLiggande_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -191,8 +162,9 @@ namespace GUI.Errands
 
                 var errand = cbLiggande.SelectedItem as Errand;
                 GetErrandInfo(errand);
-                // Bör också använda json här
-                cbErrandAvailableMechanics.ItemsSource = db.CurrentMechanics.Where(mech => mech.IsAvailable == true && mech.Competences.Contains(errand.Problem));
+
+                cbErrandAvailableMechanics.ItemsSource = _mechanicService.GetAvailableMechanic(errand.Problem);
+
                 cbErrandAvailableMechanics.Visibility = Visibility.Visible;
                 btnSaveChanges.Visibility = Visibility.Visible;
 
@@ -203,15 +175,15 @@ namespace GUI.Errands
         {
             if (cbPågående.SelectedItem != null)
             {
+
                 cbLiggande.SelectedItem = null;
                 cbLiggande.Items.Refresh();
                 cbKlara.SelectedItem = null;
                 cbKlara.Items.Refresh();
-
                 var errand = cbPågående.SelectedItem as Errand;
-                var mechanic = db.CurrentMechanics.FirstOrDefault(mech => mech.CurrentErrands.Contains(errand.ID));
+                var mechanic = _mechanicService.GetMechanicFromErrand(errand.ID);
                 GetErrandInfo(errand);
-                
+
                 btnÄrendeKlart.Visibility = Visibility.Visible;
                 btnAvbryt.Visibility = Visibility.Visible;
                 lblErrandTilldeladMekaniker.Content = "Tilldelad mekaniker:";
@@ -221,27 +193,24 @@ namespace GUI.Errands
         }
         private void cbKlara_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cbPågående.SelectedItem = null;
-            cbPågående.Items.Refresh();
-            cbLiggande.SelectedItem = null;
-            cbLiggande.Items.Refresh();
 
             if (cbKlara.SelectedItem != null)
             {
+                cbPågående.SelectedItem = null;
+                cbPågående.Items.Refresh();
+                cbLiggande.SelectedItem = null;
+                cbLiggande.Items.Refresh();
+               
                 var errand = cbKlara.SelectedItem as Errand;
                 GetErrandInfo(errand);
                 lblErrandTilldeladMekaniker.Content = "Tilldelad mekaniker:";
-                //json
-                var mechanic = db.CurrentMechanics.FirstOrDefault(mechanic => mechanic.ID == errand.MechanicID);
+
+                Mechanic mechanic = _mechanicService.GetMechanicWhoFinishedErrand(errand);
+
+                // Behöver eventuellt fånga upp om mekanikern blir null
                 if (mechanic != null)
                 {
                     tbErrandWorkingMechanic.Text = $"{mechanic.FirstName} {mechanic.LastName}";
-                }
-
-                else
-                {
-                    var oldMechanic = db.OldMechanics.FirstOrDefault(mechanic => mechanic.ID == errand.MechanicID);
-                    tbErrandWorkingMechanic.Text = $"{oldMechanic.FirstName} {oldMechanic.LastName}";
                 }
                 tbErrandWorkingMechanic.Visibility = Visibility.Visible;
 
@@ -283,7 +252,6 @@ namespace GUI.Errands
             ShowExtraVehiclePropertyField();
         }
 
-       
         private void BtnCreateErrand_Click(object sender, RoutedEventArgs e)
         {
             if (cbFuelType.SelectedItem != null && cbProblem.SelectedItem != null)
@@ -305,11 +273,8 @@ namespace GUI.Errands
                         if (cbAvailableMechanics.SelectedItem != null)
                         {
                             var mech = cbAvailableMechanics.SelectedItem as Mechanic;
-                            _mechanicService.AddErrand(mech.ID, errandID); // I denna metoden händer lite för många hämtningar haha
-
-                            //TODO: Detta kan säkert ske på ett finare sätt (lägg till mekanikerID till ärende)
-                            var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
-                            errand.MechanicID = mech.ID;
+                            _mechanicService.AddErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
+                            _errandService.SetMechanicIdToErrand(errandID, mech.ID);
                         }
                     }
                 }
@@ -326,11 +291,9 @@ namespace GUI.Errands
                     var errand = cbLiggande.SelectedItem as Errand;
                     var mechanic = cbErrandAvailableMechanics.SelectedItem as Mechanic;
 
-                    // TODO: Detta är fult
-                    errand.MechanicID = mechanic.ID;
+                    _mechanicService.AddErrand(mechanic.ID, errand.ID);
+                    _errandService.SetMechanicIdToErrand(errand.ID, mechanic.ID);
 
-                    _mechanicService.AddErrand(mechanic.ID, errand.ID); // Gör för mycket hämtningar/checks
-                    
                     MessageBox.Show("Förändringar på ärendet sparades.\nÄrendestatus: Pågående", "Ärende sparat");
                     UpdateErrandPage();
                 }
@@ -342,8 +305,8 @@ namespace GUI.Errands
             if (cbPågående.SelectedItem != null)
             {
                 var errand = cbPågående.SelectedItem as Errand;
-                // JSON HÄR
-                var mechanic = db.CurrentMechanics.FirstOrDefault(mechanic => mechanic.CurrentErrands.Contains(errand.ID));
+                var mechanic = _mechanicService.GetMechanicFromErrand(errand.ID);
+
                 _mechanicService.RemoveErrand(mechanic.ID, errand.ID);
 
                 MessageBox.Show("Ärende avslutat.");
@@ -357,13 +320,10 @@ namespace GUI.Errands
 
             UpdateErrandPage();
         }
-        
+
 
         private void GetErrandInfo(Errand errand)
         {
-            // Här bör vi använda listan som vi hämtat från json-filen
-            //var vehicle = db.Vehicles.FirstOrDefault(vehicle => errand.VehicleID == vehicle.ID);
-
             var vehicle = _vehicleService.GetVehicleFromErrand(errand);
 
             if (vehicle != null)
@@ -420,9 +380,6 @@ namespace GUI.Errands
                 }
             }
         }
-
-        
-
         private void GetAndSetVehicleInfo(Errand errand, Vehicle vehicle)
         {
             lblErrandTilldeladMekaniker.Visibility = Visibility.Visible;
@@ -443,6 +400,8 @@ namespace GUI.Errands
         }
         private void UpdateErrandPage()
         {
+            RefreshLists();
+
             #region Uppdaterar "Skapa ärende"
             tbModelName.Text = string.Empty;
             tbLicensePlate.Text = string.Empty;
@@ -468,19 +427,10 @@ namespace GUI.Errands
             #endregion
 
             #region Uppdaterar "Ändra ärende"
-            cbLiggande.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Röd);
-            cbLiggande.Items.Refresh();
-            cbPågående.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Gul);
-            cbPågående.Items.Refresh();
-            cbKlara.ItemsSource = _errands.Where(errand => errand.ErrandStatus == ErrandStatus.Grön);
-            cbKlara.Items.Refresh();
+            cbLiggande.ItemsSource = db.Errands.Where(errand => errand.ErrandStatus == ErrandStatus.Röd);
+            cbPågående.ItemsSource = db.Errands.Where(errand => errand.ErrandStatus == ErrandStatus.Gul);
+            cbKlara.ItemsSource = db.Errands.Where(errand => errand.ErrandStatus == ErrandStatus.Grön);
 
-            //cbLiggande.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Röd);
-            //cbLiggande.Items.Refresh();
-            //cbPågående.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Gul);
-            //cbPågående.Items.Refresh();
-            //cbKlara.ItemsSource = _dbErrands.GetList("Errands.json").Where(errand => errand.ErrandStatus == ErrandStatus.Grön);
-            //cbKlara.Items.Refresh();
 
             cbErrandAvailableMechanics.ItemsSource = null;
             cbErrandAvailableMechanics.Items.Refresh();
@@ -510,9 +460,9 @@ namespace GUI.Errands
             btnÄrendeKlart.Visibility = Visibility.Hidden;
             btnAvbryt.Visibility = Visibility.Hidden;
             #endregion
+
+
         }
-
-
         private void ShowExtraVehiclePropertyField()
         {
             tbChangeable.Text = "";
@@ -529,7 +479,6 @@ namespace GUI.Errands
             lblChangeable.Visibility = Visibility.Visible;
             tbChangeable.Visibility = Visibility.Hidden;
         }
-
         private void HideCarSettings()
         {
             rbYes.Visibility = Visibility.Hidden;
@@ -537,8 +486,5 @@ namespace GUI.Errands
             lblTypeOfCar.Visibility = Visibility.Hidden;
             cbCarType.Visibility = Visibility.Hidden;
         }
-
-
-
     }
 }

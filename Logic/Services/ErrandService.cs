@@ -7,17 +7,11 @@ using Logic.Helpers;
 using Logic.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Logic.Services
 {
-    //public interface IErrandService
-    //{
-    //    public void AddErrand();
-    //    public void RemoveErrand();
-    //}
-
-    // Klass för att sköta all logik med ärenden
     public class ErrandService
     {
         private readonly UserDataAccess<Errand> _dbErrand;
@@ -26,13 +20,35 @@ namespace Logic.Services
         {
             _dbErrand = new UserDataAccess<Errand>();
         }
-      public string CreateAndWriteErrand(string description, VehiclePart problem, string vehicleID)
+
+        /// <summary>
+        /// Creates and saves an errand with the provided parameters.
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="problem"></param>
+        /// <param name="vehicleID"></param>
+        /// <returns></returns>
+        public string CreateAndSaveErrand(string description, VehiclePart problem, string vehicleID)
         {
             var errand = new Errand() { Description = description, Problem = problem, VehicleID = vehicleID };
             db.Errands.Add(errand);
-            //JsonHelper.WriteFile(db.Errands, _errandsPath);
-            _dbErrand.WriteList(db.Errands);
+
+            _dbErrand.SaveList(db.Errands);
             return errand.ID;
+        }
+
+        /// <summary>
+        /// Sets the mechanic ID to an errand.
+        /// </summary>
+        /// <param name="errandID"></param>
+        /// <param name="mechanicID"></param>
+        public void SetMechanicIdToErrand(string errandID, string mechanicID)
+        {
+            var errand = db.Errands.FirstOrDefault(errand => errand.ID == errandID);
+            errand.MechanicID = mechanicID;
+
+            _dbErrand.SaveList(db.Errands);
+
         }
     }
 }

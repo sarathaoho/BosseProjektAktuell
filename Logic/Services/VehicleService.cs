@@ -11,17 +11,13 @@ using System.Text;
 
 namespace Logic.Services
 {
-    // Klass som sköter all logik kring fordon
     public class VehicleService
     {
-        // Fixa dessa
-        private UserDataAccess<Car> _dbCar; //= new UserDataAccess<Car>();
-        private UserDataAccess<Motorcycle> _dbMotorcycle; //= new UserDataAccess<Car>();
-        private UserDataAccess<Bus> _dbBus; //= new UserDataAccess<Car>();
-        private UserDataAccess<Truck> _dbTruck; //= new UserDataAccess<Car>();
+        private UserDataAccess<Car> _dbCar; 
+        private UserDataAccess<Motorcycle> _dbMotorcycle;
+        private UserDataAccess<Bus> _dbBus; 
+        private UserDataAccess<Truck> _dbTruck;
         
-
-
 
         public VehicleService()
         {
@@ -31,11 +27,20 @@ namespace Logic.Services
             _dbTruck = new UserDataAccess<Truck>();
         }
       
+        /// <summary>
+        /// Sets the licenseplate after forcing it to upper case and removing any spaces.
+        /// </summary>
+        /// <param name="licenseNumber"></param>
+        /// <returns></returns>
         public string SetLicensePlate(string licenseNumber)
         {
             return licenseNumber.ToUpper().Replace(" ", "");
         }
-
+        /// <summary>
+        /// Gets the vehicle that's connected to an errand.
+        /// </summary>
+        /// <param name="errand"></param>
+        /// <returns></returns>
         public Vehicle GetVehicleFromErrand(Errand errand)
         {
 
@@ -64,10 +69,9 @@ namespace Logic.Services
             return null;
         }
 
-
         /// <summary>
         /// Creates a car with the provided parameters.
-        /// <br>Returns: The created cars ID as <b>string</b></br>
+        /// <br>Returns: The created car's ID as <b>string</b></br>
         /// </summary>
         /// <param name="modelName"></param>
         /// <param name="licensePlate"></param>
@@ -91,11 +95,21 @@ namespace Logic.Services
             };
 
             db.Cars.Add(car);
-            _dbCar.WriteList(db.Cars);
+            _dbCar.SaveList(db.Cars);
 
             return car.ID;
         }
-
+        /// <summary>
+        /// Creates a motorcycle with the provided parameters.
+        /// <br>Returns: The created motorcycle's ID as <b>string</b></br>
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <param name="licensePlate"></param>
+        /// <param name="registrationDate"></param>
+        /// <param name="fuelType"></param>
+        /// <param name="maxSpeed"></param>
+        /// <param name="lengthDriven"></param>
+        /// <returns></returns>
         public string CreateAndWriteMotorcycle(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxSpeed, double lengthDriven)
         {
             var motorcycle = new Motorcycle()
@@ -110,11 +124,21 @@ namespace Logic.Services
 
             db.Motorcycles.Add(motorcycle);
             //JsonHelper.WriteFile(db.Motorcycles, _motorcyclesPath);
-            _dbMotorcycle.WriteList(db.Motorcycles);
+            _dbMotorcycle.SaveList(db.Motorcycles);
 
             return motorcycle.ID;
         }
-
+        /// <summary>
+        /// Creates a bus with the provided parameters.
+        /// <br>Returns: The created bus' ID as <b>string</b></br>
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <param name="licensePlate"></param>
+        /// <param name="registrationDate"></param>
+        /// <param name="fuelType"></param>
+        /// <param name="maxAmountOfPassengers"></param>
+        /// <param name="lengthDriven"></param>
+        /// <returns></returns>
         public string CreateAndWriteBus(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxAmountOfPassengers, double lengthDriven)
         {
             var bus = new Bus()
@@ -129,10 +153,20 @@ namespace Logic.Services
 
             db.Buses.Add(bus);
             //JsonHelper.WriteFile(db.Buses, _busesPath);
-            _dbBus.WriteList(db.Buses);
+            _dbBus.SaveList(db.Buses);
             return bus.ID;
         }
-
+        /// <summary>
+        /// Creates a truck with the provided parameters.
+        /// <br>Returns: The created truck's ID as <b>string</b></br>
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <param name="licensePlate"></param>
+        /// <param name="registrationDate"></param>
+        /// <param name="fuelType"></param>
+        /// <param name="maxLoad"></param>
+        /// <param name="lengthDriven"></param>
+        /// <returns></returns>
         public string CreateAndWriteTruck(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxLoad, double lengthDriven)
         {
             var truck = new Truck()
@@ -147,7 +181,7 @@ namespace Logic.Services
 
             db.Trucks.Add(truck);
             //JsonHelper.WriteFile(db.Trucks, _trucksPath);
-            _dbTruck.WriteList(db.Trucks);
+            _dbTruck.SaveList(db.Trucks);
             return truck.ID;
         }
     }
