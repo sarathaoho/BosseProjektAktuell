@@ -61,36 +61,51 @@ namespace GUI.UsersPage
         {
             UpdateEditPageCopy();
             //Lägg till användare knappen
-            {   
-                // Välj mellan existerande Mekaniker att binda till en användare
-                var mechanic = cbMechanics.SelectedItem as Mechanic;
-                
-                // TEST: För skapande av användare
-                string userName = tbUserName.Text;
-                string password = tbPassword.Text;
+            {
 
-                // Skapar upp en ny användare
-                User user = new User()
+                if (cbMechanics.SelectedItem != null)
                 {
-                    
-                    Username = userName,
-                    Password = password,
-                    IsAdmin = false
-                };
+                    // Välj mellan existerande Mekaniker att binda till en användare
+                    var mechanic = cbMechanics.SelectedItem as Mechanic;
 
-                // Ger användaren ett GUID
-                //user.MechanicID = mechanic.ID;
-                mechanic.UserID = user.ID;
+                    // TEST: För skapande av användare
 
-                // Lägger till användaren i Users
-                db.Users.Add(user);
+                    var emailIsValid = _userService.Regexx(tbUserName.Text);
+                    if (emailIsValid != true)
+                    {
+                        MessageBox.Show("FEL IDIOT");
+                    }
+                    else
+                    {
+                        string userName = tbUserName.Text;
+                        string password = tbPassword.Text;
 
-                // Skriver ut till fil
-                JsonHelper.WriteFile<User>(db.Users, _usersPath);
-                MessageBox.Show("Användare tillagd.");
+                        // Skapar upp en ny användare
+                        User user = new User()
+                        {
 
-                
-                cbListUsers.Items.Refresh();
+                            Username = userName,
+                            Password = password,
+                            IsAdmin = false
+                        };
+
+                        // Ger användaren ett GUID
+                        //user.MechanicID = mechanic.ID;
+                        mechanic.UserID = user.ID;
+
+                        // Lägger till användaren i Users
+                        db.Users.Add(user);
+
+                        // Skriver ut till fil
+                        JsonHelper.WriteFile<User>(db.Users, _usersPath);
+                        MessageBox.Show("Användare tillagd.");
+
+
+                        cbListUsers.Items.Refresh();
+                    }
+                }
+               
+               
             }
         }
 
