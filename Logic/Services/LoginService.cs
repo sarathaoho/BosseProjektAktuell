@@ -39,11 +39,10 @@ namespace Logic.Services
 
 
 
-           
-            }
+
+
         }
 
-       
 
 
 
@@ -53,6 +52,6 @@ namespace Logic.Services
 
 
 
-        
-    
+
+    }    
 }

@@ -41,7 +41,7 @@ namespace GUI.UsersPage
         {
             InitializeComponent();
 
-            cbMechanics.ItemsSource = Database.CurrentMechanics;
+            cbMechanics.ItemsSource = db.CurrentMechanics;
         }
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,12 +51,12 @@ namespace GUI.UsersPage
             if (mechanic != null)
             {
                 //lbMechanicCompetences2.ItemsSource = mechanic.Competences;
-                //lbCompetences2.ItemsSource = Database.Competences.Where(competence => !mechanic.Competences.Contains(competence));
+                //lbCompetences2.ItemsSource = db.Competences.Where(competence => !mechanic.Competences.Contains(competence));
                 //tbFirstNameToChange.Watermark = mechanic.FirstName;
                 //tbLastNameToChange.Watermark = mechanic.LastName;
                 //tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
                 //tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
-                var mechanics = Database.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
+                var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
                 tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
             }
 
@@ -86,10 +86,10 @@ namespace GUI.UsersPage
                 user.MechanicID = user.ID;
 
                 // Lägger till användaren i Users
-                Database.Users.Add(user);
+                db.Users.Add(user);
 
                 // Skriver ut till fil
-                JsonHelper.WriteFile<User>(Database.Users, _usersPath);
+                JsonHelper.WriteFile<User>(db.Users, _usersPath);
                 MessageBox.Show("Användare tillagd.");
             }
         }
@@ -129,7 +129,7 @@ namespace GUI.UsersPage
         //    tbDateOfEmployment.Text = string.Empty;
 
         //    _competences.Clear();
-        //    _competences.AddRange(Database.Competences);
+        //    _competences.AddRange(db.Competences);
         //    _mechanicCompetences.Clear();
 
         //    lbCompetences.Items.Refresh();
@@ -169,7 +169,7 @@ namespace GUI.UsersPage
                 tbUserNameSwap.Watermark = users.Username;
                 tbPasswordSwap.Watermark = users.Password;
                 
-                var user = Database.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
+                var user = db.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
                 tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
             }
         }
