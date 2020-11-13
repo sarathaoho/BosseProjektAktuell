@@ -40,7 +40,7 @@ namespace GUI.UsersPage
         public UserPage()
         {
             InitializeComponent();
-
+            cbListUsers.ItemsSource = db.Users;
             cbMechanics.ItemsSource = db.CurrentMechanics;
         }
 
@@ -48,16 +48,11 @@ namespace GUI.UsersPage
         {
             //Drop down box för Mekaniker att binda till en Användare
             var mechanic = cbMechanics.SelectedItem as Mechanic;
-            if (mechanic != null)
+            if (cbMechanics.SelectedItem is Mechanic mechanix)
             {
-                //lbMechanicCompetences2.ItemsSource = mechanic.Competences;
-                //lbCompetences2.ItemsSource = db.Competences.Where(competence => !mechanic.Competences.Contains(competence));
-                //tbFirstNameToChange.Watermark = mechanic.FirstName;
-                //tbLastNameToChange.Watermark = mechanic.LastName;
-                //tbDateOfEmploymentToChange.Watermark = mechanic.DateOfEmployment;
-                //tbDateOfBirthToChange.Watermark = mechanic.DateOfBirth;
+                
                 var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
-                tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
+                //tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
             }
 
         }
@@ -67,42 +62,54 @@ namespace GUI.UsersPage
             UpdateEditPageCopy();
             //Lägg till användare knappen
             {
-                // ComboBoxen är nu vald som User, lägg till val för Mekaniker/Admin
-                var NewUser = cbMechanics.SelectedItem as Mechanic;
-                
-                // TEST: För skapande av användare
-                string userName = tbUserName.Text;
-                string password = tbPassword.Text;
 
-                // Skapar upp en ny användare
-                User user = new User()
+                if (cbMechanics.SelectedItem != null)
                 {
-                    Username = userName,
-                    Password = password,
-                    IsAdmin = false
-                };
+                    // Välj mellan existerande Mekaniker att binda till en användare
+                    var mechanic = cbMechanics.SelectedItem as Mechanic;
 
-                // Ger användaren ett GUID
-                user.MechanicID = user.ID;
+                    // TEST: För skapande av användare
 
-                // Lägger till användaren i Users
-                db.Users.Add(user);
+                    var emailIsValid = _userService.Regexx(tbUserName.Text);
+                    if (emailIsValid != true)
+                    {
+                        MessageBox.Show("FEL IDIOT");
+                    }
+                    else
+                    {
+                        string userName = tbUserName.Text;
+                        string password = tbPassword.Text;
 
-                // Skriver ut till fil
-                JsonHelper.WriteFile<User>(db.Users, _usersPath);
-                MessageBox.Show("Användare tillagd.");
+                        // Skapar upp en ny användare
+                        User user = new User()
+                        {
+
+                            Username = userName,
+                            Password = password,
+                            IsAdmin = false
+                        };
+
+                        // Ger användaren ett GUID
+                        //user.MechanicID = mechanic.ID;
+                        mechanic.UserID = user.ID;
+
+                        // Lägger till användaren i Users
+                        db.Users.Add(user);
+
+                        // Skriver ut till fil
+                        JsonHelper.WriteFile<User>(db.Users, _usersPath);
+                        MessageBox.Show("Användare tillagd.");
+
+
+                        cbListUsers.Items.Refresh();
+                    }
+                }
+               
+               
             }
         }
 
-        //private void ListUsers_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Listknappen
-        //    JsonHelper.ReadFile<List>(_usersPath);
-        //    //var json = File.ReadAllText(@"DAL\Files\Users.json");
-        //    //var json = JsonSerializer.Serialize(Listor.Users);
-        //    //Kanske ha en dropdownMeny som listar användare istället?
-        //    //ska man ha detta ens eller är det bara för mekaniker man ska kunna lista ut dem?
-        //}
+       
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
@@ -110,15 +117,15 @@ namespace GUI.UsersPage
         }
         private void UpdateEditPageCopy()
         {
-            cbListUsers.SelectedItem = null;
-            cbListUsers.Items.Refresh();
+            //cbListUsers.SelectedItem = null;
+            //cbListUsers.Items.Refresh();
 
             tbUserNameSwap.Watermark = string.Empty;
             tbUserNameSwap.Text = string.Empty;
             tbPasswordSwap.Watermark = string.Empty;
             tbPasswordSwap.Text = string.Empty;
             
-            tbMechanicID.Text = string.Empty;
+            //tbMechanicID.Text = string.Empty;
         }
         //private void UpdateAddUserPage()
         //{
@@ -129,7 +136,7 @@ namespace GUI.UsersPage
         //    tbDateOfEmployment.Text = string.Empty;
 
         //    _competences.Clear();
-        //    _competences.AddRange(db.Competences);
+        //    _competences.AddRange(Database.Competences);
         //    _mechanicCompetences.Clear();
 
         //    lbCompetences.Items.Refresh();
@@ -162,15 +169,19 @@ namespace GUI.UsersPage
 
         private void cbListUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var users = cbListUsers.SelectedItem as User;
-            if (users != null)
+            UpdateEditPageCopy();
+            
+                var users = cbListUsers.SelectedItem as User;
+            if (cbListUsers.SelectedItem is User userx)
             {
 
                 tbUserNameSwap.Watermark = users.Username;
                 tbPasswordSwap.Watermark = users.Password;
-                
+                //tbMechanicID.Watermark = users.MechanicID;
                 var user = db.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
-                tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
+                
+                // tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
+                JsonHelper.ReadFile<User>(_usersPath);
             }
         }
 
@@ -182,5 +193,6 @@ namespace GUI.UsersPage
             MessageBox.Show($"Ändringar sparade");
         }
 
+       
     }
 }

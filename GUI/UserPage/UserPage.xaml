@@ -4,14 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GUI.UsersPage"
+      xmlns:en ="clr-namespace:Logic.Database.Entities;assembly=Logic"
       xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:entities="clr-namespace:Logic.Database.Entities;assembly=Logic"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="500"
+      d:DesignHeight="600" d:DesignWidth="1100"
       Title="Bosses bilverkstad - Hem">
 
     <Page.Resources>
-        <DataTemplate DataType="{x:Type entities:User}">
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text=" "/>
                 <TextBlock Text="{Binding FirstName}"/>
@@ -20,32 +21,34 @@
                 <TextBlock Text=" "/>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type entities:User}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding Username}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding Password}"/>
+                <TextBlock Text=" "/>
+            </StackPanel>
+        </DataTemplate>
     </Page.Resources>
 
 
-    <Grid Margin="0,0,0, 0" Width="500">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <Grid Background="white">
 
-        <TabControl>
+        <!--<TabControl>
             <TabItem x:Name="tabAnvändare" Header="Användare">
                 <Grid Height="375" Margin="0,0,7,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="129*"/>
                         <ColumnDefinition Width="358*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="118,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top" Height="16" Width="81"/>
-                    <Label Content="Lägg till användare" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="81"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
-                    <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="116,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnAdd" Content="Lägg till" HorizontalAlignment="Left" Margin="64,173,0,0" VerticalAlignment="Top" Click="btnAdd_Click" Height="39" Width="86" Grid.ColumnSpan="2"/>
+                    </Grid.ColumnDefinitions>-->
+        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Margin="118,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="16,71,0,0" Text="Användarnamn" TextWrapping="Wrap" VerticalAlignment="Top" Height="16" Width="81"/>
+        <TextBlock HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="81"><Run Language="sv-se" Text="Lösenord"/><LineBreak/><Run Language="sv-se"/></TextBlock>
+        <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="116,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Height="18" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnAdd" Content="Lägg till" HorizontalAlignment="Left" Margin="64,173,0,0" VerticalAlignment="Top" Click="btnAdd_Click" Height="39" Width="86" Grid.ColumnSpan="2"/>
 
-                    <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
+        <extToolkit:WatermarkComboBox Watermark="Mekaniker" 
                                                   x:Name="cbMechanics"  
                                                   HorizontalAlignment="Left" 
                                                   Margin="16,129,0,0" 
@@ -53,24 +56,23 @@
                                                   Width="186" 
                                                   Height="24" SelectionChanged="cbMechanics_SelectionChanged" Grid.ColumnSpan="2"
                                                   />
-                    <Label Content="Lägg till användare" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="231,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ta bort"/><Run Text="/Redigera"/><LineBreak/><Run/><Run Text=" "/><Run Language="sv-se" Text=" Användare"/></TextBlock>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="146,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Användar"/><Run Language="sv-se" Text="e"/><LineBreak/><Run/></TextBlock>
-                    <Button x:Name="btnRemove" Content="Ta bort&#xD;&#xA;" Grid.Column="1" HorizontalAlignment="Left" Margin="187,282,0,0" VerticalAlignment="Top" Width="72" Height="19" Click="btnRemove_Click"/>
-                    <ComboBox x:Name="cbListUsers" Grid.Column="1" HorizontalAlignment="Left" Margin="228,76,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbListUsers_SelectionChanged"/>
-                    <extToolkit:WatermarkTextBox x:Name="tbUserNameSwap" Grid.Column="1" HorizontalAlignment="Left" Margin="228,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <extToolkit:WatermarkTextBox x:Name="tbPasswordSwap" Grid.Column="1" HorizontalAlignment="Left" Margin="228,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <extToolkit:WatermarkTextBox x:Name="tbMechanicID" Grid.Column="1" HorizontalAlignment="Left" Margin="228,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="btnSave" Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="280,281,0,0" VerticalAlignment="Top" Width="68" Click="Button_Click"/>
+        <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
+        <TextBlock HorizontalAlignment="Left" Margin="370,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ta bort"/><Run Text="/Redigera"/><LineBreak/><Run/><Run Text=" "/><Run Language="sv-se" Text=" Användare"/></TextBlock>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20"><Run Text="Användar"/><Run Language="sv-se" Text="e"/><LineBreak/><Run/></TextBlock>
+        <Button x:Name="btnRemove" Content="Ta bort&#xD;&#xA;" Grid.Column="1" HorizontalAlignment="Left" Margin="187,282,0,0" VerticalAlignment="Top" Width="72" Height="19" Click="btnRemove_Click"/>
+        <ComboBox x:Name="cbListUsers" Grid.Column="1" HorizontalAlignment="Left" Margin="228,76,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbListUsers_SelectionChanged"/>
+        <extToolkit:WatermarkTextBox x:Name="tbUserNameSwap" HorizontalAlignment="Left" Margin="280,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <extToolkit:WatermarkTextBox x:Name="tbPasswordSwap" HorizontalAlignment="Left" Margin="280,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnSave" Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="280,281,0,0" VerticalAlignment="Top" Width="68" Click="Button_Click"/>
 
 
-                </Grid>
+        <!--</Grid>
 
             </TabItem>
-        </TabControl>
-        <TextBlock TextWrapping="Wrap"><Run/><LineBreak/><Run/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="284,162,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="284,200,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        </TabControl>-->
+
+        <TextBlock HorizontalAlignment="Left" Margin="227,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Namn"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="219,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/></TextBlock>
 
 
     </Grid>

@@ -13,21 +13,46 @@ namespace Logic.DAL
 {
     public class UserDataAccess<T> where T : AEntity
     {
-        // Behöver skapa mappen om den inte finns när programmet startas
-        // TODO: Fixa också path till att inte bara hämta User
-        // TODO: Fixa så att path funkar för alla
-        private const string path = @"DAL\Files\User.json"; 
-       
-
+        private readonly string path = $@"{typeof(T).Name}.json";
+        private readonly string currentMechanicsPath = @"CurrentMechanics.json";
+        private readonly string oldMechanicsPath = @"OldMechanics.json";
         /// <summary>
-        /// https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to
+        /// Loads list from file if it exists. Returns an empty list if file is not found
         /// </summary>
         /// <returns></returns>
-        public List<T> GetList()
+        public List<T> LoadList()
         {
-            string jsonString = File.ReadAllText(path);
             List<T> list = JsonHelper.ReadFile<T>(path);
             return list;
         }
+
+        // Detta är fult :/ TODO!!!
+        public List<Mechanic> LoadCurrentMechanics()
+        {
+            List<Mechanic> list = JsonHelper.ReadFile<Mechanic>(currentMechanicsPath);
+            return list;
+        }
+        // TODO!!!
+        public List<Mechanic> LoadOldMechanics()
+        {
+            List<Mechanic> list = JsonHelper.ReadFile<Mechanic>(oldMechanicsPath);
+            return list;
+        }
+
+        /// <summary>
+        /// Saves a list to file. Filename = object type.json.
+        /// </summary>
+        /// <param name="list"></param>
+        public void SaveList(List<T> list)
+        {
+            JsonHelper.WriteFile<T>(list, path);
+        }
+
+        public void SaveMechanicList(List<Mechanic> list, string path)
+        {
+            JsonHelper.WriteFile(list, path);
+        }
+
+
     }
 }

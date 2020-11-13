@@ -89,17 +89,23 @@
         <extToolkit:WatermarkTextBox x:Name="tbErrandChangeable" HorizontalAlignment="Left" Margin="137,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" FontSize="10" Height="24" Visibility="Hidden" Grid.Column="1" IsReadOnly="True"/>
         <Label x:Name="lblErrandTypeOfCar" Content="Typ av bil: " HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1" Visibility="Hidden"/>
         <TextBox x:Name="tbErrandTypeOfCar" Text="" HorizontalAlignment="Left" Margin="137,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" Visibility="Hidden"/>
-        <Label Content="Problem:" HorizontalAlignment="Left" Margin="267,239,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
-        <TextBox x:Name="tbErrandProblem" Text="" HorizontalAlignment="Left" Margin="390,238,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
-        <Label Content="Beskrivning:" HorizontalAlignment="Left" Margin="267,100,0,0" VerticalAlignment="Top" FontSize="10" Width="68" Height="23" Grid.Column="1"/>
-        <TextBox x:Name="tbErrandDescription" HorizontalAlignment="Left" Margin="345,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173" Height="104" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1"   />
-        
-        <Label x:Name="lblTilldelaMekaniker" Content="Tilldela mekaniker:" HorizontalAlignment="Left" Margin="267,260,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1" Visibility="Hidden"/>
-        <extToolkit:WatermarkComboBox x:Name="cbErrandAvailableMechanics" Watermark="Lediga mekaniker" HorizontalAlignment="Left" Margin="390,261,0,0" VerticalAlignment="Top" Width="128" Height="22" Grid.Column="1" Visibility="Hidden"/>
-       
+        <Label Content="Problem:" HorizontalAlignment="Left" Margin="264,192,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
+        <TextBox x:Name="tbErrandProblem" Text="" HorizontalAlignment="Left" Margin="389,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
+        <Label Content="Beskrivning:" HorizontalAlignment="Left" Margin="264,77,0,0" VerticalAlignment="Top" FontSize="10" Width="68" Height="23" Grid.Column="1"/>
+        <TextBox x:Name="tbErrandDescription" HorizontalAlignment="Left" Margin="345,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173" Height="104" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" IsReadOnly="True"/>
+
+        <extToolkit:WatermarkComboBox x:Name="cbErrandAvailableMechanics" Watermark="Lediga mekaniker" HorizontalAlignment="Left" Margin="389,216,0,0" VerticalAlignment="Top" Width="129" Height="22" Grid.Column="1" Visibility="Hidden"/>
+
         <Label Content="Fordon:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
         <TextBox x:Name="tbErrandVehicleType" Text="" HorizontalAlignment="Left" Margin="137,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
-        <Button Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="450,312,0,0" VerticalAlignment="Top" Height="34" Width="68" Click="Button_Click"/>
+        <Button x:Name="btnSaveChanges" Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="450,249,0,0" VerticalAlignment="Top" Height="34" Width="68" Click="btnSaveChanges_Click" Visibility="Hidden"/>
+
+        <extToolkit:WatermarkComboBox x:Name="cbPågående" Watermark="Pågående" HorizontalAlignment="Left" Margin="137,42,0,0" VerticalAlignment="Top" Width="82" Height="22" Grid.Column="1" SelectionChanged="cbPågående_SelectionChanged"/>
+        <Button x:Name="btnÄrendeKlart" Content="Ärende klart" Grid.Column="1" HorizontalAlignment="Left" Margin="438,280,0,0" VerticalAlignment="Top" Width="80" Click="btnÄrendeKlart_Click"/>
+        <Button x:Name="btnAvbryt" Content="Avbryt" Grid.Column="1" HorizontalAlignment="Left" Margin="329,280,0,0" VerticalAlignment="Top" Width="80" Click="btnAvbryt_Click"/>
+        <Label x:Name="lblErrandTilldeladMekaniker" Content="Tilldelad mekaniker:" HorizontalAlignment="Left" Margin="264,216,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
+        <TextBox x:Name="tbErrandWorkingMechanic" Text="" HorizontalAlignment="Left" Margin="389,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
+        <extToolkit:WatermarkComboBox x:Name="cbKlara" Watermark="Klara" HorizontalAlignment="Left" Margin="257,42,0,0" VerticalAlignment="Top" Width="82" Height="22" Grid.Column="1" SelectionChanged="cbKlara_SelectionChanged"/>
 
     </Grid>
 </Page>
