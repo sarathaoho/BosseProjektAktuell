@@ -45,7 +45,6 @@ namespace GUI.Home
         public HomePage()
         {
             InitializeComponent();
-
         }
 
 
@@ -105,9 +104,7 @@ namespace GUI.Home
 
         private async void lbErrands_Initialized(object sender, EventArgs e)
         {
-
             await RefreshLists();
-
         }
 
         private async void lbBirthdays_Initialized(object sender, EventArgs e)
@@ -124,18 +121,11 @@ namespace GUI.Home
             db.Errands = await _dbErrands.LoadListAsync();
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
 
-
             lbErrands.ItemsSource = db.Errands.Where(x => x.ErrandStatus == ErrandStatus.Röd);
             lbBirthdays.ItemsSource = db.CurrentMechanics.Where(x => _mechanicService.IsBirthday(x) == true).ToList();
 
             lbErrands.Items.Refresh();
             lbBirthdays.Items.Refresh();
-            //cbMechanics.ItemsSource = db.CurrentMechanics.Where(x => x.IsAvailable)
-
-
-            //if (birthdays.Count > 0)
-            //    lbBirthdays.ItemsSource = birthdays;
-            //tbAge.Text = lbBirthdays.SelectedItem
 
             lblTodaysDate.Content = DateTime.Now.ToShortDateString();
         }

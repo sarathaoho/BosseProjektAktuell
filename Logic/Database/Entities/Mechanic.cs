@@ -18,9 +18,10 @@ namespace Logic.Database.Entities
         public DateTime DateOfEmployment { get; set; }
         public DateTime LastDate { get; set; }
         public string UserID { get; set; }
-        public int Age 
-        { 
-            get 
+
+        public int Age
+        {
+            get
             {
                 DateTime today = DateTime.Today;
                 int age = today.Year - DateOfBirth.Year;
@@ -30,7 +31,7 @@ namespace Logic.Database.Entities
                 }
 
                 return age;
-            } 
+            }
         }
 
 

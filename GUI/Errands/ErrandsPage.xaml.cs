@@ -107,6 +107,9 @@ namespace GUI.Errands
                 Fuel fuelType = (Fuel)cbFuelType.SelectedItem;
                 double.TryParse(tbLengthDriven.Text, out double lengthDriven);
 
+
+
+
                 if (rbCar.IsChecked == true && cbCarType.SelectedItem != null)
                 {
                     CarType carType = (CarType)cbCarType.SelectedItem;
@@ -121,18 +124,18 @@ namespace GUI.Errands
                     return _vehicleService.CreateAndWriteCar(modelName, licenseNumber, registrationDate, fuelType, hasTowbar, carType, lengthDriven);
                 }
 
-                else if (rbMotorcycle.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxSpeed))
+                else if (rbMotorcycle.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxSpeed))
                 {
                     return _vehicleService.CreateAndWriteMotorcycle(modelName, licenseNumber, registrationDate, fuelType, maxSpeed, lengthDriven);
                 }
 
 
-                else if (rbBus.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxAmountofPassengers))
+                else if (rbBus.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxAmountofPassengers))
                 {
                     return _vehicleService.CreateAndWriteBus(modelName, licenseNumber, registrationDate, fuelType, maxAmountofPassengers, lengthDriven);
                 }
 
-                else if (rbTruck.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxLoad))
+                else if (rbTruck.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxLoad))
                 {
                     return _vehicleService.CreateAndWriteTruck(modelName, licenseNumber, registrationDate, fuelType, maxLoad, lengthDriven);
                 }
@@ -199,7 +202,7 @@ namespace GUI.Errands
                 cbPågående.Items.Refresh();
                 cbLiggande.SelectedItem = null;
                 cbLiggande.Items.Refresh();
-               
+
                 var errand = cbKlara.SelectedItem as Errand;
                 GetErrandInfo(errand);
                 lblErrandTilldeladMekaniker.Content = "Tilldelad mekaniker:";
@@ -260,6 +263,7 @@ namespace GUI.Errands
                 {
                     MessageBox.Show("Inkorrekt inmatning av uppgifter");
                 }
+
                 else
                 {
                     var errandID = CreateErrand(vehicleID);
@@ -267,6 +271,7 @@ namespace GUI.Errands
                     {
                         MessageBox.Show("Inkorrekt inmatning av uppgifter");
                     }
+
                     else
                     {
                         if (cbAvailableMechanics.SelectedItem != null)
@@ -274,10 +279,10 @@ namespace GUI.Errands
                             var mech = cbAvailableMechanics.SelectedItem as Mechanic;
                             _mechanicService.AddErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
                             _errandService.SetMechanicIdToErrand(errandID, mech.ID);
+                            MessageBox.Show("Ärende skapat.");
                         }
                     }
                 }
-                MessageBox.Show("Ärende skapat.");
                 UpdateErrandPage();
             }
         }
