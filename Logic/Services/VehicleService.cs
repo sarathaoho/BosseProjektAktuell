@@ -63,12 +63,11 @@ namespace Logic.Services
             var truck = db.Trucks.FirstOrDefault(truck => errand.VehicleID.Contains(truck.ID));
             if (truck != null)
             {
-                return bus;
+                return truck;
             }
 
             return null;
         }
-
         /// <summary>
         /// Creates a car with the provided parameters.
         /// <br>Returns: The created car's ID as <b>string</b></br>
@@ -81,7 +80,7 @@ namespace Logic.Services
         /// <param name="carType"></param>
         /// <param name="lengthDriven"></param>
         /// <returns></returns>
-        public string CreateAndWriteCar(string modelName, string licensePlate, string registrationDate, Fuel fuelType, bool hasTowbar, CarType carType, double lengthDriven)
+        public string CreateAndWriteCar(string modelName, string licensePlate, DateTime registrationDate, Fuel fuelType, bool hasTowbar, CarType carType, double lengthDriven)
         {
             var car = new Car()
             {
@@ -110,7 +109,7 @@ namespace Logic.Services
         /// <param name="maxSpeed"></param>
         /// <param name="lengthDriven"></param>
         /// <returns></returns>
-        public string CreateAndWriteMotorcycle(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxSpeed, double lengthDriven)
+        public string CreateAndWriteMotorcycle(string modelName, string licensePlate, DateTime registrationDate, Fuel fuelType, int maxSpeed, double lengthDriven)
         {
             var motorcycle = new Motorcycle()
             {
@@ -139,7 +138,7 @@ namespace Logic.Services
         /// <param name="maxAmountOfPassengers"></param>
         /// <param name="lengthDriven"></param>
         /// <returns></returns>
-        public string CreateAndWriteBus(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxAmountOfPassengers, double lengthDriven)
+        public string CreateAndWriteBus(string modelName, string licensePlate, DateTime registrationDate, Fuel fuelType, int maxAmountOfPassengers, double lengthDriven)
         {
             var bus = new Bus()
             {
@@ -167,7 +166,7 @@ namespace Logic.Services
         /// <param name="maxLoad"></param>
         /// <param name="lengthDriven"></param>
         /// <returns></returns>
-        public string CreateAndWriteTruck(string modelName, string licensePlate, string registrationDate, Fuel fuelType, int maxLoad, double lengthDriven)
+        public string CreateAndWriteTruck(string modelName, string licensePlate, DateTime registrationDate, Fuel fuelType, int maxLoad, double lengthDriven)
         {
             var truck = new Truck()
             {

@@ -1,4 +1,5 @@
 ﻿using Logic.DAL;
+using Logic.Database;
 using Logic.Database.Entities;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,21 @@ namespace Logic.Services
         public User GetAssignedUserFromMechanic(Mechanic mechanic)
         {
             return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
+        }
+
+        public string CreateAndSaveUser(string username, string password)
+        {
+            var user = new User()
+            {
+                Username = username,
+                Password = password,
+                IsAdmin = false
+            };
+
+            db.Users.Add(user);
+            _dbUsers.SaveList(db.Users);
+
+            return user.ID;
         }
     }
 }

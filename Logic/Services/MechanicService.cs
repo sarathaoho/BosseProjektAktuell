@@ -32,7 +32,6 @@ namespace Logic.Services
 
         /// <summary>
         /// Adds a competence to the mechanics competences list, if the competence isn't already in the list.
-        /// Lägger till kompetens om listan med kompetenser inte är full (5st) och om listan inte redan innehåller kompetensen.
         /// </summary>
         /// <param name="competence">Competence to add</param>
         public void AddCompetence(Mechanic mechanic, VehiclePart competence)
@@ -49,6 +48,8 @@ namespace Logic.Services
         {
             if (mechanic.Competences.Contains(competenceToRemove))
                 mechanic.Competences.Remove(competenceToRemove);
+
+            _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, currentMechanicsPath);
         }
 
         /// <summary>
@@ -68,6 +69,7 @@ namespace Logic.Services
             }
 
             _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, currentMechanicsPath);
+            _dbErrands.SaveList(db.Errands);
         }
 
         /// <summary>
@@ -141,14 +143,16 @@ namespace Logic.Services
         /// <param name="dateOfBirth"></param>
         /// <param name="dateOfEmployment"></param>
         /// <param name="competences"></param>
-        public void CreateAndSaveMechanic(string firstName, string lastName, string dateOfBirth, string dateOfEmployment, List<VehiclePart> competences)
+        public void CreateAndSaveMechanic(string firstName, string lastName, DateTime dateOfBirth, DateTime dateOfEmployment, List<VehiclePart> competences)
         {
             var mechanic = new Mechanic()
             {
                 FirstName = firstName,
                 LastName = lastName,
+                //DateOfBirth = dateOfBirth,
+                //DateOfEmployment = dateOfEmployment,
                 DateOfBirth = dateOfBirth,
-                DateOfEmployment = dateOfEmployment,
+                DateOfEmployment = dateOfEmployment
             };
 
             competences.ForEach(competence => AddCompetence(mechanic, competence));
@@ -170,14 +174,67 @@ namespace Logic.Services
         /// Removes the mechanic from current mechanics, sets the LastDate property to the current date and adds the mechanic to the OldMechanics list.
         /// </summary>
         /// <param name="mechanic"></param>
-        public void RemoveMechanic (Mechanic mechanic)
+        public void RemoveMechanic(Mechanic mechanic)
         {
-            mechanic.LastDate = DateTime.Now.ToString("yyyy-MM-dd");
+            mechanic.LastDate = DateTime.Now;
+            if (mechanic.CurrentErrands.Count > 0)
+            {
+                mechanic.CurrentErrands = null;
+            }
             db.CurrentMechanics.Remove(mechanic);
             db.OldMechanics.Add(mechanic);
 
             _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, currentMechanicsPath);
             _dbOldMechanics.SaveMechanicList(db.OldMechanics, oldMechanicsPath);
+        }
+
+        /// <summary>
+        /// Removes the assigned mechanic from the errand.
+        /// </summary>
+        /// <param name="mechanic"></param>
+        public void RemoveMechanicFromErrand(Mechanic mechanic)
+        {
+            var errands = db.Errands.Where(x => x.MechanicID == mechanic.ID).ToList();
+            if (errands.Count != 0)
+            {
+                errands.ForEach(errand => ChangeErrandStatusAndMechanicID(errand));
+
+                _dbErrands.SaveList(db.Errands);
+            }
+        }
+
+        private void ChangeErrandStatusAndMechanicID(Errand errand)
+        {
+            if (errand.ErrandStatus == ErrandStatus.Gul)
+            {
+                errand.MechanicID = null;
+                errand.ErrandStatus = ErrandStatus.Röd;
+            }
+        }
+
+        public int GetAge(Mechanic mechanic)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - mechanic.DateOfBirth.Year;
+            if (today < mechanic.DateOfBirth.AddYears(age))
+            {
+                return age--;
+            }
+
+            return age;
+        }
+
+        public bool IsBirthday(Mechanic mechanic)
+        {
+            var day = mechanic.DateOfBirth.Day;
+            var month = mechanic.DateOfBirth.Month;
+
+            if (day == DateTime.Today.Day && month == DateTime.Today.Month)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

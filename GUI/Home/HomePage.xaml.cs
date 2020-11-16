@@ -15,6 +15,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,46 +37,21 @@ namespace GUI.Home
     public partial class HomePage : Page
     {
 
-        private readonly UserDataAccess<Mechanic> _dbMechanics;
+        private UserDataAccess<Mechanic> _dbMechanics;
+        private UserDataAccess<Errand> _dbErrands;
+        private MechanicService _mechanicService;
+
 
         public HomePage()
         {
             InitializeComponent();
 
-            // Test utan dummies
-
-            //_dbMechanics = new UserDataAccess<Mechanic>();
-
-            //// Dummies
-            //Mechanic mechanic = new Mechanic()
-            //{
-            //    FirstName = "Peter",
-            //    LastName = "Wallenäs",
-            //    ID = "1"
-            //};
-            //db.CurrentMechanics.Add(mechanic);
-            
-            //mechanic = new Mechanic()
-            //{
-            //    FirstName = "Julia",
-            //    LastName = "Berglund",
-            //    ID = "2",
-
-            //};
-            //db.CurrentMechanics.Add(mechanic);
-            
-
-            //mechanic = new Mechanic()
-            //{
-            //    FirstName = "Calle",
-            //    LastName = "Maelan",
-            //    ID = "3",
-            //    UserID = "test"
-            //};
-            //db.CurrentMechanics.Add(mechanic);
-            //_dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
-
         }
+
+
+
+
+
 
         private void btnMechanicPage_Click(object sender, RoutedEventArgs e)
         {
@@ -93,6 +69,75 @@ namespace GUI.Home
         {
             ErrandsPage errandsPage = new ErrandsPage();
             this.NavigationService.Navigate(errandsPage);
+        }
+
+        private void lbErrands_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lbErrands.SelectedItem != null)
+            {
+                var errand = lbErrands.SelectedItem as Errand;
+
+                cbMechanics.ItemsSource = _mechanicService.GetAvailableMechanic(errand.Problem);
+            }
+        }
+
+        private async void BtnAssign_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbMechanics.SelectedItem != null)
+            {
+                if (lbErrands.SelectedItem != null)
+                {
+                    var mechanic = cbMechanics.SelectedItem as Mechanic;
+                    var errand = lbErrands.SelectedItem as Errand;
+
+                    _mechanicService.AddErrand(mechanic.ID, errand.ID);
+
+                    MessageBox.Show("Ärende tilldelat mekaniker.");
+
+                    lbErrands.SelectedItem = null;
+                    cbMechanics.SelectedItem = null;
+
+                    await RefreshLists();
+
+                }
+            }
+        }
+
+        private async void lbErrands_Initialized(object sender, EventArgs e)
+        {
+
+            await RefreshLists();
+
+        }
+
+        private async void lbBirthdays_Initialized(object sender, EventArgs e)
+        {
+            await RefreshLists();
+        }
+
+        private async Task RefreshLists()
+        {
+            _dbMechanics = new UserDataAccess<Mechanic>();
+            _dbErrands = new UserDataAccess<Errand>();
+            _mechanicService = new MechanicService();
+
+            db.Errands = await _dbErrands.LoadListAsync();
+            db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
+
+
+            lbErrands.ItemsSource = db.Errands.Where(x => x.ErrandStatus == ErrandStatus.Röd);
+            lbBirthdays.ItemsSource = db.CurrentMechanics.Where(x => _mechanicService.IsBirthday(x) == true).ToList();
+
+            lbErrands.Items.Refresh();
+            lbBirthdays.Items.Refresh();
+            //cbMechanics.ItemsSource = db.CurrentMechanics.Where(x => x.IsAvailable)
+
+
+            //if (birthdays.Count > 0)
+            //    lbBirthdays.ItemsSource = birthdays;
+            //tbAge.Text = lbBirthdays.SelectedItem
+
+            lblTodaysDate.Content = DateTime.Now.ToShortDateString();
         }
     }
 }

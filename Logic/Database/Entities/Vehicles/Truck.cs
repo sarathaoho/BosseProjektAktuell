@@ -9,15 +9,9 @@ namespace Logic.Database.Entities.Vehicles
     {
         public int MaxLoadInKG { get; set; }
 
-        public Truck(string modelName, string registrationDate, Fuel fuelType, int maxLoadInKG) : base(modelName, registrationDate, fuelType)
-        {
-            MaxLoadInKG = maxLoadInKG;
-            Wheels = 6;
-        }
-
         public Truck()
         {
-
+            Wheels = 6;
         }
     }
 }

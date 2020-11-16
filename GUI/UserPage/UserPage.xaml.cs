@@ -1,4 +1,5 @@
 ﻿using GUI.UsersPage;
+using Logic.DAL;
 using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
@@ -32,16 +33,31 @@ namespace GUI.UsersPage
     public partial class UserPage : Page
     {
         readonly UserService _userService = new UserService();
-        readonly MechanicService mechanicService = new MechanicService();
+        readonly MechanicService _mechanicService = new MechanicService();
 
-        private const string _usersPath = @"DAL\Files\Users.json";
-        private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
+        private readonly UserDataAccess<Mechanic> _dbCurrentMechanics;
+        private readonly UserDataAccess<User> _dbUsers;
+
+        private const string _currentMechanicsPath = "CurrentMechanics.json";
+
+        //private const string _usersPath = @"DAL\Files\Users.json";
+        //private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
 
         public UserPage()
         {
             InitializeComponent();
+            _dbCurrentMechanics = new UserDataAccess<Mechanic>();
+            _dbUsers = new UserDataAccess<User>();
+
+            RefreshLists();
             cbListUsers.ItemsSource = db.Users;
-            cbMechanics.ItemsSource = db.CurrentMechanics;
+            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
+        }
+
+        private void RefreshLists()
+        {
+            db.Users = _dbUsers.LoadList();
+            db.CurrentMechanics = _dbCurrentMechanics.LoadCurrentMechanics();
         }
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -50,7 +66,8 @@ namespace GUI.UsersPage
             var mechanic = cbMechanics.SelectedItem as Mechanic;
             if (cbMechanics.SelectedItem is Mechanic mechanix)
             {
-                
+
+                // var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
                 var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
                 //tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
             }
@@ -62,54 +79,36 @@ namespace GUI.UsersPage
             UpdateEditPageCopy();
             //Lägg till användare knappen
             {
-
                 if (cbMechanics.SelectedItem != null)
                 {
                     // Välj mellan existerande Mekaniker att binda till en användare
                     var mechanic = cbMechanics.SelectedItem as Mechanic;
 
-                    // TEST: För skapande av användare
-
                     var emailIsValid = _userService.Regexx(tbUserName.Text);
-                    if (emailIsValid != true)
+
+                    if (emailIsValid == false)
                     {
-                        MessageBox.Show("FEL IDIOT");
+                        MessageBox.Show("Fel format på användarnamn. formatet är \"blabla@blabla.se\"", "Inkorrekt användarnamn");
                     }
+
+
                     else
                     {
                         string userName = tbUserName.Text;
                         string password = tbPassword.Text;
 
-                        // Skapar upp en ny användare
-                        User user = new User()
-                        {
+                        var userID = _userService.CreateAndSaveUser(userName, password);
+                        mechanic.UserID = userID;
 
-                            Username = userName,
-                            Password = password,
-                            IsAdmin = false
-                        };
+                        _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, _currentMechanicsPath);
 
-                        // Ger användaren ett GUID
-                        //user.MechanicID = mechanic.ID;
-                        mechanic.UserID = user.ID;
-
-                        // Lägger till användaren i Users
-                        db.Users.Add(user);
-
-                        // Skriver ut till fil
-                        JsonHelper.WriteFile<User>(db.Users, _usersPath);
-                        MessageBox.Show("Användare tillagd.");
-
-
+                        MessageBox.Show($"Användare skapad och tilldelades mekaniker {mechanic.FirstName} {mechanic.LastName}");
                         cbListUsers.Items.Refresh();
+                        RefreshLists();
                     }
                 }
-               
-               
             }
         }
-
-       
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
@@ -124,7 +123,7 @@ namespace GUI.UsersPage
             tbUserNameSwap.Text = string.Empty;
             tbPasswordSwap.Watermark = string.Empty;
             tbPasswordSwap.Text = string.Empty;
-            
+
             //tbMechanicID.Text = string.Empty;
         }
         //private void UpdateAddUserPage()
@@ -154,7 +153,7 @@ namespace GUI.UsersPage
 
             var isUserNameChanged = IsChanged(users.Username, tbUserNameSwap.Text);
             var isPasswordChanged = IsChanged(users.Password, tbPasswordSwap.Text);
-          
+
 
             if (isUserNameChanged)
             {
@@ -170,18 +169,19 @@ namespace GUI.UsersPage
         private void cbListUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateEditPageCopy();
-            
-                var users = cbListUsers.SelectedItem as User;
+
             if (cbListUsers.SelectedItem is User userx)
             {
+                var user = cbListUsers.SelectedItem as User;
 
-                tbUserNameSwap.Watermark = users.Username;
-                tbPasswordSwap.Watermark = users.Password;
+                tbUserNameSwap.Watermark = user.Username;
+                tbPasswordSwap.Watermark = user.Password;
                 //tbMechanicID.Watermark = users.MechanicID;
-                var user = db.Users.FirstOrDefault(user => user.ID.Equals(users.MechanicID));
-                
-                // tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
-                JsonHelper.ReadFile<User>(_usersPath);
+                var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.UserID == user.ID);
+
+                //var user = db.Users.FirstOrDefault(user => user.ID.Equals(mechanic.);
+
+
             }
         }
 
@@ -193,6 +193,6 @@ namespace GUI.UsersPage
             MessageBox.Show($"Ändringar sparade");
         }
 
-       
+
     }
 }

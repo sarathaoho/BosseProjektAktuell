@@ -20,6 +20,12 @@ namespace Logic.DAL
         /// Loads list from file if it exists. Returns an empty list if file is not found
         /// </summary>
         /// <returns></returns>
+        public async Task<List<T>> LoadListAsync()
+        {
+            List<T> list = await JsonHelper.ReadFileAsync<T>(path);
+            return list;
+        }
+
         public List<T> LoadList()
         {
             List<T> list = JsonHelper.ReadFile<T>(path);
@@ -32,6 +38,7 @@ namespace Logic.DAL
             List<Mechanic> list = JsonHelper.ReadFile<Mechanic>(currentMechanicsPath);
             return list;
         }
+
         // TODO!!!
         public List<Mechanic> LoadOldMechanics()
         {
