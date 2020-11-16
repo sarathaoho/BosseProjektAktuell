@@ -149,10 +149,26 @@ namespace GUI.MechPage
             if (cbOldMechanics.SelectedItem is Mechanic oldMechanic)
             {
                 ClearErrandInfo();
-                UpdateEditPage();
+                UpdateCurrentMechanic();
                 ViewOldMechanic(oldMechanic);
             }
         }
+
+        private void UpdateCurrentMechanic()
+        {
+            cbMechanics.SelectedItem = null;
+            tbFirstNameToChange.Text = string.Empty;
+            tbFirstNameToChange.Watermark = string.Empty;
+            tbLastNameToChange.Text = string.Empty;
+            tbLastNameToChange.Watermark = string.Empty;
+            dpDateOfBirthToChange.SelectedDate = null;
+            dpDateOfEmploymentToChange.SelectedDate = null;
+            tbUserID.Text = string.Empty;
+
+            lbMechanicCompetences2.ItemsSource = null;
+            lbCompetences2.ItemsSource = null;
+        }
+
         private void GetMechanicInfo(Mechanic mechanic)
         {
             tbFirstNameToChange.Watermark = mechanic.FirstName;
@@ -161,7 +177,7 @@ namespace GUI.MechPage
             dpDateOfEmploymentToChange.SelectedDate = mechanic.DateOfEmployment;
             lbMechanicCompetences2.ItemsSource = mechanic.Competences;
             lbCompetences2.ItemsSource = _mechanicService.GetRemainingCompetences(mechanic);
-            
+
             var user = _userService.GetAssignedUserFromMechanic(mechanic);
             tbUserID.Text = user != null ? user.Username : "Ingen användare";
 
@@ -177,6 +193,11 @@ namespace GUI.MechPage
             tbOldMechanicDateOfEmployment.Text = oldMechanic.DateOfEmployment.ToShortDateString();
             tbOldMechanicLastDate.Text = oldMechanic.LastDate.ToShortDateString();
             tbOldMechanicDateOfBirth.Text = oldMechanic.DateOfBirth.ToShortDateString();
+
+            var errands = _errandService.GetMechanicErrands(oldMechanic);
+            cbCurrentErrands.ItemsSource = errands.Where(x => x.ErrandStatus == ErrandStatus.Gul);
+            cbFinishedErrands.ItemsSource = errands.Where(x => x.ErrandStatus == ErrandStatus.Grön);
+
         }
 
         // Lägg till kompetenser hos mekaniker som redan existerar
@@ -244,10 +265,13 @@ namespace GUI.MechPage
 
                         cbMechanics.Items.Refresh();
                         System.Windows.MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
+                        ClearErrandInfo();
                         UpdateEditPage();
                         break;
 
                     case MessageBoxResult.No:
+                        ClearErrandInfo();
+                        UpdateEditPage();
                         break;
                 }
             }
@@ -262,9 +286,13 @@ namespace GUI.MechPage
 
         private void UpdateOldMechanic()
         {
+            cbOldMechanics.SelectedItem = null;
             lbOldMechanicCompetences.ItemsSource = null;
             tbOldMechanicFirstname.Text = string.Empty;
             tbOldMechanicLastname.Text = string.Empty;
+            tbOldMechanicDateOfBirth.Text = string.Empty;
+            tbOldMechanicDateOfEmployment.Text = string.Empty;
+            tbOldMechanicLastDate.Text = string.Empty;
         }
         private void UpdateEditPage()
         {
@@ -280,7 +308,7 @@ namespace GUI.MechPage
             tbLastNameToChange.Watermark = string.Empty;
             tbLastNameToChange.Text = string.Empty;
             tbUserID.Text = string.Empty;
-            
+
             dpDateOfBirthToChange.SelectedDate = null;
             dpDateOfEmploymentToChange.SelectedDate = null;
         }
@@ -393,7 +421,7 @@ namespace GUI.MechPage
                 cbCurrentErrands.SelectedItem = null;
                 var errand = cbFinishedErrands.SelectedItem as Errand;
                 var vehicle = _vehicleService.GetVehicleFromErrand(errand);
-                
+
                 if (vehicle != null)
                     SetErrandInfo(errand, vehicle);
             }
@@ -404,8 +432,6 @@ namespace GUI.MechPage
 
             if (cbMechanics.SelectedItem != null)
             {
-                cbFinishedErrands.SelectedItem = null;
-
                 tbModelName.Text = vehicle.ModelName;
                 tbLicensePlate.Text = vehicle.LicensePlate;
                 tbProblem.Text = errand.Problem.ToString();
@@ -423,6 +449,26 @@ namespace GUI.MechPage
                 else if (vehicle is Truck)
                     tbVehicleType.Text = "Lastbil";
 
+            }
+
+            else if (cbOldMechanics.SelectedItem != null)
+            {
+                tbModelName.Text = vehicle.ModelName;
+                tbLicensePlate.Text = vehicle.LicensePlate;
+                tbProblem.Text = errand.Problem.ToString();
+                tbDescription.Text = errand.Description;
+
+                if (vehicle is Car)
+                    tbVehicleType.Text = "Bil";
+
+                else if (vehicle is Motorcycle)
+                    tbVehicleType.Text = "Motorcykel";
+
+                else if (vehicle is Bus)
+                    tbVehicleType.Text = "Buss";
+
+                else if (vehicle is Truck)
+                    tbVehicleType.Text = "Lastbil";
             }
         }
 

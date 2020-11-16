@@ -57,7 +57,7 @@ namespace Logic.Services
         /// </summary>
         /// <param name="mechanicID">Mechanic's ID for finding the mechanic to add to.</param>
         /// <param name="errandID">Errand's ID for finding the errand to add.</param>
-        public void AddErrand(string mechanicID, string errandID)
+        public void AddCurrentErrand(string mechanicID, string errandID)
         {
             var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.ID == mechanicID);
             var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
@@ -77,10 +77,10 @@ namespace Logic.Services
         /// </summary>
         /// <param name="mechanicID"></param>
         /// <param name="errandID"></param>
-        public void RemoveErrand(string mechanicID, string errandID)
+        public void RemoveCurrentErrand(Mechanic mechanic, Errand errand)
         {
-            var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.ID == mechanicID);
-            var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
+            //var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.ID == mechanicID);
+            //var errand = db.Errands.FirstOrDefault(x => x.ID == errandID);
             mechanic.CurrentErrands.Remove(errand.ID);
             errand.ErrandStatus = ErrandStatus.Grön;
 
@@ -212,17 +212,6 @@ namespace Logic.Services
             }
         }
 
-        //public int GetAge(Mechanic mechanic)
-        //{
-        //    DateTime today = DateTime.Today;
-        //    int age = today.Year - mechanic.DateOfBirth.Year;
-        //    if (today < mechanic.DateOfBirth.AddYears(age))
-        //    {
-        //        return age--;
-        //    }
-
-        //    return age;
-        //}
 
         public bool IsBirthday(Mechanic mechanic)
         {
