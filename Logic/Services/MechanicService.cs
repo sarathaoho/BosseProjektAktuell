@@ -212,17 +212,17 @@ namespace Logic.Services
             }
         }
 
-        public int GetAge(Mechanic mechanic)
-        {
-            DateTime today = DateTime.Today;
-            int age = today.Year - mechanic.DateOfBirth.Year;
-            if (today < mechanic.DateOfBirth.AddYears(age))
-            {
-                return age--;
-            }
+        //public int GetAge(Mechanic mechanic)
+        //{
+        //    DateTime today = DateTime.Today;
+        //    int age = today.Year - mechanic.DateOfBirth.Year;
+        //    if (today < mechanic.DateOfBirth.AddYears(age))
+        //    {
+        //        return age--;
+        //    }
 
-            return age;
-        }
+        //    return age;
+        //}
 
         public bool IsBirthday(Mechanic mechanic)
         {

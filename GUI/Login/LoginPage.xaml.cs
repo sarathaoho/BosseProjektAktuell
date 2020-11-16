@@ -1,8 +1,10 @@
 ﻿using GUI.Home;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,6 +57,8 @@ namespace GUI.Login
             // Om användaren finns men den inte är admin så öppnas en annan ruta
             else if (user.IsAdmin == false)
             {
+                LoggedInUserService.LoggedInUser = user;
+                var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.UserID == LoggedInUserService.LoggedInUser.ID);
                 // Här hamnar koden för basic-användare
                 // BasicUserHomePage asdasda = new BasicUserHomePage();
             }

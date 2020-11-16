@@ -78,7 +78,7 @@ namespace GUI.UsersPage
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            UpdateEditPageCopy();
+            //UpdateEditPageCopy();
 
             //Lägg till användare knappen
             {
@@ -105,9 +105,11 @@ namespace GUI.UsersPage
                         _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
                         MessageBox.Show("Användare tillagd.");
 
+
                         UpdateEditPageCopy();
                         RefreshList();
                         cbListUsers.Items.Refresh();
+                        
                     }
                 }                             
             }
@@ -139,6 +141,7 @@ namespace GUI.UsersPage
                     case MessageBoxResult.No:
                         break;
                 }
+                
             }
 
         }
