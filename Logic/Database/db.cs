@@ -24,12 +24,6 @@ namespace Logic.Database
         private static List<Bus> _buses;
         private static List<Truck> _trucks;
 
-        //public class MinaVechiacleListor
-        //{
-        //    public List<Car> Cars { get; set; }
-        //    public List<Motorcycle> Bikes { get; set; }
-        //}
-
         public static List<User> Users
         {
             get
@@ -54,7 +48,6 @@ namespace Logic.Database
             }
             set { _vehicles = value; }
         }
-
         public static List<Car> Cars
         {
             get
@@ -118,7 +111,6 @@ namespace Logic.Database
                 _trucks = value;
             }
         }
-
         public static List<Mechanic> OldMechanics
         {
             get
@@ -174,17 +166,5 @@ namespace Logic.Database
                 return _components;
             }
         }
-
-        
-
-        // Skiter i denna?
-        //public Dictionary<string, Vehicle> RegNrDictionary { get; set; }
-        //public BossesBilverkstad()
-        //{
-        //    Mechanics = new List<Mechanic>();
-        //    RegNrDictionary = new Dictionary<string, Vehicle>();
-        //    Vehicles = new List<Vehicle>();
-        //    Errands = new List<Errand>();
-        //}
     }
 }

@@ -14,37 +14,39 @@ namespace Logic.Database.Entities
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string DateOfBirth { get; set; } // Kör alla datumgrejer som string för att förenkla utskrift
-        public string DateOfEmployment { get; set; }
-        public string LastDate { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfEmployment { get; set; }
+        public DateTime LastDate { get; set; }
         public string UserID { get; set; }
 
-
-        public List<VehiclePart> Competences { get; set; } // Se mappen Models för alla enums
-        public List<string> CurrentErrands { get; set; } // Nuvarande ärenden
-
-        // Om CurrentErrands har två ärenden i sig (båda är true) så sätts IsAvailable till false, annars till true
-        public bool IsAvailable
+        public int Age
         {
             get
             {
-                if (CurrentErrands.Count < 2)
+                DateTime today = DateTime.Today;
+                int age = today.Year - DateOfBirth.Year;
+                if (today < DateOfBirth.AddYears(age))
                 {
-                    _isAvailable = true;
-                }
-                else
-                {
-                    _isAvailable = false;
+                    return age--;
                 }
 
-                return _isAvailable;
-
+                return age;
             }
+        }
+
+
+        public List<VehiclePart> Competences { get; set; }
+        public List<string> CurrentErrands { get; set; }
+
+        // Om CurrentErrands har två ärenden i sig så sätts IsAvailable till false, annars till true
+        public bool IsAvailable
+        {
+            get { return CurrentErrands.Count < 2 ? true : false; }
 
             set { _isAvailable = value; }
         }
 
-        
+
         public Mechanic()
         {
             Competences = new List<VehiclePart>();

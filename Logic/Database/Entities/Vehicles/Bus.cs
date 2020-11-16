@@ -10,15 +10,10 @@ namespace Logic.Database.Entities.Vehicles
     {
         public int MaxAmountOfPassengers { get; set; }
 
-        public Bus(string modelName, string registrationDate, Fuel fuelType, int maxAmountOfPassengers) : base(modelName, registrationDate, fuelType)
-        {
-            MaxAmountOfPassengers = maxAmountOfPassengers;
-            Wheels = 6;
-        }
 
         public Bus()
         {
-
+            Wheels = 6;
         }
     }
 }

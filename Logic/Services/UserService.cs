@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Logic.Database;
+
 
 namespace Logic.Services
 {
@@ -12,6 +14,7 @@ namespace Logic.Services
     public class UserService
     {
         private UserDataAccess<User> _dbUsers;
+        //private readonly string UsersPath = @"Users.json";
 
         public UserService()
         {
@@ -30,6 +33,26 @@ namespace Logic.Services
         public User GetAssignedUserFromMechanic(Mechanic mechanic)
         {
             return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
+        }
+
+        public string CreateAndSaveUser(string userName, string password)
+        {
+            var user = new User()
+            {
+                Username = userName,
+                Password = password,
+                IsAdmin = false,
+                
+            };
+            db.Users.Add(user);
+            _dbUsers.SaveList(db.Users);
+
+            return user.ID;
+        }
+        public void RemoveUser(User user)
+        {
+            db.Users.Remove(user);
+            _dbUsers.SaveList(db.Users);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Logic.DAL;
+﻿using GUI.Home;
+using Logic.DAL;
 using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
@@ -42,7 +43,6 @@ namespace GUI.Errands
         private readonly UserDataAccess<Bus> _dbBuses;
         private readonly UserDataAccess<Truck> _dbTrucks;
         private readonly UserDataAccess<Mechanic> _dbCurrentMechanics;
-        private readonly UserDataAccess<Mechanic> _dbOldMechanics;
 
         //private readonly UserDataAccess<Errand> _dbErrands;
 
@@ -56,7 +56,6 @@ namespace GUI.Errands
             _dbBuses = new UserDataAccess<Bus>();
             _dbTrucks = new UserDataAccess<Truck>();
             _dbCurrentMechanics = new UserDataAccess<Mechanic>();
-            _dbOldMechanics = new UserDataAccess<Mechanic>();
 
             _mechanicService = new MechanicService();
             _vehicleService = new VehicleService();
@@ -100,13 +99,16 @@ namespace GUI.Errands
         {
             if (!string.IsNullOrWhiteSpace(tbModelName.Text)
                 && !string.IsNullOrWhiteSpace(tbLicensePlate.Text)
-                && !string.IsNullOrWhiteSpace(tbRegistrationDate.Text))
+                && dpRegistrationDate.SelectedDate != null)
             {
                 string modelName = tbModelName.Text;
                 string licenseNumber = tbLicensePlate.Text;
-                string registrationDate = tbRegistrationDate.Text;
+                DateTime registrationDate = (DateTime)dpRegistrationDate.SelectedDate;
                 Fuel fuelType = (Fuel)cbFuelType.SelectedItem;
                 double.TryParse(tbLengthDriven.Text, out double lengthDriven);
+
+
+
 
                 if (rbCar.IsChecked == true && cbCarType.SelectedItem != null)
                 {
@@ -122,18 +124,18 @@ namespace GUI.Errands
                     return _vehicleService.CreateAndWriteCar(modelName, licenseNumber, registrationDate, fuelType, hasTowbar, carType, lengthDriven);
                 }
 
-                else if (rbMotorcycle.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxSpeed))
+                else if (rbMotorcycle.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxSpeed))
                 {
                     return _vehicleService.CreateAndWriteMotorcycle(modelName, licenseNumber, registrationDate, fuelType, maxSpeed, lengthDriven);
                 }
 
 
-                else if (rbBus.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxAmountofPassengers))
+                else if (rbBus.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxAmountofPassengers))
                 {
                     return _vehicleService.CreateAndWriteBus(modelName, licenseNumber, registrationDate, fuelType, maxAmountofPassengers, lengthDriven);
                 }
 
-                else if (rbTruck.IsChecked == true && int.TryParse(tbChangeable.Text, out int maxLoad))
+                else if (rbTruck.IsChecked == true && int.TryParse(tbChangeable.Text.Replace(" ", ""), out int maxLoad))
                 {
                     return _vehicleService.CreateAndWriteTruck(modelName, licenseNumber, registrationDate, fuelType, maxLoad, lengthDriven);
                 }
@@ -200,7 +202,7 @@ namespace GUI.Errands
                 cbPågående.Items.Refresh();
                 cbLiggande.SelectedItem = null;
                 cbLiggande.Items.Refresh();
-               
+
                 var errand = cbKlara.SelectedItem as Errand;
                 GetErrandInfo(errand);
                 lblErrandTilldeladMekaniker.Content = "Tilldelad mekaniker:";
@@ -261,6 +263,7 @@ namespace GUI.Errands
                 {
                     MessageBox.Show("Inkorrekt inmatning av uppgifter");
                 }
+
                 else
                 {
                     var errandID = CreateErrand(vehicleID);
@@ -268,6 +271,7 @@ namespace GUI.Errands
                     {
                         MessageBox.Show("Inkorrekt inmatning av uppgifter");
                     }
+
                     else
                     {
                         if (cbAvailableMechanics.SelectedItem != null)
@@ -275,10 +279,10 @@ namespace GUI.Errands
                             var mech = cbAvailableMechanics.SelectedItem as Mechanic;
                             _mechanicService.AddErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
                             _errandService.SetMechanicIdToErrand(errandID, mech.ID);
+                            MessageBox.Show("Ärende skapat.");
                         }
                     }
                 }
-                MessageBox.Show("Ärende skapat.");
                 UpdateErrandPage();
             }
         }
@@ -386,7 +390,7 @@ namespace GUI.Errands
             tbErrandModelName.Text = vehicle.ModelName;
             tbErrandLicensePlate.Text = vehicle.LicensePlate;
             tbErrandFuelType.Text = vehicle.FuelType.ToString();
-            tbErrandRegistrationdate.Text = vehicle.RegistrationDate;
+            tbErrandRegistrationdate.Text = vehicle.RegistrationDate.ToShortDateString();
             tbErrandOdometer.Text = vehicle.Odometer.ToString();
             tbErrandDescription.Text = errand.Description;
             tbErrandProblem.Text = errand.Problem.ToString();
@@ -405,7 +409,7 @@ namespace GUI.Errands
             #region Uppdaterar "Skapa ärende"
             tbModelName.Text = string.Empty;
             tbLicensePlate.Text = string.Empty;
-            tbRegistrationDate.Text = string.Empty;
+            dpRegistrationDate.SelectedDate = null;
             tbLengthDriven.Text = string.Empty;
             tbChangeable.Text = string.Empty;
 
@@ -485,6 +489,12 @@ namespace GUI.Errands
             rbNo.Visibility = Visibility.Hidden;
             lblTypeOfCar.Visibility = Visibility.Hidden;
             cbCarType.Visibility = Visibility.Hidden;
+        }
+
+        private void btnBackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var homePage = new HomePage();
+            this.NavigationService.Navigate(homePage);
         }
     }
 }

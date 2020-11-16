@@ -57,13 +57,12 @@
                                                   Height="24" SelectionChanged="cbMechanics_SelectionChanged" Grid.ColumnSpan="2"
                                                   />
         <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
-        <TextBlock HorizontalAlignment="Left" Margin="370,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ta bort"/><Run Text="/Redigera"/><LineBreak/><Run/><Run Text=" "/><Run Language="sv-se" Text=" Användare"/></TextBlock>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20"><Run Text="Användar"/><Run Language="sv-se" Text="e"/><LineBreak/><Run/></TextBlock>
-        <Button x:Name="btnRemove" Content="Ta bort&#xD;&#xA;" Grid.Column="1" HorizontalAlignment="Left" Margin="187,282,0,0" VerticalAlignment="Top" Width="72" Height="19" Click="btnRemove_Click"/>
-        <ComboBox x:Name="cbListUsers" Grid.Column="1" HorizontalAlignment="Left" Margin="228,76,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbListUsers_SelectionChanged"/>
-        <extToolkit:WatermarkTextBox x:Name="tbUserNameSwap" HorizontalAlignment="Left" Margin="280,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <extToolkit:WatermarkTextBox x:Name="tbPasswordSwap" HorizontalAlignment="Left" Margin="280,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="btnSave" Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="280,281,0,0" VerticalAlignment="Top" Width="68" Click="Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="550,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ta bort"/><Run Text="/Redigera"/><LineBreak/><Run/><Run Text=" "/><Run Language="sv-se" Text=" Användare"/></TextBlock>
+        <Button x:Name="btnRemove" Content="Ta bort&#xD;&#xA;" HorizontalAlignment="Left" Margin="482,222,0,0" VerticalAlignment="Top" Width="72" Height="19" Click="btnRemove_Click"/>
+        <ComboBox x:Name="cbListUsers" HorizontalAlignment="Left" Margin="534,89,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbListUsers_SelectionChanged"/>
+        <extToolkit:WatermarkTextBox x:Name="tbUserNameSwap" HorizontalAlignment="Left" Margin="534,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <extToolkit:WatermarkTextBox x:Name="tbPasswordSwap" HorizontalAlignment="Left" Margin="534,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="622,222,0,0" VerticalAlignment="Top" Width="68" Click="Button_Click"/>
 
 
         <!--</Grid>
@@ -71,8 +70,8 @@
             </TabItem>
         </TabControl>-->
 
-        <TextBlock HorizontalAlignment="Left" Margin="227,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Namn"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="219,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="482,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Namn"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="465,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/></TextBlock>
 
 
     </Grid>

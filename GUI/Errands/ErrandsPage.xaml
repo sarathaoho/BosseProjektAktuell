@@ -10,7 +10,7 @@
       d:DesignHeight="600" d:DesignWidth="1100"
       Title="ErrandsPage">
     <Page.Resources>
-        <DataTemplate DataType="{x:Type entities:Mechanic}">
+        <DataTemplate  DataType="{x:Type entities:Mechanic}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding FirstName}"/>
                 <TextBlock Text=" "/>
@@ -47,7 +47,6 @@
         <Label Content="Registreringsnummer:" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23"/>
         <extToolkit:WatermarkTextBox Watermark="t ex ABC123" x:Name="tbLicensePlate" HorizontalAlignment="Left" Margin="138,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10"/>
         <Label Content="Registreringsdatum:" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23"/>
-        <extToolkit:WatermarkTextBox Watermark="YYYY-MM-DD" x:Name="tbRegistrationDate" HorizontalAlignment="Left" Margin="138,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10"/>
         <Label Content="Drivmedel:" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23"/>
         <extToolkit:WatermarkComboBox x:Name="cbFuelType" Watermark="Drivmedel" HorizontalAlignment="Left" Margin="138,170,0,0" VerticalAlignment="Top" Width="118" Height="22"/>
 
@@ -106,6 +105,9 @@
         <Label x:Name="lblErrandTilldeladMekaniker" Content="Tilldelad mekaniker:" HorizontalAlignment="Left" Margin="264,216,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
         <TextBox x:Name="tbErrandWorkingMechanic" Text="" HorizontalAlignment="Left" Margin="389,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
         <extToolkit:WatermarkComboBox x:Name="cbKlara" Watermark="Klara" HorizontalAlignment="Left" Margin="257,42,0,0" VerticalAlignment="Top" Width="82" Height="22" Grid.Column="1" SelectionChanged="cbKlara_SelectionChanged"/>
+        <DatePicker x:Name="dpRegistrationDate" HorizontalAlignment="Left" Margin="138,146,0,0" VerticalAlignment="Top" Width="118"/>
+        <Button Background="Bisque" x:Name="btnBackToMenu" Content="Tillbaka till huvudmeny" Grid.Column="2" HorizontalAlignment="Left" Margin="52,20,0,0" VerticalAlignment="Top" Height="34" Width="140" Click="btnBackToMenu_Click"/>
+        <TextBox BorderThickness="0" Grid.Column="1" HorizontalAlignment="Left" Margin="1,368,0,0" Text="Uppdateras när man har valt fordonsdel. Om ingen mekaniker listas då så finns det ingen tillgänglig mekaniker." TextWrapping="Wrap" VerticalAlignment="Top" Width="324" Height="36" FontStyle="Italic"/>
 
     </Grid>
 </Page>

@@ -1,5 +1,4 @@
-﻿using Logic.Attributes;
-using Logic.Database.Entities.Vehicles;
+﻿using Logic.Database.Entities.Vehicles;
 using Logic.Models;
 using System;
 using System.Collections.Generic;
