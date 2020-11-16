@@ -13,17 +13,10 @@ namespace Logic.Database.Entities.Vehicles
 
         public string ModelName { get; set; }
         public string LicensePlate { get; set; }
-        public string RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public Fuel FuelType { get; set; }
         public int Wheels { get; set; }
         public double Odometer { get; set; }
-
-        public Vehicle(string modelName, string registrationDate, Fuel fuelType)
-        {
-            ModelName = modelName;
-            RegistrationDate = registrationDate;
-            FuelType = fuelType;
-        }
 
         public Vehicle()
         {

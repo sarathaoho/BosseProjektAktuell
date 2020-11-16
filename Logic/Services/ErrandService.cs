@@ -2,7 +2,6 @@
 using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Database.Entities.Vehicles;
-using Logic.Extensions;
 using Logic.Helpers;
 using Logic.Models;
 using System;
@@ -49,6 +48,11 @@ namespace Logic.Services
 
             _dbErrand.SaveList(db.Errands);
 
+        }
+
+        public IEnumerable<Errand> GetMechanicErrands (Mechanic mechanic)
+        {
+            return db.Errands.Where(x => x.MechanicID == mechanic.ID);
         }
     }
 }

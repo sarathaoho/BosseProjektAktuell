@@ -7,7 +7,16 @@
         mc:Ignorable="d"
         Title="Bosses Bilverkstad" Height="600" Width="1100" Source="/Login/LoginPage.xaml" ResizeMode="NoResize">
 
-
+    <Window.Resources>
+        <DataTemplate  x:Key="mechanicTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+            </StackPanel>
+        </DataTemplate>
+        
+    </Window.Resources>
 
 
 </NavigationWindow>

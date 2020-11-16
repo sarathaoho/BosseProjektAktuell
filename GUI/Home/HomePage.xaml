@@ -11,72 +11,105 @@
       Title="Bosses bilverkstad - Hem">
 
     <Page.Resources>
-        <DataTemplate DataType="{x:Type entities:Mechanic}">
-            <StackPanel Orientation="Horizontal">
+        <DataTemplate x:Key="mechanicTemplate"  DataType="{x:Type entities:Mechanic}">
+            <StackPanel x:Name="tb" Orientation="Horizontal">
                 <TextBlock Text="{Binding FirstName}"/>
                 <TextBlock Text=" "/>
                 <TextBlock Text="{Binding LastName}"/>
             </StackPanel>
-
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type entities:Mechanic}">
+            <StackPanel x:Name="tb" Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding LastName}"/>
+                <TextBlock Text=" fyller "/>
+                <TextBlock Text="{Binding Age}"/>
+                <TextBlock Text=" år idag!"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type entities:Errand}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Problem: "/>
+                <TextBlock Text="{Binding Problem}"/>
+                <TextBlock Text=", "/>
+                <TextBlock Text="Beskrivning: "/>
+                <TextBlock Text="{Binding Description}"/>
+            </StackPanel>
+        </DataTemplate>
+
+
+
     </Page.Resources>
+
     <Grid>
 
         <Grid>
 
-            <Grid>
+            <Grid.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#FFE2C3C3" Offset="0.0"/>
+                    <GradientStop Color="#FFCA4D4D" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="162"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="162"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
 
-                </Grid.ColumnDefinitions>
-                <Border CornerRadius="20" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                    <Border.Background>
-                        <LinearGradientBrush>
-                            <GradientStop Color="#FFE2C3C3" Offset="0.0"/>
-                            <GradientStop Color="#FFCA4D4D" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-
-
-                </Border>
-
-                <StackPanel Grid.Row="1" >
-                    <StackPanel Margin="75,10,0,0" Orientation="Horizontal" />
-
-                    <StackPanel Orientation="Horizontal" Margin="75,30,0,0"/>
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="20" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FFE2C3C3" Offset="0.0"/>
+                        <GradientStop Color="#FFCA4D4D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Label x:Name="lblTodaysDate" Content="2030-50-50" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="938,10,0,0" />
+            </Border>
 
 
-                    <StackPanel 
-                           Orientation="Horizontal" Margin="-8,50,0,0"/>
-                </StackPanel>
-                <Label Content="Meny" Margin="315,55,30,4"
+            <Label Content="Meny" Margin="315,55,30,4"
                         FontFamily="Eras ITC"                                            
                              FontSize="72"
                              Foreground="Black"
                              Background="Transparent"          
                              Opacity="1" Grid.Column="1"/>
 
-                <Label Content="Välkommen Bosse!" Margin="10,55,30,4"
+            <Label Content="Välkommen Bosse!" Margin="10,55,30,4"
                         FontFamily="Eras ITC"                                            
                              FontSize="70"
                              Foreground="Black"
                              Background="Transparent"          
                              Opacity="1" Grid.ColumnSpan="2"/>
-                <Label Content="Här någonstans kanske vi lägger lite info som är bra att veta (liggande ärenden, födelsedagar etc)" HorizontalAlignment="Left" Margin="10,133,0,0" Grid.Row="1" VerticalAlignment="Top" Width="540" Height="26"/>
-
-
-            </Grid>
         </Grid>
+
         <Button x:Name="btnErrandPage"   FontSize="20" Content="Ärenden" HorizontalAlignment="Left" Margin="850,160,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink" Click="btnErrandPage_Click"/>
         <Button x:Name="btnMechanicPage" FontSize="20" Content="Mekaniker" HorizontalAlignment="Left" Margin="850,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Height="35" Width="205"  Background="LightPink" Click="btnMechanicPage_Click"/>
         <Button x:Name="btnUserPage" FontSize="20" Content="Användare" HorizontalAlignment="Left" Margin="850,280,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Width="205" Height="35" Background="LightPink" Click="btnUserPage_Click" />
 
+        <Grid Margin="10,160,500,10">
+            <Grid HorizontalAlignment="Center" Height="331" VerticalAlignment="Top" Width="518">
+                <Label Content="Liggande ärenden" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"/>
+                <ListBox Initialized="lbErrands_Initialized" x:Name="lbErrands" Margin="1,42,257,199" Opacity="0.5" FontSize="18" MinHeight="90" MaxHeight="90" SelectionChanged="lbErrands_SelectionChanged"/>
+               
+                <Label Content="Födelsedagar" HorizontalAlignment="Left" Margin="2,199,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <ListBox Initialized="lbBirthdays_Initialized"  x:Name="lbBirthdays" Margin="2,241,256,0" Opacity="0.5" FontSize="18" MinHeight="90" MaxHeight="90" MinWidth="260" MaxWidth="260" />
+                <extToolkit:WatermarkComboBox ItemTemplate="{StaticResource mechanicTemplate}" x:Name="cbMechanics" Watermark="Tillgängliga" HorizontalAlignment="Left" Margin="274,41,0,0" VerticalAlignment="Top" Width="168" Height="30" FontSize="18"/>
+                <Label Content="Tilldela mekaniker" HorizontalAlignment="Left" Margin="274,10,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <Button x:Name="BtnAssign" Content="Tilldela" HorizontalAlignment="Left" Margin="386,100,0,0" VerticalAlignment="Top" Height="32" Width="56" FontSize="16" Click="BtnAssign_Click"/>
+                <Button x:Name="BtnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="274,100,0,0" VerticalAlignment="Top" Height="32" Width="56" FontSize="16"/>
+
+            </Grid>
+
+
+        </Grid>
 
     </Grid>
 </Page>
