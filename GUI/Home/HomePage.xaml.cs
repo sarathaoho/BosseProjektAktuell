@@ -89,7 +89,7 @@ namespace GUI.Home
                     var mechanic = cbMechanics.SelectedItem as Mechanic;
                     var errand = lbErrands.SelectedItem as Errand;
 
-                    _mechanicService.AddErrand(mechanic.ID, errand.ID);
+                    _mechanicService.AddCurrentErrand(mechanic.ID, errand.ID);
 
                     MessageBox.Show("Ärende tilldelat mekaniker.");
 

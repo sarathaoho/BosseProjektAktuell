@@ -277,7 +277,7 @@ namespace GUI.Errands
                         if (cbAvailableMechanics.SelectedItem != null)
                         {
                             var mech = cbAvailableMechanics.SelectedItem as Mechanic;
-                            _mechanicService.AddErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
+                            _mechanicService.AddCurrentErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
                             _errandService.SetMechanicIdToErrand(errandID, mech.ID);
                             MessageBox.Show("Ärende skapat.");
                         }
@@ -295,7 +295,7 @@ namespace GUI.Errands
                     var errand = cbLiggande.SelectedItem as Errand;
                     var mechanic = cbErrandAvailableMechanics.SelectedItem as Mechanic;
 
-                    _mechanicService.AddErrand(mechanic.ID, errand.ID);
+                    _mechanicService.AddCurrentErrand(mechanic.ID, errand.ID);
                     _errandService.SetMechanicIdToErrand(errand.ID, mechanic.ID);
 
                     MessageBox.Show("Förändringar på ärendet sparades.\nÄrendestatus: Pågående", "Ärende sparat");
@@ -311,7 +311,7 @@ namespace GUI.Errands
                 var errand = cbPågående.SelectedItem as Errand;
                 var mechanic = _mechanicService.GetMechanicFromErrand(errand.ID);
 
-                _mechanicService.RemoveErrand(mechanic.ID, errand.ID);
+                _mechanicService.RemoveCurrentErrand(mechanic, errand);
 
                 MessageBox.Show("Ärende avslutat.");
                 UpdateErrandPage();
