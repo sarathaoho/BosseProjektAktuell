@@ -59,6 +59,11 @@ namespace GUI.UsersPage
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
 
         }
+        private void ClearList()
+        {
+            
+            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
+        }
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -108,7 +113,9 @@ namespace GUI.UsersPage
 
                         UpdateEditPageCopy();
                         RefreshList();
-                        cbListUsers.Items.Refresh();
+                        cbListUsers.ItemsSource = null;
+                        cbListUsers.ItemsSource = db.Users;
+                        ClearList();
                         
                     }
                 }                             
@@ -129,13 +136,17 @@ namespace GUI.UsersPage
                     "Ta bort användare", MessageBoxButton.YesNo);
                 switch (result)
                 {
+
                     case MessageBoxResult.Yes:
+                        user = cbListUsers.SelectedItem as User;
                         _userService.RemoveUser(user);
 
-                        cbListUsers.Items.Refresh();
+                        RefreshList();
+                        cbListUsers.ItemsSource = null;
+                        cbListUsers.ItemsSource = db.Users;
                         MessageBox.Show($"Tog bort {user.Username} {user.Password}");
                         UpdateEditPageCopy();
-                        RefreshList();
+                        
                         break;
 
                     case MessageBoxResult.No:
