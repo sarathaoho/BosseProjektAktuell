@@ -33,7 +33,7 @@
     </Page.Resources>
 
 
-    <Grid Background="white">
+    <Grid Background="white" Margin="-7,0,7,0">
 
         <!--<TabControl>
             <TabItem x:Name="tabAnvändare" Header="Användare">
@@ -72,8 +72,12 @@
 
         <TextBlock HorizontalAlignment="Left" Margin="482,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Namn"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="465,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/></TextBlock>
-        <Label x:Name="lUserMechanicFirstName" Content="" HorizontalAlignment="Left" Margin="775,119,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lUserMechanicLastName" Content="" HorizontalAlignment="Left" Margin="775,153,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lUserMechanicFirstName" Content="" HorizontalAlignment="Left" Margin="741,113,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lUserMechanicLastName" Content="" HorizontalAlignment="Left" Margin="769,148,0,0" VerticalAlignment="Top"/>
+        <Button Background="Bisque" x:Name="btnBackToMenu" Content="Tillbaka till huvudmeny" HorizontalAlignment="Left" Margin="900,10,0,0" VerticalAlignment="Top" Height="34" Width="140" Click="btnBackToMenu_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="701,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Namn:"/>
+        <TextBlock HorizontalAlignment="Left" Margin="701,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Eftern"/><Run Text="amn:"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="701,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Mekanikern"/></TextBlock>
 
 
     </Grid>

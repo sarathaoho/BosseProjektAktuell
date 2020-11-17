@@ -1,4 +1,5 @@
-﻿using GUI.UsersPage;
+﻿using GUI.Home;
+using GUI.UsersPage;
 using Logic.DAL;
 using Logic.Database;
 using Logic.Database.Entities;
@@ -84,7 +85,7 @@ namespace GUI.UsersPage
                 // Välj mellan existerande Mekaniker att binda till en användare
                 var mechanic = cbMechanics.SelectedItem as Mechanic;
 
-                // TEST: För skapande av användare
+                //För skapande av användare
 
                 var emailIsValid = _userService.Regexx(tbUserName.Text);
                 if (emailIsValid != true)
@@ -106,9 +107,8 @@ namespace GUI.UsersPage
                     cbListUsers.Items.Refresh();
                 }
             }
+            RefreshComboBoxes();
         }
-
-
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
@@ -124,26 +124,28 @@ namespace GUI.UsersPage
                 {
                     case MessageBoxResult.Yes:
                         _userService.RemoveUser(user);
+                        var mechanic = db.CurrentMechanics.Where(x => x.UserID == user.ID).FirstOrDefault();
+                        _mechanicService.RemoveMechanicUserID(mechanic);
 
-                        
-                        var test = db.CurrentMechanics.FirstOrDefault(x => x.UserID.Equals(user.ID));
-                        _mechanicService.RemoveMechanicUserID(test);
-                        RefreshList();
                         lUserMechanicFirstName.Content = "";
                         lUserMechanicLastName.Content = "";
-                        
-                        cbListUsers.ItemsSource = null;
+
                         cbListUsers.ItemsSource = db.Users;
                         MessageBox.Show($"Tog bort {user.Username} {user.Password}");
                         UpdateEditPageCopy();
                         RefreshList();
+                        RefreshComboBoxes();
                         break;
 
                     case MessageBoxResult.No:
                         break;
                 }
             }
-
+        }
+        private void RefreshComboBoxes()
+        {
+            cbListUsers.ItemsSource = db.Users;
+            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
         }
         private void UpdateEditPageCopy()
         {
@@ -186,21 +188,40 @@ namespace GUI.UsersPage
 
         private void EditUser()
         {
-
-            var users = cbListUsers.SelectedItem as User;
-
-            var isUserNameChanged = IsChanged(users.Username, tbUserNameSwap.Text);
-            var isPasswordChanged = IsChanged(users.Password, tbPasswordSwap.Text);
-
-
-            if (isUserNameChanged)
+            if (cbListUsers.SelectedItem != null)
             {
-                users.Username = tbUserNameSwap.Text;
+
+              var users = cbListUsers.SelectedItem as User;
+
+                var isUserNameChanged = IsChanged(users.Username, tbUserNameSwap.Text);
+                var isPasswordChanged = IsChanged(users.Password, tbPasswordSwap.Text);
+
+
+                if (isUserNameChanged)
+                {
+                    users.Username = tbUserNameSwap.Text;
+                }
+
+                if (isPasswordChanged)
+                {
+                    users.Password = tbPasswordSwap.Text;
+                }
             }
-
-            if (isPasswordChanged)
+            
+            
+            else
             {
-                users.Password = tbPasswordSwap.Text;
+                //Försöker throwa den egenskapade exceptionen om ingen användare blivit vald, catchar den och skriver ut meddelandet
+                //Onödigt syfte med denna men kanske bara är poängen att ha en med som räknas?
+                try
+                {
+                    throw new NoUserSelectedException("Ingen användare vald.");
+                }
+                catch (NoUserSelectedException e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
             }
         }
 
@@ -227,12 +248,28 @@ namespace GUI.UsersPage
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            EditUser();
+            //if (cbListUsers.SelectedItem == null)
+            //{
+            //MessageBox.Show("Du måste välja en användare.");
+            //return;
+            //}
+            //else
+            //{
+            
+            
+                EditUser();
+            
+            
+            //}
             UpdateEditPageCopy();
 
-            MessageBox.Show($"Ändringar sparade");
+            //MessageBox.Show($"Ändringar sparade");
         }
 
-
+        private void btnBackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var homePage = new HomePage();
+            this.NavigationService.Navigate(homePage);
+        }
     }
 }

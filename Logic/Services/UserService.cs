@@ -51,8 +51,26 @@ namespace Logic.Services
         }
         public void RemoveUser(User user)
         {
-            db.Users.Remove(user);
+            db.Users.Remove(db.Users.FirstOrDefault(x => x.ID == user.ID));
             _dbUsers.SaveList(db.Users);
+        }
+    }
+    public class NoUserSelectedException : Exception
+    {
+        public string UserMessage { get; }
+
+        public NoUserSelectedException() { }
+
+        public NoUserSelectedException(string message)
+            : base(message) { }
+
+        public NoUserSelectedException(string message, Exception inner)
+            : base(message, inner) { }
+
+        public NoUserSelectedException(string message, string userMessage)
+            : this(message)
+        {
+            UserMessage = userMessage;
         }
     }
 }
