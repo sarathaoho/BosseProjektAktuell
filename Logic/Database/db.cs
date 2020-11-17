@@ -18,7 +18,7 @@ namespace Logic.Database
         private static List<Mechanic> _oldMechanics; // Lista för de som inte jobbar kvar på verkstaden
         private static List<Mechanic> _currentMechanics; // Lista för de som jobbar på verkstaden nu
         private static List<Errand> _errands;
-        private static List<VehiclePart> _components;
+        private static List<VehiclePart> _competences;
         private static List<Car> _cars;
         private static List<Motorcycle> _motorcycles;
         private static List<Bus> _buses;
@@ -151,9 +151,9 @@ namespace Logic.Database
         {
             get
             {
-                if (_components == null)
+                if (_competences == null)
                 {
-                    _components = new List<VehiclePart>()
+                    _competences = new List<VehiclePart>()
                     {
                         VehiclePart.Kaross,
                         VehiclePart.Bromsar,
@@ -163,7 +163,7 @@ namespace Logic.Database
 
                      };
                 }
-                return _components;
+                return _competences;
             }
         }
     }

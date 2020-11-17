@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GUI.Login"
+       xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1100"
       Title="Bosses bilverkstad - Login">
@@ -39,16 +40,15 @@
                 </Border>
                 <StackPanel Grid.Row="1" >
                     <StackPanel Margin="75,30,0,0" Orientation="Horizontal" >
-                        <TextBox  FontFamily="Helvetica"
+                        <extToolkit:WatermarkTextBox FontFamily="Helvetica"
                              FontWeight="Light"
-                             Text="Användarnamn"
+                             Watermark="Användarnamn"
                              x:Name="tbUsername"
                              FontSize="30"
-                             HorizontalAlignment="Center"
                              Foreground="Black"
                              Background="#FFEAC4C4" 
                              BorderThickness="0"
-                             Width="200"
+                             Width="363"
                              HorizontalContentAlignment="Left"
                              Opacity="1"
                              Height="40"
@@ -56,16 +56,15 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="75,30,0,0">
-                        <PasswordBox FontFamily="Helvetica"
+                        <extToolkit:WatermarkPasswordBox FontFamily="Helvetica"
                              FontWeight="Light"
                              x:Name="pbPassword"
-                             Password="Password"
+                             Watermark="Lösenord"
                              FontSize="30"
-                             HorizontalAlignment="Center"
                              Foreground="Black"
                              Background="#FFEAC4C4" 
                              BorderThickness="0"
-                             Width="200"
+                             Width="363"
                              HorizontalContentAlignment="Left"
                              Opacity="1"
                              Height="40" 
@@ -89,7 +88,7 @@
                              FontSize="20"
                              Margin="40,0,0,0" 
                              Foreground="Black"
-                             Background="#FFEAC4C4" 
+                             Background="#FFEAC4C4" Click="Button_Click_1" 
                                 
                             />
                     </StackPanel>

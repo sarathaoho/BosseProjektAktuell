@@ -96,7 +96,7 @@
         <extToolkit:WatermarkComboBox x:Name="cbErrandAvailableMechanics" Watermark="Lediga mekaniker" HorizontalAlignment="Left" Margin="389,216,0,0" VerticalAlignment="Top" Width="129" Height="22" Grid.Column="1" Visibility="Hidden"/>
 
         <Label Content="Fordon:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
-        <TextBox x:Name="tbErrandVehicleType" Text="" HorizontalAlignment="Left" Margin="137,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
+        <TextBox x:Name="tbErrandVehicleType" HorizontalAlignment="Left" Margin="137,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
         <Button x:Name="btnSaveChanges" Content="Spara" Grid.Column="1" HorizontalAlignment="Left" Margin="450,249,0,0" VerticalAlignment="Top" Height="34" Width="68" Click="btnSaveChanges_Click" Visibility="Hidden"/>
 
         <extToolkit:WatermarkComboBox x:Name="cbPågående" Watermark="Pågående" HorizontalAlignment="Left" Margin="137,42,0,0" VerticalAlignment="Top" Width="82" Height="22" Grid.Column="1" SelectionChanged="cbPågående_SelectionChanged"/>
@@ -105,6 +105,7 @@
         <Label x:Name="lblErrandTilldeladMekaniker" Content="Tilldelad mekaniker:" HorizontalAlignment="Left" Margin="264,216,0,0" VerticalAlignment="Top" FontSize="10" Width="123" Height="23" Grid.Column="1"/>
         <TextBox x:Name="tbErrandWorkingMechanic" Text="" HorizontalAlignment="Left" Margin="389,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" Height="23" FontSize="10" Grid.Column="1" IsReadOnly="True" />
         <extToolkit:WatermarkComboBox x:Name="cbKlara" Watermark="Klara" HorizontalAlignment="Left" Margin="257,42,0,0" VerticalAlignment="Top" Width="82" Height="22" Grid.Column="1" SelectionChanged="cbKlara_SelectionChanged"/>
+       
         <DatePicker x:Name="dpRegistrationDate" HorizontalAlignment="Left" Margin="138,146,0,0" VerticalAlignment="Top" Width="118"/>
         <Button Background="Bisque" x:Name="btnBackToMenu" Content="Tillbaka till huvudmeny" Grid.Column="2" HorizontalAlignment="Left" Margin="52,20,0,0" VerticalAlignment="Top" Height="34" Width="140" Click="btnBackToMenu_Click"/>
         <TextBox BorderThickness="0" Grid.Column="1" HorizontalAlignment="Left" Margin="1,368,0,0" Text="Uppdateras när man har valt fordonsdel. Om ingen mekaniker listas då så finns det ingen tillgänglig mekaniker." TextWrapping="Wrap" VerticalAlignment="Top" Width="324" Height="36" FontStyle="Italic"/>

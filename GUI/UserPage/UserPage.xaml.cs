@@ -59,17 +59,12 @@ namespace GUI.UsersPage
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
 
         }
-        private void ClearList()
-        {
-            
-            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
-        }
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Drop down box för Mekaniker att binda till en Användare
-            
-            
+
+
             var mechanic = cbMechanics.SelectedItem as Mechanic;
             if (cbMechanics.SelectedItem is Mechanic mechanix && mechanic.UserID == null)
             {
@@ -83,50 +78,41 @@ namespace GUI.UsersPage
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            //UpdateEditPageCopy();
 
-            //Lägg till användare knappen
+            if (cbMechanics.SelectedItem != null)
             {
+                // Välj mellan existerande Mekaniker att binda till en användare
+                var mechanic = cbMechanics.SelectedItem as Mechanic;
 
-                if (cbMechanics.SelectedItem != null)
+                // TEST: För skapande av användare
+
+                var emailIsValid = _userService.Regexx(tbUserName.Text);
+                if (emailIsValid != true)
                 {
-                    // Välj mellan existerande Mekaniker att binda till en användare
-                    var mechanic = cbMechanics.SelectedItem as Mechanic;
+                    MessageBox.Show("Fel input");
+                }
+                else
+                {
+                    string userName = tbUserName.Text;
+                    string password = tbPassword.Text;
 
-                    // TEST: För skapande av användare
+                    var userID = _userService.CreateAndSaveUser(userName, password);
+                    mechanic.UserID = userID;
+                    _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
+                    MessageBox.Show("Användare tillagd.");
 
-                    var emailIsValid = _userService.Regexx(tbUserName.Text);
-                    if (emailIsValid != true)
-                    {
-                        MessageBox.Show("Fel input");
-                    }
-                    else
-                    {
-                        string userName = tbUserName.Text;
-                        string password = tbPassword.Text;
-
-                        var userID = _userService.CreateAndSaveUser(userName, password);
-                        mechanic.UserID = userID;
-                        _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
-                        MessageBox.Show("Användare tillagd.");
-
-
-                        UpdateEditPageCopy();
-                        RefreshList();
-                        cbListUsers.ItemsSource = null;
-                        cbListUsers.ItemsSource = db.Users;
-                        ClearList();
-                        
-                    }
-                }                             
+                    UpdateEditPageCopy();
+                    RefreshList();
+                    cbListUsers.Items.Refresh();
+                }
             }
         }
 
-       
+
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            
+
             if (!(cbListUsers.SelectedItem is User user))
                 MessageBox.Show("Du måste välja en användare.");
 
@@ -136,9 +122,7 @@ namespace GUI.UsersPage
                     "Ta bort användare", MessageBoxButton.YesNo);
                 switch (result)
                 {
-
                     case MessageBoxResult.Yes:
-                        user = cbListUsers.SelectedItem as User;
                         _userService.RemoveUser(user);
 
                         
@@ -152,13 +136,12 @@ namespace GUI.UsersPage
                         cbListUsers.ItemsSource = db.Users;
                         MessageBox.Show($"Tog bort {user.Username} {user.Password}");
                         UpdateEditPageCopy();
-                        
+                        RefreshList();
                         break;
 
                     case MessageBoxResult.No:
                         break;
                 }
-                
             }
 
         }
@@ -177,7 +160,7 @@ namespace GUI.UsersPage
 
             cbListUsers.SelectedItem = null;
             cbMechanics.SelectedItem = null;
-            
+
             //tbMechanicID.Text = string.Empty;
         }
         //private void UpdateAddUserPage()
@@ -203,12 +186,12 @@ namespace GUI.UsersPage
 
         private void EditUser()
         {
-            
+
             var users = cbListUsers.SelectedItem as User;
 
             var isUserNameChanged = IsChanged(users.Username, tbUserNameSwap.Text);
             var isPasswordChanged = IsChanged(users.Password, tbPasswordSwap.Text);
-          
+
 
             if (isUserNameChanged)
             {
@@ -223,7 +206,7 @@ namespace GUI.UsersPage
 
         private void cbListUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
             if (cbListUsers.SelectedItem is User userx)
             {
                 var user = cbListUsers.SelectedItem as User;
@@ -250,6 +233,6 @@ namespace GUI.UsersPage
             MessageBox.Show($"Ändringar sparade");
         }
 
-       
+
     }
 }

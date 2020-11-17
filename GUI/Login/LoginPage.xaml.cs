@@ -1,10 +1,9 @@
 ﻿using GUI.Home;
-using Logic.Database;
+using GUI.UserHome;
 using Logic.Database.Entities;
 using Logic.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,16 +34,14 @@ namespace GUI.Login
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //string username = this.tbUsername.Text;
-            //string password = this.pbPassword.Password;
+            string username = this.tbUsername.Text;
+            string password = this.pbPassword.Password;
 
             // Nu kan vi logga in genom att bara trycka på logga in
-            string username = "bosse@verkstaden.se";
-            string password = "Meckarn123";
+            //string username = "bosse@verkstaden.se";
+            //string password = "Meckarn123";
 
             var user = _loginService.Login(username, password);
-            //Lade till denna för att kunna logga in, verkade behövas
-            //user.IsAdmin = true;
 
             // Om användaren inte finns så skrivs felmeddelande ut
             if (user == null)
@@ -57,10 +54,9 @@ namespace GUI.Login
             // Om användaren finns men den inte är admin så öppnas en annan ruta
             else if (user.IsAdmin == false)
             {
-                LoggedInUserService.LoggedInUser = user;
-                var mechanic = db.CurrentMechanics.FirstOrDefault(x => x.UserID == LoggedInUserService.LoggedInUser.ID);
-                // Här hamnar koden för basic-användare
-                // BasicUserHomePage asdasda = new BasicUserHomePage();
+                LoggedInUserService.User = user;
+                UserHomePage userHomePage = new UserHomePage();
+                this.NavigationService.Navigate(userHomePage);
             }
             
             // Om användaren finns och om den är admin så öppnas huvudrutan
@@ -73,5 +69,18 @@ namespace GUI.Login
 
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Är du säker på att du vill avsluta?", "Avsluta program", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    Environment.Exit(0);
+                    break;
+
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
     }
 }
