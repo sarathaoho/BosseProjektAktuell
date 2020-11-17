@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Home\BBilverkstad.jpg" />
     <Resource Include="Login\BBilverkstad.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

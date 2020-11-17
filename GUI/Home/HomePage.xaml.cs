@@ -1,4 +1,5 @@
 ﻿using GUI.Errands;
+using GUI.Login;
 using GUI.MechPage;
 using GUI.UsersPage;
 using Logic.DAL;
@@ -128,6 +129,12 @@ namespace GUI.Home
             lbBirthdays.Items.Refresh();
 
             lblTodaysDate.Content = DateTime.Now.ToShortDateString();
+        }
+
+        private void btnLoggaUt_Click(object sender, RoutedEventArgs e)
+        {
+            var loginPage = new LoginPage();
+            this.NavigationService.Navigate(loginPage);
         }
     }
 }

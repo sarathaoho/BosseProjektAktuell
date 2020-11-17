@@ -98,7 +98,7 @@
             <Grid HorizontalAlignment="Center" Height="331" VerticalAlignment="Top" Width="518">
                 <Label Content="Liggande ärenden" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"/>
                 <ListBox Initialized="lbErrands_Initialized" x:Name="lbErrands" Margin="1,42,257,199" Opacity="0.5" FontSize="18" MinHeight="90" MaxHeight="90" SelectionChanged="lbErrands_SelectionChanged"/>
-               
+
                 <Label Content="Födelsedagar" HorizontalAlignment="Left" Margin="2,199,0,0" VerticalAlignment="Top" FontSize="20"/>
                 <ListBox Initialized="lbBirthdays_Initialized"  x:Name="lbBirthdays" Margin="2,241,256,0" Opacity="0.5" FontSize="18" MinHeight="90" MaxHeight="90" MinWidth="260" MaxWidth="260" />
                 <extToolkit:WatermarkComboBox ItemTemplate="{StaticResource mechanicTemplate}" x:Name="cbMechanics" Watermark="Tillgängliga" HorizontalAlignment="Left" Margin="274,41,0,0" VerticalAlignment="Top" Width="168" Height="30" FontSize="18"/>
@@ -110,6 +110,7 @@
 
 
         </Grid>
+        <Button x:Name="btnLoggaUt" FontSize="20" Content="Logga ut" HorizontalAlignment="Left" Margin="850,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Width="205" Height="35" Background="LightPink" Click="btnLoggaUt_Click" />
 
     </Grid>
 </Page>

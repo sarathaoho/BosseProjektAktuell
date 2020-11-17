@@ -1,4 +1,5 @@
 ﻿using GUI.Home;
+using GUI.UserHome;
 using Logic.Database.Entities;
 using Logic.Services;
 using System;
@@ -33,16 +34,14 @@ namespace GUI.Login
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //string username = this.tbUsername.Text;
-            //string password = this.pbPassword.Password;
+            string username = this.tbUsername.Text;
+            string password = this.pbPassword.Password;
 
             // Nu kan vi logga in genom att bara trycka på logga in
-            string username = "bosse@verkstaden.se";
-            string password = "Meckarn123";
+            //string username = "bosse@verkstaden.se";
+            //string password = "Meckarn123";
 
             var user = _loginService.Login(username, password);
-            //Lade till denna för att kunna logga in, verkade behövas
-            //user.IsAdmin = true;
 
             // Om användaren inte finns så skrivs felmeddelande ut
             if (user == null)
@@ -55,8 +54,9 @@ namespace GUI.Login
             // Om användaren finns men den inte är admin så öppnas en annan ruta
             else if (user.IsAdmin == false)
             {
-                // Här hamnar koden för basic-användare
-                // BasicUserHomePage asdasda = new BasicUserHomePage();
+                LoggedInUserService.User = user;
+                UserHomePage userHomePage = new UserHomePage();
+                this.NavigationService.Navigate(userHomePage);
             }
             
             // Om användaren finns och om den är admin så öppnas huvudrutan
