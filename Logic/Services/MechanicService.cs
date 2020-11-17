@@ -160,6 +160,11 @@ namespace Logic.Services
             db.CurrentMechanics.Add(mechanic);
             _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, currentMechanicsPath);
         }
+        public void CreateAndSaveMechanic(Mechanic mechanic)
+        {
+            db.CurrentMechanics.Add(mechanic);
+            _dbCurrentMechanics.SaveMechanicList(db.CurrentMechanics, currentMechanicsPath);
+        }
 
         /// <summary>
         /// Gets the competences that the mechanic doesn't have.
@@ -224,6 +229,16 @@ namespace Logic.Services
             }
 
             return false;
+        }
+        public void RemoveMechanicUserID(Mechanic mechanic)
+        {
+
+            
+            RemoveMechanic(mechanic);
+            mechanic.UserID = null;
+            CreateAndSaveMechanic(mechanic);
+
+
         }
     }
 }

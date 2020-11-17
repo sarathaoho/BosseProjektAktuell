@@ -72,6 +72,8 @@
 
         <TextBlock HorizontalAlignment="Left" Margin="482,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Namn"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="465,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="sv-se" Text="Lösenord"/></TextBlock>
+        <Label x:Name="lUserMechanicFirstName" Content="" HorizontalAlignment="Left" Margin="775,119,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lUserMechanicLastName" Content="" HorizontalAlignment="Left" Margin="775,153,0,0" VerticalAlignment="Top"/>
 
 
     </Grid>

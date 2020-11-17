@@ -141,7 +141,13 @@ namespace GUI.UsersPage
                         user = cbListUsers.SelectedItem as User;
                         _userService.RemoveUser(user);
 
+                        
+                        var test = db.CurrentMechanics.FirstOrDefault(x => x.UserID.Equals(user.ID));
+                        _mechanicService.RemoveMechanicUserID(test);
                         RefreshList();
+                        lUserMechanicFirstName.Content = "";
+                        lUserMechanicLastName.Content = "";
+                        
                         cbListUsers.ItemsSource = null;
                         cbListUsers.ItemsSource = db.Users;
                         MessageBox.Show($"Tog bort {user.Username} {user.Password}");
@@ -224,9 +230,11 @@ namespace GUI.UsersPage
                 tbUserNameSwap.Watermark = user.Username;
                 tbPasswordSwap.Watermark = user.Password;
                 
+                
                 //tbMechanicID.Watermark = users.MechanicID;
                 var mechanic = db.CurrentMechanics.FirstOrDefault(XamlFormatter => XamlFormatter.UserID == user.ID);
-                
+                lUserMechanicFirstName.Content = mechanic == null ? string.Empty : mechanic.FirstName;
+                lUserMechanicLastName.Content = mechanic == null ? string.Empty : mechanic.LastName;
                 //var user = db.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
 
                 //tbMechanicID.Text = user != null ? user.Username : "Ingen användare";
