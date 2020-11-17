@@ -41,6 +41,7 @@ namespace GUI.Home
         private UserDataAccess<Mechanic> _dbMechanics;
         private UserDataAccess<Errand> _dbErrands;
         private MechanicService _mechanicService;
+        private ErrandService _errandService;
 
 
         public HomePage()
@@ -91,7 +92,7 @@ namespace GUI.Home
                     var errand = lbErrands.SelectedItem as Errand;
 
                     _mechanicService.AddCurrentErrand(mechanic.ID, errand.ID);
-
+                    _errandService.SetMechanicIdToErrand(errand.ID, mechanic.ID);
                     MessageBox.Show("Ärende tilldelat mekaniker.");
 
                     lbErrands.SelectedItem = null;
@@ -118,6 +119,7 @@ namespace GUI.Home
             _dbMechanics = new UserDataAccess<Mechanic>();
             _dbErrands = new UserDataAccess<Errand>();
             _mechanicService = new MechanicService();
+            _errandService = new ErrandService();
 
             db.Errands = await _dbErrands.LoadListAsync();
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();

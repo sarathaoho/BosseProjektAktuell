@@ -69,5 +69,18 @@ namespace GUI.Login
 
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Är du säker på att du vill avsluta?", "Avsluta program", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    Environment.Exit(0);
+                    break;
+
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
     }
 }

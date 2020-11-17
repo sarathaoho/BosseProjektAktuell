@@ -70,7 +70,7 @@
 
 
         </Grid>
-        <Label x:Name="lblHeader" Content="Välkommen Klaffe!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Eras ITC" FontSize="70"/>
+        <Label x:Name="lblHeader" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Eras ITC" FontSize="70"/>
         <Label x:Name="lblToday"  HorizontalContentAlignment="Right" Margin="946,10,0,0" VerticalAlignment="Top" Width="144"/>
 
         <Button x:Name="btnLoggaUt" FontSize="20" Content="Logga ut" HorizontalAlignment="Left" Margin="850,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="27.257,22.545" Width="205" Height="35" Background="LightPink" Click="btnLoggaUt_Click" />

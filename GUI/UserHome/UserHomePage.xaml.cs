@@ -74,6 +74,7 @@ namespace GUI.UserHome
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
             db.Errands = _dbErrands.LoadList();
             LoggedInUserService.Mechanic = db.CurrentMechanics.FirstOrDefault(x => x.UserID == LoggedInUserService.User.ID);
+            
             var errands = _errandService.GetMechanicErrands(LoggedInUserService.Mechanic);
             cbPågående.ItemsSource = errands.Where(x => x.ErrandStatus == ErrandStatus.Gul);
             cbKlara.ItemsSource = errands.Where(x => x.ErrandStatus == ErrandStatus.Grön);
