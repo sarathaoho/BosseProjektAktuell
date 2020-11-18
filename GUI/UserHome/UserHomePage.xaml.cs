@@ -143,7 +143,10 @@ namespace GUI.UserHome
             tbErrandLicensePlate.Text = string.Empty;
             tbErrandFuelType.Text = string.Empty;
             tbErrandDescription.Text = string.Empty;
+
             tbErrandChangeable.Text = string.Empty;
+            tbErrandChangeable.Visibility = Visibility.Hidden;
+            lblErrandChangeable.Content = string.Empty;
         }
 
         private void GetErrandInfo(Errand errand)
@@ -222,9 +225,10 @@ namespace GUI.UserHome
                 cbKlara.SelectedItem = null;
                 cbKlara.Items.Refresh();
                 var errand = cbPågående.SelectedItem as Errand;
-                var mechanic = _mechanicService.GetMechanicFromErrand(errand.ID); // tabort
                 GetErrandInfo(errand);
 
+                lblErrandChangeable.Visibility = Visibility.Visible;
+                tbErrandChangeable.Visibility = Visibility.Visible;
                 btnÄrendeKlart.Visibility = Visibility.Visible;
                 btnAvbryt.Visibility = Visibility.Visible;
             }

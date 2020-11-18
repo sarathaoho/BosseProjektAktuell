@@ -56,7 +56,6 @@ namespace Logic.Services
             }
 
             return user;
-
         }
 
     }

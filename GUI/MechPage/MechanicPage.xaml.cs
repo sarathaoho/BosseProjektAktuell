@@ -237,7 +237,7 @@ namespace GUI.MechPage
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             if (!(cbMechanics.SelectedItem is Mechanic mechanic))
-                System.Windows.MessageBox.Show("Fel: Du måste välja en mekaniker");
+                System.Windows.MessageBox.Show("Du måste välja en mekaniker", "Ingen mekaniker vald");
 
             else
             {
@@ -267,20 +267,26 @@ namespace GUI.MechPage
                         System.Windows.MessageBox.Show($"Tog bort {mechanic.FirstName} {mechanic.LastName}");
                         ClearErrandInfo();
                         UpdateEditPage();
+                        RemoveErrandInfo();
                         break;
 
                     case MessageBoxResult.No:
                         ClearErrandInfo();
                         UpdateEditPage();
+                        RemoveErrandInfo();
                         break;
                 }
             }
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            EditMechanic();
+            var isSomethingChanged = EditMechanic();
+            if (isSomethingChanged) System.Windows.MessageBox.Show($"Ändringar sparade");
             UpdateEditPage();
+            RemoveErrandInfo();
         }
+
+
         #endregion
 
         private void UpdateOldMechanic()
@@ -334,14 +340,24 @@ namespace GUI.MechPage
             lbCompetences.Items.Refresh();
             lbMechanicCompetences.Items.Refresh();
         }
-        private void EditMechanic()
+        private void RemoveErrandInfo()
         {
+            cbCurrentErrands.SelectedItem = null;
+            cbFinishedErrands.SelectedItem = null;
+            tbModelName.Text = string.Empty;
+            tbVehicleType.Text = string.Empty;
+            tbLicensePlate.Text = string.Empty;
+            tbProblem.Text = string.Empty;
+            tbDescription.Text = string.Empty;
+        }
+        private bool EditMechanic()
+        {
+            bool hasSomethingChanged = false;
             if (cbMechanics.SelectedItem != null)
             {
                 var mechanic = cbMechanics.SelectedItem as Mechanic;
                 var dateOfBirthToChange = (DateTime)dpDateOfBirthToChange.SelectedDate;
                 var dateOfEmploymentToChange = (DateTime)dpDateOfEmploymentToChange.SelectedDate;
-
 
                 var isFirstnameChanged = IsChanged(mechanic.FirstName, tbFirstNameToChange.Text);
                 var isLastnameChanged = IsChanged(mechanic.LastName, tbLastNameToChange.Text);
@@ -349,30 +365,33 @@ namespace GUI.MechPage
                 var isDateOfBirthChanged = IsChanged(mechanic.DateOfBirth.ToShortDateString(), dateOfBirthToChange.ToShortDateString());
                 var isDateOfEmploymentChanged = IsChanged(mechanic.DateOfEmployment.ToShortDateString(), dateOfEmploymentToChange.ToShortDateString());
 
+
                 if (isFirstnameChanged)
                 {
                     mechanic.FirstName = tbFirstNameToChange.Text;
+                    hasSomethingChanged = true;
                 }
 
                 if (isLastnameChanged)
                 {
                     mechanic.LastName = tbLastNameToChange.Text;
+                    hasSomethingChanged = true;
                 }
 
                 if (isDateOfBirthChanged)
                 {
                     mechanic.DateOfBirth = dateOfBirthToChange;
+                    hasSomethingChanged = true;
                 }
 
                 if (isDateOfEmploymentChanged)
                 {
                     mechanic.DateOfEmployment = dateOfEmploymentToChange;
+                    hasSomethingChanged = true;
                 }
-
                 _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
-                System.Windows.MessageBox.Show($"Ändringar sparade");
             }
-
+            return hasSomethingChanged;
         }
         private bool IsChanged(string original, string input)
         {
@@ -392,8 +411,6 @@ namespace GUI.MechPage
             cbMechanics.ItemsSource = db.CurrentMechanics;
             cbOldMechanics.ItemsSource = db.OldMechanics;
         }
-
-
 
         private void dpMechanicDateOfBirth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
