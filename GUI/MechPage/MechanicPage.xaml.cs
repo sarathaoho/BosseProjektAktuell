@@ -280,7 +280,6 @@ namespace GUI.MechPage
         {
             EditMechanic();
             UpdateEditPage();
-            System.Windows.MessageBox.Show($"Ändringar sparade");
         }
         #endregion
 
@@ -337,39 +336,42 @@ namespace GUI.MechPage
         }
         private void EditMechanic()
         {
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            var dateOfBirthToChange = (DateTime)dpDateOfBirthToChange.SelectedDate;
-            var dateOfEmploymentToChange = (DateTime)dpDateOfEmploymentToChange.SelectedDate;
-
-
-            var isFirstnameChanged = IsChanged(mechanic.FirstName, tbFirstNameToChange.Text);
-            var isLastnameChanged = IsChanged(mechanic.LastName, tbLastNameToChange.Text);
-
-            var isDateOfBirthChanged = IsChanged(mechanic.DateOfBirth.ToShortDateString(), dateOfBirthToChange.ToShortDateString());
-            var isDateOfEmploymentChanged = IsChanged(mechanic.DateOfEmployment.ToShortDateString(), dateOfEmploymentToChange.ToShortDateString());
-
-            if (isFirstnameChanged)
+            if (cbMechanics.SelectedItem != null)
             {
-                mechanic.FirstName = tbFirstNameToChange.Text;
+                var mechanic = cbMechanics.SelectedItem as Mechanic;
+                var dateOfBirthToChange = (DateTime)dpDateOfBirthToChange.SelectedDate;
+                var dateOfEmploymentToChange = (DateTime)dpDateOfEmploymentToChange.SelectedDate;
+
+
+                var isFirstnameChanged = IsChanged(mechanic.FirstName, tbFirstNameToChange.Text);
+                var isLastnameChanged = IsChanged(mechanic.LastName, tbLastNameToChange.Text);
+
+                var isDateOfBirthChanged = IsChanged(mechanic.DateOfBirth.ToShortDateString(), dateOfBirthToChange.ToShortDateString());
+                var isDateOfEmploymentChanged = IsChanged(mechanic.DateOfEmployment.ToShortDateString(), dateOfEmploymentToChange.ToShortDateString());
+
+                if (isFirstnameChanged)
+                {
+                    mechanic.FirstName = tbFirstNameToChange.Text;
+                }
+
+                if (isLastnameChanged)
+                {
+                    mechanic.LastName = tbLastNameToChange.Text;
+                }
+
+                if (isDateOfBirthChanged)
+                {
+                    mechanic.DateOfBirth = dateOfBirthToChange;
+                }
+
+                if (isDateOfEmploymentChanged)
+                {
+                    mechanic.DateOfEmployment = dateOfEmploymentToChange;
+                }
+
+                _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
+                System.Windows.MessageBox.Show($"Ändringar sparade");
             }
-
-            if (isLastnameChanged)
-            {
-                mechanic.LastName = tbLastNameToChange.Text;
-            }
-
-            if (isDateOfBirthChanged)
-            {
-                mechanic.DateOfBirth = dateOfBirthToChange;
-            }
-
-            if (isDateOfEmploymentChanged)
-            {
-                mechanic.DateOfEmployment = dateOfEmploymentToChange;
-            }
-
-            _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
-
 
         }
         private bool IsChanged(string original, string input)

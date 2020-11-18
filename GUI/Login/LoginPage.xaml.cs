@@ -24,7 +24,7 @@ namespace GUI.Login
     {
         private const string _errorMsg = "Inloggningen misslyckades";
 
-        private LoginService _loginService;
+        private ILoginService _loginService;
         public LoginPage()
         {
             InitializeComponent();

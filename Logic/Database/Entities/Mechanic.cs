@@ -10,15 +10,12 @@ namespace Logic.Database.Entities
 {
     public class Mechanic : AEntity
     {
-        private bool _isAvailable;
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfEmployment { get; set; }
         public DateTime LastDate { get; set; }
         public string UserID { get; set; }
-
         public int Age
         {
             get
@@ -33,20 +30,11 @@ namespace Logic.Database.Entities
                 return age;
             }
         }
-
-
         public List<VehiclePart> Competences { get; set; }
         public List<string> CurrentErrands { get; set; }
 
         // Om CurrentErrands har två ärenden i sig så sätts IsAvailable till false, annars till true
-        public bool IsAvailable
-        {
-            get { return CurrentErrands.Count < 2 ? true : false; }
-
-            set { _isAvailable = value; }
-        }
-
-
+        public bool IsAvailable => CurrentErrands.Count < 2;
         public Mechanic()
         {
             Competences = new List<VehiclePart>();

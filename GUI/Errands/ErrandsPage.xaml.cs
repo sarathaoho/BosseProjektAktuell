@@ -277,7 +277,7 @@ namespace GUI.Errands
                         if (cbAvailableMechanics.SelectedItem != null)
                         {
                             var mech = cbAvailableMechanics.SelectedItem as Mechanic;
-                            _mechanicService.AddCurrentErrand(mech.ID, errandID); // I denna metoden händer eventuellt lite för många hämtningar?
+                            _mechanicService.AddCurrentErrand(mech.ID, errandID); 
                             _errandService.SetMechanicIdToErrand(errandID, mech.ID);
                         }
                         MessageBox.Show("Ärende skapat.");

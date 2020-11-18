@@ -7,7 +7,12 @@ using System.Text;
 
 namespace Logic.Services
 {
-    public class LoginService
+    public interface ILoginService
+    {
+        User Login(string username, string password);
+    }
+
+    public class LoginService : ILoginService
     {
         private UserDataAccess<User> _dbUser;
         private UserService _userService;
