@@ -16,30 +16,28 @@ namespace Logic.DAL
         private readonly string path = $@"{typeof(T).Name}.json";
         private readonly string currentMechanicsPath = @"CurrentMechanics.json";
         private readonly string oldMechanicsPath = @"OldMechanics.json";
-        /// <summary>
-        /// Loads list from file if it exists. Returns an empty list if file is not found
-        /// </summary>
-        /// <returns></returns>
+       
         public async Task<List<T>> LoadListAsync()
         {
             List<T> list = await JsonHelper.ReadFileAsync<T>(path);
             return list;
         }
 
+        /// <summary>
+        /// Loads list from file if it exists. Returns an empty list if file is not found
+        /// </summary>
+        /// <returns></returns>
         public List<T> LoadList()
         {
             List<T> list = JsonHelper.ReadFile<T>(path);
             return list;
         }
-
-        // Detta är fult :/ TODO!!!
         public List<Mechanic> LoadCurrentMechanics()
         {
             List<Mechanic> list = JsonHelper.ReadFile<Mechanic>(currentMechanicsPath);
             return list;
         }
 
-        // TODO!!!
         public List<Mechanic> LoadOldMechanics()
         {
             List<Mechanic> list = JsonHelper.ReadFile<Mechanic>(oldMechanicsPath);
@@ -60,6 +58,5 @@ namespace Logic.DAL
             JsonHelper.WriteFile(list, path);
         }
        
-
     }
 }

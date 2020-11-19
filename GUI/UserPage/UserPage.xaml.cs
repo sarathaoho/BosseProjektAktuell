@@ -38,6 +38,7 @@ namespace GUI.UsersPage
         readonly UserService _userService = new UserService();
         readonly MechanicService _mechanicService;
 
+        private List<Mechanic> mechanicsWithNoUser;
         //private const string _usersPath = @"DAL\Files\Users.json";
         //private const string _currentMechanicsPath = @"DAL\Files\CurrentMechanics.json";
 
@@ -47,34 +48,33 @@ namespace GUI.UsersPage
             _dbUsers = new UserDataAccess<User>();
             _dbMechanics = new UserDataAccess<Mechanic>();
             _mechanicService = new MechanicService();
+            mechanicsWithNoUser = new List<Mechanic>();
             db.Users = _dbUsers.LoadList();
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
             RefreshList();
             cbListUsers.ItemsSource = db.Users;
-            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
+            cbMechanics.ItemsSource = mechanicsWithNoUser;
         }
 
         private void RefreshList()
         {
             db.Users = _dbUsers.LoadList();
             db.CurrentMechanics = _dbMechanics.LoadCurrentMechanics();
-
+            SetMechanicsWithNoUsers();
         }
 
-        private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SetMechanicsWithNoUsers()
         {
-            //Drop down box för Mekaniker att binda till en Användare
-
-
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            if (cbMechanics.SelectedItem is Mechanic mechanix && mechanic.UserID == null)
+            foreach (Mechanic mechanic in db.CurrentMechanics)
             {
-                //RefreshList();
-                //UpdateEditPageCopy();
-                var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
-                //tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
+                foreach (User user in db.Users)
+                {
+                    if (mechanic.ID != user.MechanicID)
+                    {
+                        mechanicsWithNoUser.Add(mechanic);
+                    }
+                }
             }
-
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -97,8 +97,7 @@ namespace GUI.UsersPage
                     string userName = tbUserName.Text;
                     string password = tbPassword.Text;
 
-                    var userID = _userService.CreateAndSaveUser(userName, password);
-                    mechanic.UserID = userID;
+                    var userID = _userService.CreateAndSaveUser(userName, password, mechanic.ID);
                     _dbMechanics.SaveMechanicList(db.CurrentMechanics, "CurrentMechanics.json");
                     MessageBox.Show("Användare tillagd.");
 
@@ -124,8 +123,6 @@ namespace GUI.UsersPage
                 {
                     case MessageBoxResult.Yes:
                         _userService.RemoveUser(user);
-                        var mechanic = db.CurrentMechanics.Where(x => x.UserID == user.ID).FirstOrDefault();
-                        _mechanicService.RemoveMechanicUserID(mechanic);
 
                         lUserMechanicFirstName.Content = "";
                         lUserMechanicLastName.Content = "";
@@ -145,7 +142,7 @@ namespace GUI.UsersPage
         private void RefreshComboBoxes()
         {
             cbListUsers.ItemsSource = db.Users;
-            cbMechanics.ItemsSource = db.CurrentMechanics.Where(mechanic => mechanic.UserID == null);
+            cbMechanics.ItemsSource = mechanicsWithNoUser;
         }
         private void UpdateEditPageCopy()
         {
@@ -236,7 +233,7 @@ namespace GUI.UsersPage
                 
                 
                 //tbMechanicID.Watermark = users.MechanicID;
-                var mechanic = db.CurrentMechanics.FirstOrDefault(XamlFormatter => XamlFormatter.UserID == user.ID);
+                var mechanic = db.CurrentMechanics.FirstOrDefault(mechanic => mechanic.ID == user.MechanicID);
                 lUserMechanicFirstName.Content = mechanic == null ? string.Empty : mechanic.FirstName;
                 lUserMechanicLastName.Content = mechanic == null ? string.Empty : mechanic.LastName;
                 //var user = db.Users.FirstOrDefault(user => user.ID.Equals(mechanic.UserID));

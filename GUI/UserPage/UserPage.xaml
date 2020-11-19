@@ -54,7 +54,7 @@
                                                   Margin="16,129,0,0" 
                                                   VerticalAlignment="Top" 
                                                   Width="186" 
-                                                  Height="24" SelectionChanged="cbMechanics_SelectionChanged" Grid.ColumnSpan="2"
+                                                  Height="24" Grid.ColumnSpan="2"
                                                   />
         <Label Content="Lägg till användare" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Height="26" Width="110"/>
         <TextBlock HorizontalAlignment="Left" Margin="550,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Ta bort"/><Run Text="/Redigera"/><LineBreak/><Run/><Run Text=" "/><Run Language="sv-se" Text=" Användare"/></TextBlock>

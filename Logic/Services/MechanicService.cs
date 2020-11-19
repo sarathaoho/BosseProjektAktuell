@@ -230,11 +230,5 @@ namespace Logic.Services
 
             return false;
         }
-        public void RemoveMechanicUserID(Mechanic mechanic)
-        {
-            RemoveMechanic(mechanic);
-            mechanic.UserID = null;
-            CreateAndSaveMechanic(mechanic);
-        }
     }
 }
