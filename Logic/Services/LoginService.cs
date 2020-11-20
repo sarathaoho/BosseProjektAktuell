@@ -41,7 +41,7 @@ namespace Logic.Services
             {
                 List<User> tmpusers = new List<User>()
                 {
-                    new User(){IsAdmin = true, Username = "bosse@verkstaden.se", Password="Meckarn123"}
+                    new User(){IsAdmin = true, Username = "bosse@verkstaden.se", Password="Meckarn123" }
                 };
 
                 _dbUser.SaveList(tmpusers);

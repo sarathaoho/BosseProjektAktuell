@@ -65,11 +65,12 @@ namespace GUI.UsersPage
 
         private void SetMechanicsWithNoUsers()
         {
+            mechanicsWithNoUser.Clear();
             foreach (Mechanic mechanic in db.CurrentMechanics)
             {
                 foreach (User user in db.Users)
                 {
-                    if (mechanic.ID != user.MechanicID)
+                    if ((mechanic.ID != user.MechanicID) && user.IsAdmin == false)
                     {
                         mechanicsWithNoUser.Add(mechanic);
                     }
