@@ -35,13 +35,10 @@ namespace Logic.Services
 
 
 
+
             //return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
-
+      
             return _dbUsers.LoadList().FirstOrDefault(user => user.MechanicID.Equals(mechanic.ID));
-
-   
-
-            
 
         }
 
