@@ -33,6 +33,7 @@ namespace Logic.Services
         public User GetAssignedUserFromMechanic(Mechanic mechanic)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
             //return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
@@ -46,6 +47,9 @@ namespace Logic.Services
 =======
             return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
 >>>>>>> parent of 48fbc69... Bytt så att User har MechanicID istället för tvärtom
+=======
+            return _dbUsers.LoadList().FirstOrDefault(user => user.MechanicID.Equals(mechanic.ID));
+>>>>>>> parent of 9734d64... Buggfix
         }
 
         public string CreateAndSaveUser(string userName, string password)
