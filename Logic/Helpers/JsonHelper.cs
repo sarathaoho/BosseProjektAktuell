@@ -9,21 +9,19 @@ using System.Threading.Tasks;
 
 namespace Logic.Helpers
 {
-    // Helper class för Json functions
+
+    // Helper class för Json
     public static class JsonHelper
     {
-        /// <summary>
-        /// Reads file from the provided <b>filepath</b> and returns a list.
-        ///<br>Returns an empty list if the file could not be found.</br>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+
+        //Generisk metod som läser in valfri typ av lista
         public static List<T> ReadFile<T>(string filePath)
         {
             if (File.Exists(filePath))
             {
                 string jsonString = File.ReadAllText(filePath);
+
+                //File.ReadAllTextAsync;
                 List<T> list = JsonSerializer.Deserialize<List<T>>(jsonString);
                 return list;
             }
@@ -37,6 +35,8 @@ namespace Logic.Helpers
                 if (File.Exists(filePath))
                 {
                     string jsonString = File.ReadAllTextAsync(filePath).Result;
+
+                    //File.ReadAllTextAsync;
                     List<T> list = JsonSerializer.Deserialize<List<T>>(jsonString);
                     return list;
                 }
@@ -44,16 +44,14 @@ namespace Logic.Helpers
             });
         }
 
-        /// <summary>
-        /// Writes a list to file.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="filePath"></param>
         public static void WriteFile<T>(List<T> list, string filePath)
         {
             string json = JsonSerializer.Serialize(list);
+
             File.WriteAllText(filePath, json);
+
+            //File.WriteAllTextAsync;
         }
+
     }
 }

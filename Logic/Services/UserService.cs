@@ -32,17 +32,16 @@ namespace Logic.Services
 
         public User GetAssignedUserFromMechanic(Mechanic mechanic)
         {
-            return _dbUsers.LoadList().FirstOrDefault(user => user.MechanicID.Equals(mechanic.ID));
+            return _dbUsers.LoadList().FirstOrDefault(user => user.ID.Equals(mechanic.UserID));
         }
 
-        public string CreateAndSaveUser(string userName, string password, string mechanicID)
+        public string CreateAndSaveUser(string userName, string password)
         {
             var user = new User()
             {
                 Username = userName,
                 Password = password,
                 IsAdmin = false,
-                MechanicID = mechanicID
                 
             };
             db.Users.Add(user);

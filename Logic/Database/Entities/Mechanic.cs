@@ -15,7 +15,7 @@ namespace Logic.Database.Entities
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfEmployment { get; set; }
         public DateTime LastDate { get; set; }
-        //public string UserID { get; set; }
+        public string UserID { get; set; }
         public int Age
         {
             get
