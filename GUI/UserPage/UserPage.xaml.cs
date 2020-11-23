@@ -63,41 +63,20 @@ namespace GUI.UsersPage
 
         private void cbMechanics_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            mechanicsWithNoUser.Clear();
-            foreach (Mechanic mechanic in db.CurrentMechanics)
-            {
-                foreach (User user in db.Users)
-                {
-                    if ((mechanic.ID != user.MechanicID) && user.IsAdmin == false)
-                    {
-                        mechanicsWithNoUser.Add(mechanic);
-                    }
-                }
-=======
+
+
             //Drop down box för Mekaniker att binda till en Användare
 
 
             var mechanic = cbMechanics.SelectedItem as Mechanic;
             if (cbMechanics.SelectedItem is Mechanic mechanix && mechanic.UserID == null)
             {
-=======
+
             //Drop down box för Mekaniker att binda till en Användare
 
 
-            var mechanic = cbMechanics.SelectedItem as Mechanic;
-            if (cbMechanics.SelectedItem is Mechanic mechanix && mechanic.UserID == null)
-            {
->>>>>>> parent of 48fbc69... Bytt så att User har MechanicID istället för tvärtom
-                //RefreshList();
-                //UpdateEditPageCopy();
-                var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
-                //tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
-<<<<<<< HEAD
->>>>>>> parent of 48fbc69... Bytt så att User har MechanicID istället för tvärtom
-=======
->>>>>>> parent of 48fbc69... Bytt så att User har MechanicID istället för tvärtom
+       
+
             }
 
         }
