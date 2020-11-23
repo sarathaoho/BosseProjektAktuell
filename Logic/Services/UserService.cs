@@ -32,7 +32,7 @@ namespace Logic.Services
 
         public User GetAssignedUserFromMechanic(Mechanic mechanic)
         {
-            return _dbUsers.LoadList().FirstOrDefault(user => user.MechanicID != null && user.MechanicID.Equals(mechanic.ID));
+            return _dbUsers.LoadList().FirstOrDefault(user => user.MechanicID.Equals(mechanic.ID));
         }
 
         public string CreateAndSaveUser(string userName, string password, string mechanicID)
