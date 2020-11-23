@@ -72,10 +72,10 @@ namespace GUI.UsersPage
             if (cbMechanics.SelectedItem is Mechanic mechanix && mechanic.UserID == null)
             {
 
-            //Drop down box för Mekaniker att binda till en Användare
-
-
-       
+                //RefreshList();
+                //UpdateEditPageCopy();
+                var mechanics = db.CurrentMechanics.FirstOrDefault(user => user.ID.Equals(user.UserID));
+                //tbMechanicID.Text = mechanics != null ? mechanic.FirstName : "Ingen användare";
 
             }
 
